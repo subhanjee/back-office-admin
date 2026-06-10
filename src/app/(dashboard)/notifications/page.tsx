@@ -54,9 +54,9 @@ export default function NotificationsPage() {
 
       <div className="space-y-3">
         {loading ? (
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-white">Loading...</p>
         ) : items.length === 0 ? (
-          <p className="text-muted-foreground glass-panel p-8 rounded-xl text-center">No notifications yet</p>
+          <p className="text-white glass-panel p-8 rounded-xl text-center">No notifications yet</p>
         ) : (
           items.map((n) => (
             <div

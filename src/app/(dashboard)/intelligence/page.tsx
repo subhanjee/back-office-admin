@@ -9,18 +9,37 @@ export default function IntelligencePage() {
   const [routes, setRoutes] = useState<any[]>([]);
   const [lines, setLines] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const [c, r, l] = await Promise.all([
+        setLoading(true);
+        setError(null);
+
+        const results = await Promise.allSettled([
           adminApi.intelligence.cruisePopularity(),
           adminApi.intelligence.routes(),
           adminApi.intelligence.cruiseLines(),
         ]);
-        setCruises(c.data.data || []);
-        setRoutes(r.data.data || []);
-        setLines(l.data.data || []);
+
+        const [c, r, l] = results;
+
+        if (c.status === 'fulfilled') {
+          setCruises(c.value.data.data || []);
+        }
+        if (r.status === 'fulfilled') {
+          setRoutes(r.value.data.data || []);
+        }
+        if (l.status === 'fulfilled') {
+          setLines(l.value.data.data || []);
+        }
+
+        const rejected = results.find((item): item is PromiseRejectedResult => item.status === 'rejected');
+        if (rejected) {
+          const err = rejected.reason;
+          setError(err?.response?.data?.message || err?.message || 'Failed to load intelligence data');
+        }
       } finally {
         setLoading(false);
       }
@@ -32,6 +51,12 @@ export default function IntelligencePage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
+      {error ? (
+        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-400 text-red-100">
+          <strong className="block font-semibold">Intelligence load error:</strong>
+          <p className="text-sm mt-1">{error}</p>
+        </div>
+      ) : null}
       <div>
         <h1 className="text-2xl font-bold text-white flex items-center gap-2">
           <MapPin className="w-6 h-6 text-purple-400" />

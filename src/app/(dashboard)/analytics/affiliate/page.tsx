@@ -1,27 +1,31 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend
+import {
+  PieChart, Pie, Cell, Legend, Tooltip as RechartsTooltip, ResponsiveContainer
 } from 'recharts';
+import AnalyticsChart from '../../../../components/charts/AnalyticsChart';
 import { MousePointerClick, TrendingUp, MonitorSmartphone, Globe, Bed, Download } from 'lucide-react';
-import api from '../../../../../api/api';
+import adminApi from '../../../../api/admin';
 
 const COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#6366f1'];
 
 export default function AffiliateAnalyticsPage() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const res = await api.get('/admin/analytics/affiliate/stats');
+        setError(null);
+        const res = await adminApi.analytics.affiliate();
+        console.log('Affiliate stats response:', res.data);
         setStats(res.data.data);
-      } catch (err) {
-        console.error(err);
+      } catch (err: any) {
+        console.error('Affiliate analytics error:', err);
+        setError(err.response?.data?.message || err.message || 'Failed to load affiliate analytics');
       } finally {
         setLoading(false);
       }
@@ -31,6 +35,10 @@ export default function AffiliateAnalyticsPage() {
 
   if (loading) {
     return <div className="p-8 text-center text-muted-foreground animate-pulse">Loading Affiliate Analytics...</div>;
+  }
+
+  if (error) {
+    return <div className="p-8 text-red-400">Error: {error}</div>;
   }
 
   // Formatting for charts
@@ -57,7 +65,7 @@ export default function AffiliateAnalyticsPage() {
             <MousePointerClick className="w-6 h-6 text-emerald-400" />
             Affiliate Analytics
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Detailed breakdown of outbound clicks and conversions.</p>
+          <p className="text-sm text-white mt-1">Detailed breakdown of outbound clicks and conversions.</p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-muted/20 hover:bg-muted/40 border border-border text-white rounded-lg transition-colors text-sm font-medium">
           <Download className="w-4 h-4" />
@@ -91,20 +99,7 @@ export default function AffiliateAnalyticsPage() {
             <TrendingUp className="w-4 h-4 text-emerald-400" />
             Clicks by OTA
           </h3>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={byOtaData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-                <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="rgba(255,255,255,0.5)" fontSize={12} tickLine={false} axisLine={false} />
-                <RechartsTooltip 
-                  cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0.5rem', color: '#fff' }}
-                />
-                <Bar dataKey="clicks" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={50} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <AnalyticsChart data={byOtaData} xKey="name" yKey="clicks" height={280} color="#10b981" legends={[{ label: 'Total Clicks', color: '#10b981' }]} />
         </div>
 
         {/* Cabin Types Pie */}

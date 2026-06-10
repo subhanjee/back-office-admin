@@ -12,7 +12,7 @@ export default function ZapCruiseLogo({ className }: ZapCruiseLogoProps) {
       src={logo}
       alt="ZapCruise logo"
       height={100}
-      className={className ?? 'h-10 w-auto object-contain'}
+      className={className ?? 'zc-logo w-auto object-contain'}
       priority
     />
   );

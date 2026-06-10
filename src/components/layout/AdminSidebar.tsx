@@ -93,7 +93,7 @@ export default function AdminSidebar() {
         }`}
       >
         <Link href="/" className="flex items-center justify-center hover:opacity-80 transition-opacity bg-white rounded-lg px-2 py-1">
-          <ZapCruiseLogo className={isOpen ? 'h-10 w-auto max-w-[180px]' : 'h-8 w-auto max-w-[56px]'} />
+          <ZapCruiseLogo className={isOpen ? 'zc-logo w-auto max-w-[180px]' : 'h-8 w-auto max-w-[56px]'} />
         </Link>
         <button
           onClick={toggle}

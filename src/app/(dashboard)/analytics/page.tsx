@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts';
+import AnalyticsChart from '../../../components/charts/AnalyticsChart';
 import { MousePointerClick, Search, Users, Activity, GitBranch } from 'lucide-react';
 import adminApi from '../../../api/admin';
 
@@ -89,17 +87,7 @@ export default function AnalyticsOverview() {
 
         <div className="glass-panel p-6 rounded-2xl border border-border">
           <h3 className="text-lg font-bold text-white mb-4">Search volume (30d)</h3>
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={searchTrends}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                <XAxis dataKey="date" stroke="#888" fontSize={10} tickFormatter={(v) => v?.slice(5)} />
-                <YAxis stroke="#888" fontSize={10} />
-                <Tooltip contentStyle={{ background: '#18181b', border: '1px solid #333' }} />
-                <Bar dataKey="count" fill="#8b5cf6" radius={[2, 2, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <AnalyticsChart data={searchTrends} xKey="date" yKey="count" height={220} color="#8b5cf6" legends={[{ label: 'Search Volume', color: '#8b5cf6' }]} />
         </div>
       </div>
 
