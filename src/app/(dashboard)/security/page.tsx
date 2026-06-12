@@ -11,6 +11,7 @@ import {
   Eye,
   Info
 } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import api from '../../../api/api';
 
 interface AuditLog {
@@ -99,7 +100,7 @@ export default function AuditLogViewerPage() {
         <button
           onClick={() => fetchLogs(pagination.page)}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white cursor-pointer border border-blue-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           Refresh
@@ -151,7 +152,7 @@ export default function AuditLogViewerPage() {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors"
+              className="flex-1 bg-orange-500 cursor-pointer text-white rounded-lg font-medium text-sm transition-colors"
             >
               Apply Filters
             </button>
@@ -191,10 +192,7 @@ export default function AuditLogViewerPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <RefreshCw className="w-6 h-6 animate-spin text-blue-500" />
-                      Loading logs...
-                    </div>
+                    <LoadingSpinner message="Loading logs..." containerHeight="min-h-[20vh]" />
                   </td>
                 </tr>
               ) : logs.length === 0 ? (

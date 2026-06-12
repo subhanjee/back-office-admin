@@ -103,10 +103,17 @@ body {
 }
 
 /* Dark readable text inside white surfaces over hero background */
-.glass-panel .text-white,
-.glass-card .text-white,
-.zc-nav-surface .text-white {
+.glass-panel .text-white:not(button):not(a),
+.glass-card .text-white:not(button):not(a),
+.zc-nav-surface .text-white:not(button):not(a) {
   color: #111827;
+}
+
+/* Keep the Affiliate report link text white inside glass surfaces */
+.glass-panel a[href="/analytics/affiliate"].text-white,
+.glass-card a[href="/analytics/affiliate"].text-white,
+.zc-nav-surface a[href="/analytics/affiliate"].text-white {
+  color: #ffffff !important;
 }
 
 .glass-panel .text-blue-400,
@@ -142,5 +149,17 @@ body {
 /* Logo-specific size: use `zc-logo` to enlarge the logo without affecting `.h-10` buttons */
 .zc-logo {
   height: calc(var(--spacing) * 20) !important;
+}
+
+/* Button icon color only */
+button svg,
+button path,
+button circle,
+button rect,
+button line,
+button polyline,
+button polygon {
+  fill: currentColor !important;
+  stroke: currentColor !important;
 }
 

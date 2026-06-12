@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Activity, Database, Server, Cpu, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import api from '../../../api/api';
 
 interface WorkerStatus {
@@ -57,14 +58,7 @@ export default function SystemHealthPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-4 text-white">
-          <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-          <p>Loading System Diagnostics...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading System Diagnostics..." />;
   }
 
   return (
@@ -82,7 +76,7 @@ export default function SystemHealthPage() {
         <button
           onClick={fetchHealthData}
           disabled={isRefreshing}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 cursor-pointer text-white border border-blue-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
         >
           <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Refresh

@@ -141,7 +141,7 @@ export default function DashboardHome() {
             </h2>
             <button 
               onClick={() => router.push('/system')}
-              className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+              className="text-xs text-orange-500 hover:text-orange-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
             >
               Detailed View
               <ArrowRight className="w-3.5 h-3.5" />
@@ -215,7 +215,7 @@ export default function DashboardHome() {
             </h2>
             <button 
               onClick={() => router.push('/security')}
-              className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+              className="text-xs text-orange-500 hover:text-orange-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
             >
               All Logs
               <ArrowRight className="w-3.5 h-3.5" />

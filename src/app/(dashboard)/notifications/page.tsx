@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Bell, CheckCheck } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
 
 export default function NotificationsPage() {
@@ -12,7 +13,7 @@ export default function NotificationsPage() {
   const load = async () => {
     setLoading(true);
     try {
-      const res = await adminApi.notifications.list({ limit: 50 });
+      const res = await adminApi.notifications.list({ limit: '50' });
       const data = res.data.data;
       setItems(data.notifications || []);
       setUnread(data.unreadCount || 0);
@@ -54,7 +55,7 @@ export default function NotificationsPage() {
 
       <div className="space-y-3">
         {loading ? (
-          <p className="text-white">Loading...</p>
+          <LoadingSpinner message="Loading notifications..." containerHeight="min-h-[40vh]" />
         ) : items.length === 0 ? (
           <p className="text-white glass-panel p-8 rounded-xl text-center">No notifications yet</p>
         ) : (

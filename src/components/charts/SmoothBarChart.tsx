@@ -17,7 +17,7 @@ interface Props {
   dataKey: string;
   height?: number | string;
   color?: string;
-  barRadius?: number | number[];
+  barRadius?: [number, number, number, number];
 }
 
 export default function SmoothBarChart({

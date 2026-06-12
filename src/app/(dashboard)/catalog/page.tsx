@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Database, Search, Ship } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
 
 export default function CatalogPage() {
@@ -65,12 +66,12 @@ export default function CatalogPage() {
             className="w-full pl-10 pr-4 py-2 rounded-lg bg-muted/20 border border-border text-sm text-white"
           />
         </div>
-        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Search</button>
+        <button type="submit" className="px-4 py-2 cursor-pointer bg-orange-500 text-white rounded-lg text-sm">Search</button>
       </form>
 
       <div className="glass-panel rounded-2xl border border-border overflow-hidden">
         {loading ? (
-          <p className="p-8 text-muted-foreground">Loading...</p>
+          <LoadingSpinner message="Loading catalog..." containerHeight="min-h-[40vh]" />
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-muted/20 text-muted-foreground">

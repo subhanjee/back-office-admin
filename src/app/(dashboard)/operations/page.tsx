@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Cpu, RefreshCw, AlertTriangle, Database, Play } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
 
 export default function OperationsPage() {
@@ -47,7 +48,7 @@ export default function OperationsPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-white animate-pulse">Loading operations...</div>;
+    return <LoadingSpinner message="Loading operations..." />;
   }
 
   return (
@@ -60,7 +61,7 @@ export default function OperationsPage() {
           </h1>
           <p className="text-sm text-white mt-1">Queues, ETL runs, and data quality snapshots</p>
         </div>
-        <button onClick={load} className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-muted/30 flex items-center gap-2">
+        <button onClick={load} className="px-4 py-2 rounded-lg border border-border text-sm text-white flex cursor-pointer bg-orange-500 items-center gap-2">
           <RefreshCw className="w-4 h-4" /> Refresh
         </button>
       </div>
