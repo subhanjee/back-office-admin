@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, AlertTriangle, ArrowDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import AnalyticsChart from '../../../components/charts/AnalyticsChart';
 import adminApi from '../../../api/admin';
 
 export default function PricingPage() {
@@ -80,17 +80,18 @@ export default function PricingPage() {
 
       <div className="glass-panel p-6 rounded-2xl border border-border">
         <h2 className="text-white font-semibold mb-4">Seasonal average price by month</h2>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={seasonal}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-              <XAxis dataKey="month" stroke="#888" fontSize={12} />
-              <YAxis stroke="#888" fontSize={12} />
-              <Tooltip contentStyle={{ background: '#18181b', border: '1px solid #333' }} />
-              <Bar dataKey="avgPrice" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        {seasonal && seasonal.length > 0 ? (
+          <AnalyticsChart
+            data={seasonal}
+            xKey="month"
+            yKey="avgPrice"
+            height={220}
+            color="#3b82f6"
+            legends={[{ label: 'Average Price', color: '#3b82f6' }]}
+          />
+        ) : (
+          <div className="p-4 text-muted-foreground">No seasonal data</div>
+        )}
       </div>
 
       <div className="glass-panel p-6 rounded-2xl border border-border">

@@ -7,15 +7,24 @@ import adminApi from '../../../api/admin';
 export default function InsightsPage() {
   const [summary, setSummary] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    adminApi.insights.summary().then((res) => {
-      setSummary(res.data.data);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    adminApi.insights.summary()
+      .then((res) => {
+        setSummary(res.data.data);
+        setError(null);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Failed to load insights:', err);
+        setError(err.response?.data?.message || err.message || 'Failed to load insights');
+        setLoading(false);
+      });
   }, []);
 
   if (loading) return <div className="p-8 text-white">Loading AI insights...</div>;
+  if (error) return <div className="p-8 text-red-400">Error: {error}</div>;
   if (!summary) return <div className="p-8 text-white">Unable to load insights</div>;
 
   const { demand, booking, ops } = summary;
@@ -27,7 +36,7 @@ export default function InsightsPage() {
           <Sparkles className="w-6 h-6 text-amber-400" />
           Predictive Insights
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-sm text-white mt-1">
           Heuristic recommendations (Phase 6) — upgradeable to LLM-backed analysis
         </p>
       </div>

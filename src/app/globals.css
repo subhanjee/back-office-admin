@@ -139,3 +139,8 @@ body {
   opacity: 1;
 }
 
+/* Logo-specific size: use `zc-logo` to enlarge the logo without affecting `.h-10` buttons */
+.zc-logo {
+  height: calc(var(--spacing) * 20) !important;
+}
+
