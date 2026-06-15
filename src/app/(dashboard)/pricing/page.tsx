@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, AlertTriangle, ArrowDown } from 'lucide-react';
 import AnalyticsChart from '../../../components/charts/AnalyticsChart';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
 
 export default function PricingPage() {
@@ -32,7 +33,7 @@ export default function PricingPage() {
     load();
   }, []);
 
-  if (loading) return <div className="p-8 text-white">Loading pricing intelligence...</div>;
+  if (loading) return <LoadingSpinner message="Loading pricing intelligence..." />;
 
   return (
     <div className="space-y-8 animate-fade-in">

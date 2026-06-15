@@ -144,7 +144,7 @@ export default function AdminHeader() {
                 onClick={() => setIsUserMenuOpen((open) => !open)}
                 aria-expanded={isUserMenuOpen}
                 aria-haspopup="menu"
-                className="w-10 h-10 rounded-md bg-gray-50 border border-gray-200 text-gray-700 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                className="w-10 h-10 rounded-md bg-gray-50 border border-gray-200 text-white flex items-center justify-center bg-orange-500 cursor-pointer transition-colors"
               >
                 {user.profileImageUrl ? (
                   <img 

@@ -16,6 +16,7 @@ import {
   AlertCircle,
   CheckCircle2
 } from 'lucide-react';
+import LoadingSpinner from '../../../../components/LoadingSpinner';
 import api from '../../../../api/api';
 
 export default function UserDetailsPage({ params }: { params: Promise<{ userId: string }> }) {
@@ -109,14 +110,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-4 text-muted-foreground">
-          <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-          <p>Loading User Details...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading User Details..." />;
   }
 
   if (error && !user) {
@@ -274,7 +268,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                 <button
                   type="submit"
                   disabled={actionLoading}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-purple-500/20"
+                  className="px-4 py-2 bg-orange-500 cursor-pointer text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-purple-500/20"
                 >
                   {actionLoading && <RefreshCw className="w-4 h-4 animate-spin" />}
                   Update Plan Settings
@@ -325,7 +319,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                 <button
                   onClick={handlePasswordReset}
                   disabled={actionLoading}
-                  className="px-4 py-2 bg-muted hover:bg-muted/80 text-white border border-border rounded-lg font-medium text-sm transition-colors disabled:opacity-50 whitespace-nowrap flex items-center gap-2"
+                  className="px-4 py-2 bg-orange-500 cursor-pointer text-white border border-border rounded-lg font-medium text-sm transition-colors disabled:opacity-50 whitespace-nowrap flex items-center gap-2"
                 >
                   <Key className="w-4 h-4" />
                   Send Reset Link

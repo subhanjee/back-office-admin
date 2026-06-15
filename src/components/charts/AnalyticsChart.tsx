@@ -45,18 +45,20 @@ export default function AnalyticsChart({
 
     const minVal = Math.min(...values);
     const maxVal = Math.max(...values);
-    const padding = (maxVal - minVal) * 0.1 || maxVal * 0.1;
-    const min = Math.max(0, minVal - padding);
+    const actualMax = maxVal || 1;
+    const padding = actualMax === minVal ? actualMax * 0.1 || 1 : (maxVal - minVal) * 0.1;
+    const min = actualMax === minVal ? 0 : Math.max(0, minVal - padding);
     const max = maxVal + padding;
+    const range = max - min || 1;
 
     // Generate Y-axis labels (grid lines)
     const yLabelsArray: Array<{ value: number; label: string; y: number }> = [];
     for (let i = 0; i <= gridLines; i++) {
-      const val = min + ((max - min) * i) / gridLines;
+      const val = min + (range * i) / gridLines;
       yLabelsArray.push({
         value: val,
-        label: `$${val.toFixed(2)}`,
-        y: margins.top + innerHeight - ((val - min) / (max - min)) * innerHeight,
+        label: Number.isInteger(val) ? String(Math.round(val)) : val.toFixed(2),
+        y: margins.top + innerHeight - ((val - min) / range) * innerHeight,
       });
     }
 
@@ -64,7 +66,7 @@ export default function AnalyticsChart({
     const scaled = data.map((d, idx) => {
       const v = typeof d[yKey] === 'number' ? d[yKey] : parseFloat(String(d[yKey])) || 0;
       const xPos = margins.left + (idx / Math.max(1, data.length - 1)) * innerWidth;
-      const yPos = margins.top + innerHeight - ((v - min) / (max - min)) * innerHeight;
+      const yPos = margins.top + innerHeight - ((v - min) / range) * innerHeight;
       return { x: xPos, y: yPos, value: v };
     });
 
@@ -124,7 +126,16 @@ export default function AnalyticsChart({
 
   return (
     <div className="w-full rounded-2xl bg-white p-3 zc-pop">
-      <svg width="100%" height={height} viewBox={`0 0 ${chartWidth} ${height}`} className="block">
+      {!data || data.length === 0 ? (
+        <div className="w-full flex items-center justify-center" style={{ height: `${height}px` }}>
+          <div className="text-center">
+            <p className="text-sm text-gray-500 font-medium">No data available</p>
+            <p className="text-xs text-gray-400">Check back soon for data</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <svg width="100%" height={height} viewBox={`0 0 ${chartWidth} ${height}`} className="block">
         {/* Bottom axis line */}
         <line
           x1={margins.left}
@@ -232,6 +243,8 @@ export default function AnalyticsChart({
           </div>
         ))}
       </div>
+        </>
+      )}
     </div>
   );
 }

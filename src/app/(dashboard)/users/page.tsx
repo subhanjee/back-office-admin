@@ -12,6 +12,7 @@ import {
   ShieldAlert,
   CalendarDays
 } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import api from '../../../api/api';
 
 interface User {
@@ -89,7 +90,7 @@ export default function UsersListPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <UsersIcon className="w-6 h-6 text-blue-400" />
+            <UsersIcon className="w-6 h-6 text-orange-500" />
             Users Management
           </h1>
           <p className="text-sm text-white mt-1">
@@ -99,9 +100,9 @@ export default function UsersListPage() {
         <button
           onClick={() => fetchUsers(pagination.page)}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white cursor-pointer border border-orange-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-white cursor-not-allowed' : 'text-white cursor-pointer'}`} />
           Refresh
         </button>
       </div>
@@ -133,7 +134,7 @@ export default function UsersListPage() {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors"
+              className="flex-1 bg-orange-500 hover:bg-orange-600 cursor-pointer text-white rounded-lg font-medium text-sm transition-colors"
             >
               Search
             </button>
@@ -173,10 +174,7 @@ export default function UsersListPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <RefreshCw className="w-6 h-6 animate-spin text-blue-500" />
-                      Loading users...
-                    </div>
+                    <LoadingSpinner message="Loading users..." containerHeight="min-h-[20vh]" />
                   </td>
                 </tr>
               ) : users.length === 0 ? (
@@ -250,7 +248,7 @@ export default function UsersListPage() {
                           e.stopPropagation();
                           router.push(`/users/${user.id}`);
                         }}
-                        className="p-2 hover:bg-blue-500/20 rounded-lg text-blue-400 transition-colors inline-flex border border-transparent hover:border-blue-500/30"
+                        className="p-2 cursor-pointer bg-orange-500/20 rounded-lg text-orange-400 transition-colors inline-flex border border-transparent hover:border-orange-500/30"
                         title="View Details"
                       >
                         <Eye className="w-4 h-4" />

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ShieldAlert, RefreshCw, UserPlus, Shield, UserCog, AlertCircle } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import api from '../../../api/api';
 import { useAuthStore } from '../../../store/authStore';
 
@@ -113,7 +114,7 @@ export default function RbacManagementPage() {
           <button
             onClick={fetchProfiles}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-white border border-border rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2 bg-orange-500 cursor-pointer text-white border border-border rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -122,7 +123,7 @@ export default function RbacManagementPage() {
           {canManage && (
             <button
               onClick={() => setShowInviteModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium shadow-lg shadow-blue-500/20"
+              className="flex items-center gap-2 px-4 py-2 bg-orange-500 cursor-pointer text-white rounded-lg transition-colors text-sm font-medium shadow-lg shadow-blue-500/20"
             >
               <UserPlus className="w-4 h-4" />
               Assign Admin
@@ -170,10 +171,7 @@ export default function RbacManagementPage() {
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <RefreshCw className="w-6 h-6 animate-spin text-blue-500" />
-                      Loading profiles...
-                    </div>
+                    <LoadingSpinner message="Loading profiles..." containerHeight="min-h-[20vh]" />
                   </td>
                 </tr>
               ) : profiles.length === 0 ? (
@@ -307,14 +305,14 @@ export default function RbacManagementPage() {
                 <button
                   type="button"
                   onClick={() => setShowInviteModal(false)}
-                  className="flex-1 px-4 py-2 bg-muted hover:bg-muted/80 text-white rounded-lg font-medium text-sm transition-colors"
+                  className="flex-1 px-4 py-2 bg-muted hover:bg-muted/80 cursor-pointer text-black rounded-lg font-medium text-sm transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={inviteLoading}
-                  className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2 bg-orange-500 cursor-pointer text-white rounded-lg font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {inviteLoading && <RefreshCw className="w-4 h-4 animate-spin" />}
                   Assign Role

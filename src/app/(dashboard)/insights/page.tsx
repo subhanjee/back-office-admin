@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Lightbulb } from 'lucide-react';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
 
 export default function InsightsPage() {
@@ -23,7 +24,7 @@ export default function InsightsPage() {
       });
   }, []);
 
-  if (loading) return <div className="p-8 text-white">Loading AI insights...</div>;
+  if (loading) return <LoadingSpinner message="Loading AI insights..." />;
   if (error) return <div className="p-8 text-red-400">Error: {error}</div>;
   if (!summary) return <div className="p-8 text-white">Unable to load insights</div>;
 
