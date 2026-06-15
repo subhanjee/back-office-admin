@@ -80,6 +80,65 @@ export default function DashboardHome() {
     { name: 'Active Sailings', value: overview?.activeSailings || '0', change: 'Live from DB', icon: CalendarRange, color: 'text-amber-400', bg: 'bg-amber-500/10' },
   ];
 
+  if (loading) {
+    return (
+      <div className="space-y-8 animate-fade-in">
+        {/* Welcome Banner Skeleton */}
+        <div className="glass-panel flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl h-auto md:h-[104px]">
+          <div className="space-y-3 w-full max-w-md">
+            <div className="h-6 bg-slate-200 animate-pulse rounded-md w-3/4"></div>
+            <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
+          </div>
+          <div className="h-6 bg-slate-200 animate-pulse rounded-full w-48 shrink-0"></div>
+        </div>
+
+        {/* KPI Cards Grid Skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="glass-card p-6 rounded-2xl h-[140px] flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
+                <div className="w-10 h-10 bg-slate-200 animate-pulse rounded-xl"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-8 bg-slate-200 animate-pulse rounded-md w-1/3"></div>
+                <div className="h-3 bg-slate-200 animate-pulse rounded-md w-1/4"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Grid Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Health Panel Skeleton */}
+          <div className="lg:col-span-2 glass-panel rounded-2xl border border-border p-6 space-y-6 h-auto sm:h-[300px]">
+            <div className="flex justify-between items-center pb-4 border-b border-border/50">
+              <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/3"></div>
+              <div className="h-4 bg-slate-200 animate-pulse rounded-md w-24"></div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="h-24 bg-slate-200 animate-pulse rounded-xl"></div>
+              <div className="h-24 bg-slate-200 animate-pulse rounded-xl"></div>
+            </div>
+          </div>
+
+          {/* Logs Panel Skeleton */}
+          <div className="glass-panel rounded-2xl border border-border p-6 space-y-6 flex flex-col h-auto sm:h-[300px]">
+             <div className="flex justify-between items-center pb-4 border-b border-border/50">
+              <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
+              <div className="h-4 bg-slate-200 animate-pulse rounded-md w-20"></div>
+            </div>
+            <div className="space-y-4 flex-1">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-14 bg-slate-200 animate-pulse rounded-xl"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Welcome Banner */}
