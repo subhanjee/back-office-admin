@@ -43,6 +43,10 @@ export default function AffiliateAnalyticsPage() {
   }
 
   const normalized = normalizeAffiliateStats(stats);
+  const totalClicks = normalized.overview.totalClicks;
+  const last7Days = normalized.overview.last7Days;
+  const uniqueOtas = normalized.overview.uniqueOtas;
+  const recentCount = normalized.overview.recentCount;
   const byOtaData = normalized.overview.byOta;
   const byCabinData = normalized.overview.byCabin;
   const byDeviceData = normalized.overview.byDevice;
@@ -58,28 +62,28 @@ export default function AffiliateAnalyticsPage() {
           </h1>
           <p className="text-sm text-white mt-1">Detailed breakdown of outbound clicks and conversions.</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-muted/20 hover:bg-muted/40 border border-border text-white rounded-lg transition-colors text-sm font-medium">
+        {/* <button className="flex items-center gap-2 px-4 py-2 bg-orange-500 cursor-pointer border border-border text-white rounded-lg transition-colors text-sm font-medium">
           <Download className="w-4 h-4" />
           Export CSV
-        </button>
+        </button> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="glass-card p-6 rounded-2xl">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Clicks</span>
-          <h3 className="text-3xl font-bold text-white mt-2">{stats?.overview?.total || 0}</h3>
+          <h3 className="text-3xl font-bold text-white mt-2">{totalClicks || 0}</h3>
         </div>
         <div className="glass-card p-6 rounded-2xl">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Last 7 Days</span>
-          <h3 className="text-3xl font-bold text-emerald-400 mt-2">{stats?.overview?.last7Days || 0}</h3>
+          <h3 className="text-3xl font-bold text-emerald-400 mt-2">{last7Days || 0}</h3>
         </div>
         <div className="glass-card p-6 rounded-2xl">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Unique OTAs</span>
-          <h3 className="text-3xl font-bold text-blue-400 mt-2">{stats?.overview?.byOta?.length || 0}</h3>
+          <h3 className="text-3xl font-bold text-blue-400 mt-2">{uniqueOtas || 0}</h3>
         </div>
         <div className="glass-card p-6 rounded-2xl">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Recent (24h)</span>
-          <h3 className="text-3xl font-bold text-purple-400 mt-2">{stats?.overview?.recent?.length || 0}</h3>
+          <h3 className="text-3xl font-bold text-purple-400 mt-2">{recentCount || 0}</h3>
         </div>
       </div>
 
@@ -160,20 +164,22 @@ export default function AffiliateAnalyticsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
-              {stats?.overview?.recent?.length > 0 ? (
-                stats.overview.recent.map((click: any) => (
+              {recentClicks.length > 0 ? (
+                recentClicks.map((click: any) => (
                   <tr key={click.id} className="hover:bg-muted/5 transition-colors">
                     <td className="px-4 py-3 text-muted-foreground font-mono text-xs whitespace-nowrap">
                       {new Date(click.createdAt).toLocaleString()}
                     </td>
-                    <td className="px-4 py-3 font-medium text-white">{click.otaName}</td>
+                    <td className="px-4 py-3 font-medium text-white">{click.otaName || ''}</td>
                     <td className="px-4 py-3 text-muted-foreground font-mono text-xs">{click.sailingId}</td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                        {click.cabinType}
-                      </span>
+                      {click.cabinType ? (
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                          {click.cabinType}
+                        </span>
+                      ) : null}
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground text-xs uppercase">{click.deviceType || 'Unknown'}</td>
+                    <td className="px-4 py-3 text-muted-foreground text-xs uppercase">{click.deviceType || ''}</td>
                     <td className="px-4 py-3 text-emerald-400 font-mono text-right font-medium">
                       ${click.priceAtClick?.toFixed(2) || '---'}
                     </td>

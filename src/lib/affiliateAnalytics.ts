@@ -71,51 +71,59 @@ export const normalizeAffiliateStats = (payload: any) => {
     root.recentClicks ??
     [];
 
-  const byOta = safeArray(byOtaRaw).map((item: any) => ({
-    name: item.otaName || item.name || item.ota || 'Unknown',
-    clicks: safeNumber(
-      item.clicks ??
-        item.count ??
-        item.value ??
-        item.total ??
-        item._count?.id ??
-        item._count?.total ??
-        0
-    ),
-  }));
+  const byOta = safeArray(byOtaRaw)
+    .map((item: any) => ({
+      name: item.otaName || item.name || item.ota || '',
+      clicks: safeNumber(
+        item.clicks ??
+          item.count ??
+          item.value ??
+          item.total ??
+          item._count?.id ??
+          item._count?.total ??
+          0
+      ),
+    }))
+    .filter((item: any) => item.name && item.name.trim() !== '');
 
-  const byCabin = safeArray(byCabinRaw).map((item: any) => ({
-    name: item.cabinType || item.type || item.name || 'Unknown',
-    value: safeNumber(
-      item.clicks ??
-        item.count ??
-        item.value ??
-        item.total ??
-        item._count?.id ??
-        item._count?.total ??
-        0
-    ),
-  }));
+  const byCabin = safeArray(byCabinRaw)
+    .map((item: any) => ({
+      name: item.cabinType || item.type || item.name || '',
+      value: safeNumber(
+        item.clicks ??
+          item.count ??
+          item.value ??
+          item.total ??
+          item._count?.id ??
+          item._count?.total ??
+          0
+      ),
+    }))
+    .filter((item: any) => item.name && item.name.trim() !== '');
 
-  const byDevice = safeArray(byDeviceRaw).map((item: any) => ({
-    name: item.deviceType || item.type || item.name || 'Unknown',
-    value: safeNumber(
-      item.clicks ??
-        item.count ??
-        item.value ??
-        item.total ??
-        item._count?.id ??
-        item._count?.total ??
-        0
-    ),
-  }));
+  const byDevice = safeArray(byDeviceRaw)
+    .map((item: any) => ({
+      name: item.deviceType || item.type || item.name || '',
+      value: safeNumber(
+        item.clicks ??
+          item.count ??
+          item.value ??
+          item.total ??
+          item._count?.id ??
+          item._count?.total ??
+          0
+      ),
+    }))
+    .filter((item: any) => item.name && item.name.trim() !== '');
 
-  const recent = safeArray(recentRaw).map((item: any) => ({
-    ...item,
-    otaName: item.otaName || item.ota || item.name || 'Unknown',
-    cabinType: item.cabinType || item.cabin || item.type || 'Unknown',
-    deviceType: item.deviceType || item.device || 'Unknown',
-  }));
+  const recent = safeArray(recentRaw)
+    .map((item: any) => ({
+      ...item,
+      otaName: item.otaName || item.ota || item.name || '',
+      cabinType: item.cabinType || item.cabin || item.type || '',
+      deviceType: item.deviceType || item.device || item.type || '',
+    }))
+    .filter((item: any) => item.cabinType && item.cabinType.trim() !== '');
 
   return {
     overview: {
