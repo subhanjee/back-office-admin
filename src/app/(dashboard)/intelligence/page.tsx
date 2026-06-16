@@ -71,48 +71,69 @@ export default function IntelligencePage() {
           <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
             <Ship className="w-5 h-5" /> Top cruises by clicks
           </h2>
-          <ol className="space-y-2 text-sm">
-            {cruises.map((row, i) => (
-              <li key={row.cruiseId} className="flex justify-between p-2 rounded-lg bg-muted/10">
-                <span className="text-white truncate max-w-[240px]">
-                  {i + 1}. {row.cruise?.title || `Cruise #${row.cruiseId}`}
-                </span>
-                <span className="text-blue-400">{row.clicks}</span>
-              </li>
-            ))}
-          </ol>
+          <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="space-y-2 text-sm scrollbar-hide">
+            <ol>
+              {cruises.map((row, i) => (
+                <li key={row.cruiseId} className="flex justify-between p-2 rounded-lg bg-muted/10">
+                  <span className="text-white truncate max-w-[240px]">
+                    {i + 1}. {row.cruise?.title || `Cruise #${row.cruiseId}`}
+                  </span>
+                  <span className="text-blue-400">{row.clicks}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
 
         <div className="glass-panel p-6 rounded-2xl border border-border">
           <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
             <Route className="w-5 h-5" /> Top routes (portList)
           </h2>
-          <ol className="space-y-2 text-sm max-h-80 overflow-y-auto">
-            {routes.map((row, i) => (
-              <li key={i} className="p-2 rounded-lg bg-muted/10">
-                <p className="text-white text-xs truncate">{row.route}</p>
-                <p className="text-muted-foreground text-xs mt-1">score {row.score}</p>
-              </li>
-            ))}
-          </ol>
+          <div className="max-h-[55vh] overflow-y-auto pr-12  scrollbar-hide">
+            <table className="w-full text-sm table-fixed">
+              <thead className="text-muted-foreground">
+                <tr>
+                  <th className="text-left py-2">Route</th>
+                  <th className="text-right py-2 pr-12 w-24">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {routes.map((row, i) => (
+                  <tr key={i} className="border-t border-border/50 bg-muted/10">
+                    <td className="py-2 align-top">
+                      <div className="text-xs text-white pr-4 break-words whitespace-normal overflow-x-hidden">
+                        {row.route}
+                      </div>
+                    </td>
+                    <td className="py-2 text-right text-muted-foreground text-xs pr-12 w-24">{row.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <div className="glass-panel p-6 rounded-2xl border border-border">
         <h2 className="font-semibold text-white mb-4">Cruise line performance</h2>
-        <table className="w-full text-sm">
-          <thead className="text-muted-foreground">
-            <tr><th className="text-left py-2">Line</th><th className="text-right py-2">Clicks</th></tr>
-          </thead>
-          <tbody>
-            {lines.map((l: any) => (
-              <tr key={l.cruiseLineId} className="border-t border-border/50">
-                <td className="py-2 text-white">{l.name}</td>
-                <td className="py-2 text-right text-blue-400">{l.clicks}</td>
+        <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="pr-4 scrollbar-hide">
+          <table className="w-full text-sm">
+            <thead className="text-muted-foreground">
+              <tr>
+                <th className="text-left py-2">Line</th>
+                <th className="text-right py-2 pr-6">Clicks</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {lines.map((l: any) => (
+                <tr key={l.cruiseLineId} className="border-t border-border/50">
+                  <td className="py-2 text-white">{l.name}</td>
+                  <td className="py-2 text-right text-blue-400 pr-6">{l.clicks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
