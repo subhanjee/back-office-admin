@@ -71,7 +71,7 @@ export default function IntelligencePage() {
           <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
             <Ship className="w-5 h-5" /> Top cruises by clicks
           </h2>
-          <div style={{ maxHeight: '50vh', overflowY: 'auto' }} className="space-y-2 text-sm">
+          <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="space-y-2 text-sm scrollbar-hide">
             <ol>
               {cruises.map((row, i) => (
                 <li key={row.cruiseId} className="flex justify-between p-2 rounded-lg bg-muted/10">
@@ -89,7 +89,7 @@ export default function IntelligencePage() {
           <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
             <Route className="w-5 h-5" /> Top routes (portList)
           </h2>
-          <div className="max-h-[50vh] overflow-y-auto pr-12">
+          <div className="max-h-[55vh] overflow-y-auto pr-12  scrollbar-hide">
             <table className="w-full text-sm table-fixed">
               <thead className="text-muted-foreground">
                 <tr>
@@ -116,7 +116,7 @@ export default function IntelligencePage() {
 
       <div className="glass-panel p-6 rounded-2xl border border-border">
         <h2 className="font-semibold text-white mb-4">Cruise line performance</h2>
-        <div style={{ maxHeight: '50vh', overflowY: 'auto' }} className="pr-4">
+        <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="pr-4 scrollbar-hide">
           <table className="w-full text-sm">
             <thead className="text-muted-foreground">
               <tr>
