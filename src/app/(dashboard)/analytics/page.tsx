@@ -12,6 +12,7 @@ export default function AnalyticsOverview() {
   const [activity, setActivity] = useState<any>(null);
   const [funnel, setFunnel] = useState<any>(null);
   const [searchTrends, setSearchTrends] = useState<any[]>([]);
+  const [searchStats, setSearchStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,41 +21,50 @@ export default function AnalyticsOverview() {
       try {
         setLoading(true);
         setError(null);
-        const [o, a, f, t] = await Promise.all([
+
+        // Use Promise.allSettled so one failing call doesn't wipe out all data
+        const results = await Promise.allSettled([
           adminApi.analytics.overview(),
           adminApi.analytics.userActivity(),
           adminApi.analytics.funnel(30),
           adminApi.analytics.searchTrends(30),
+          adminApi.analytics.search(),
         ]);
-        setOverview(o.data.data);
-        setActivity(a.data.data);
-        
-        // Handle funnel data - ensure it's an object with steps
-        const funnelData = f.data.data;
-        setFunnel(funnelData && typeof funnelData === 'object' ? funnelData : { steps: [] });
-        
-        // Handle search trends - provide mock data if empty
-        const trendData = t.data.data || [];
-        if (!trendData || trendData.length === 0) {
-          // Generate mock data for visualization
-          const mockTrends = Array.from({ length: 30 }, (_, i) => ({
-            date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-            count: Math.floor(Math.random() * 150 + 50),
-          }));
-          setSearchTrends(mockTrends);
+
+        const [o, a, f, t, s] = results;
+
+        if (o.status === 'fulfilled') {
+          setOverview(o.value.data.data);
+        }
+        if (a.status === 'fulfilled') {
+          setActivity(a.value.data.data);
+        }
+        if (f.status === 'fulfilled') {
+          const funnelData = f.value.data.data;
+          setFunnel(funnelData && typeof funnelData === 'object' ? funnelData : { steps: [] });
         } else {
-          setSearchTrends(trendData);
+          setFunnel({ steps: [] });
+        }
+        if (t.status === 'fulfilled') {
+          const trendData = t.value.data.data || [];
+          setSearchTrends(Array.isArray(trendData) ? trendData : []);
+        } else {
+          setSearchTrends([]);
+        }
+        if (s.status === 'fulfilled') {
+          setSearchStats(s.value.data.data || null);
+        } else {
+          setSearchStats(null);
+        }
+
+        // Show warning if any call failed
+        const failedCalls = results.filter(r => r.status === 'rejected');
+        if (failedCalls.length > 0) {
+          console.warn('Some analytics calls failed:', failedCalls.map(r => (r as PromiseRejectedResult).reason?.message));
         }
       } catch (err) {
         console.error('Analytics fetch error:', err);
         setError('Failed to load analytics data');
-        // Set mock data on error so UI still renders
-        setFunnel({ steps: [] });
-        const mockTrends = Array.from({ length: 30 }, (_, i) => ({
-          date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-          count: Math.floor(Math.random() * 150 + 50),
-        }));
-        setSearchTrends(mockTrends);
       } finally {
         setLoading(false);
       }
@@ -158,7 +168,7 @@ export default function AnalyticsOverview() {
 
       {error && (
         <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-sm text-amber-400">
-          ⚠️ {error} - Showing mock data for demonstration
+          ⚠️ {error}
         </div>
       )}
 
@@ -186,7 +196,8 @@ export default function AnalyticsOverview() {
             {funnelSteps.map((s: any) => (
               <div key={s.eventType} className="flex justify-between text-sm p-2 rounded-lg bg-muted/10">
                 <span className="text-white">{s.eventType}</span>
-                <span className="text-muted-foreground">{s.count} ({s.rateFromTop}%)</span>
+                {/* ({s.rateFromTop}%) */}
+                <span className="text-muted-foreground">{s.count} </span>
               </div>
             ))}
           </div>
@@ -209,9 +220,30 @@ export default function AnalyticsOverview() {
         </div>
         <div className="glass-panel p-6 rounded-2xl border border-border">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <Search className="w-5 h-5 text-purple-400" /> Search trends API
+            <Search className="w-5 h-5 text-purple-400" /> Top Search Queries (30d)
           </h3>
-          <p className="text-sm text-muted-foreground">Top queries available at <code className="text-xs">/admin/analytics/search/stats</code></p>
+          {searchStats && searchStats.trending && searchStats.trending.length > 0 ? (
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground mb-3">
+                {(searchStats.totalSearches || 0).toLocaleString()} total searches
+              </p>
+              {searchStats.trending.map((t: any, i: number) => (
+                <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/10">
+                  <span className="text-sm text-white flex items-center gap-2">
+                    <span className="text-xs font-mono text-muted-foreground w-5">{i + 1}.</span>
+                    {t.query}
+                  </span>
+                  <span className="text-xs font-mono text-purple-400">{t.count}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="h-32 flex flex-col items-center justify-center text-center">
+              <Search className="w-8 h-8 text-muted-foreground/30 mb-2" />
+              <p className="text-sm text-muted-foreground">No search data available yet</p>
+              <p className="text-xs text-muted-foreground mt-1">Searches will appear here as users query the platform</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

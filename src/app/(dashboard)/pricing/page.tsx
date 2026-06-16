@@ -64,18 +64,30 @@ export default function PricingPage() {
           <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-amber-400" /> Price anomalies
           </h2>
-          <ul className="space-y-2 text-sm max-h-64 overflow-y-auto">
-            {anomalies.length === 0 ? (
-              <li className="text-muted-foreground">No stored anomalies</li>
-            ) : (
-              anomalies.map((a: any) => (
-                <li key={a.id} className="p-3 rounded-lg bg-muted/10">
-                  <span className="text-white">{a.anomalyType}</span>
-                  <span className="text-muted-foreground ml-2">cruise #{a.cruiseId}</span>
-                </li>
-              ))
-            )}
-          </ul>
+          <table className="w-full text-sm max-h-64 overflow-y-auto">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 px-3 text-muted-foreground">Anomaly Type</th>
+                <th className="text-left py-2 px-3 text-muted-foreground">Cruise ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {anomalies.length === 0 ? (
+                <tr>
+                  <td colSpan={2} className="text-center py-4 text-muted-foreground">
+                    No stored anomalies
+                  </td>
+                </tr>
+              ) : (
+                anomalies.map((a: any) => (
+                  <tr key={a.id} className="border-b border-border/50 hover:bg-muted/10 transition">
+                    <td className="py-3 px-3 text-white">{a.anomalyType}</td>
+                    <td className="py-3 px-3 text-muted-foreground">#{a.cruiseId}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 
