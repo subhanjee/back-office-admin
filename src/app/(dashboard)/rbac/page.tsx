@@ -69,8 +69,9 @@ export default function RbacManagementPage() {
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
       setUpdatingId(userId);
-      await api.put(`/admin/rbac/roles/${userId}`, { adminRole: newRole });
-      await fetchProfiles(); // refresh the list
+      setError(null);
+      await api.patch(`/admin/rbac/roles/${userId}`, { adminRole: newRole });
+      await fetchProfiles();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to update role');
     } finally {
