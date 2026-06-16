@@ -47,7 +47,6 @@ export default function UsersListPage() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
-  const [roleFilter, setRoleFilter] = useState('');
   
   const fetchUsers = useCallback(async (page = 1) => {
     try {
@@ -59,7 +58,6 @@ export default function UsersListPage() {
       params.append('limit', '10');
       
       if (searchQuery) params.append('search', searchQuery);
-      if (roleFilter) params.append('role', roleFilter);
 
       const response = await api.get(`/admin/users?${params.toString()}`);
       setUsers(response.data.data.users);
@@ -69,7 +67,7 @@ export default function UsersListPage() {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, roleFilter]);
+  }, [searchQuery]);
 
   useEffect(() => {
     fetchUsers(1);
@@ -82,7 +80,6 @@ export default function UsersListPage() {
 
   const handleClearFilters = () => {
     setSearchQuery('');
-    setRoleFilter('');
   };
 
   return (
@@ -109,7 +106,7 @@ export default function UsersListPage() {
 
       {/* Filters */}
       <div className="glass-panel p-4 rounded-xl space-y-4">
-        <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative md:col-span-2">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white" />
             <input
@@ -120,16 +117,6 @@ export default function UsersListPage() {
               className="w-full  border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
             />
           </div>
-          
-          <select
-            value={roleFilter}
-            onChange={(e) => setRoleFilter(e.target.value)}
-            className="w-full border border-border rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all appearance-none"
-          >
-            <option value="">All Roles</option>
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
 
           <div className="flex gap-2">
             <button
@@ -138,7 +125,7 @@ export default function UsersListPage() {
             >
               Search
             </button>
-            {(searchQuery || roleFilter) && (
+            {searchQuery && (
               <button
                 type="button"
                 onClick={handleClearFilters}
