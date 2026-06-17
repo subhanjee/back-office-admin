@@ -258,7 +258,7 @@ export default function UsersListPage() {
               <button
                 onClick={() => fetchUsers(pagination.page - 1)}
                 disabled={pagination.page === 1}
-                className="p-2 rounded-lg border border-border bg-background hover:bg-muted text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -268,7 +268,7 @@ export default function UsersListPage() {
               <button
                 onClick={() => fetchUsers(pagination.page + 1)}
                 disabled={pagination.page === pagination.totalPages}
-                className="p-2 rounded-lg border border-border bg-background hover:bg-muted text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

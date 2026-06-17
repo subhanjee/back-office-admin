@@ -105,7 +105,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 py-6 overflow-y-auto px-3 space-y-6">
+      <div className="flex-1 py-6 overflow-y-auto scrollbar-hide px-3 space-y-6">
         {menuGroups.map((group, groupIdx) => {
           const visibleItems = group.items.filter(checkItemVisibility);
           if (visibleItems.length === 0) return null;
