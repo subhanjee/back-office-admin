@@ -248,7 +248,7 @@ export default function AuditLogViewerPage() {
               <button
                 onClick={() => fetchLogs(pagination.page - 1)}
                 disabled={pagination.page === 1}
-                className="p-2 rounded-lg border border-border bg-background hover:bg-muted text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -258,7 +258,7 @@ export default function AuditLogViewerPage() {
               <button
                 onClick={() => fetchLogs(pagination.page + 1)}
                 disabled={pagination.page === pagination.totalPages}
-                className="p-2 rounded-lg border border-border bg-background hover:bg-muted text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -278,7 +278,7 @@ export default function AuditLogViewerPage() {
               </h3>
               <button 
                 onClick={() => setSelectedLog(null)}
-                className="text-muted-foreground hover:text-white transition-colors p-1"
+                className="text-muted-foreground cursor-pointer text-white transition-colors p-1"
               >
                 &times;
               </button>
@@ -333,7 +333,7 @@ export default function AuditLogViewerPage() {
             <div className="px-6 py-4 border-t border-border bg-muted/5 flex justify-end">
               <button 
                 onClick={() => setSelectedLog(null)}
-                className="px-4 py-2 bg-muted hover:bg-muted/80 text-white rounded-lg font-medium text-sm transition-colors"
+                className="px-4 py-2 bg-muted bg-muted/50 cursor-pointer text-white rounded-lg font-medium text-sm transition-colors"
               >
                 Close
               </button>

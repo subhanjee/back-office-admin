@@ -74,10 +74,10 @@ export default function DashboardHome() {
   }, []);
 
   const stats = [
-    { name: 'Total Users', value: overview?.totalUsers || '0', change: `${overview?.dau || 0} DAU`, icon: Users, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    { name: 'Affiliate Clicks', value: overview?.totalClicks || '0', change: `${overview?.totalSearches || 0} Searches`, icon: MousePointerClick, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    { name: 'Cruises Available', value: Number(overview?.activeCruises || 0).toLocaleString(), change: 'Comparable across 2+ OTAs', icon: Ship, color: 'text-purple-400', bg: 'bg-purple-500/10' },
-    { name: 'Comparable Sailings', value: Number(overview?.activeSailings || 0).toLocaleString(), change: '2+ OTAs, future departures', icon: CalendarRange, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { name: 'Total Users', value: overview?.totalUsers || '0', icon: Users, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+    { name: 'Affiliate Clicks', value: overview?.totalClicks || '0', change: '', icon: MousePointerClick, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    { name: 'Active Cruises', value: overview?.activeCruises || '0',  icon: Ship, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+    { name: 'Active Sailings', value: overview?.activeSailings || '0',  icon: CalendarRange, color: 'text-amber-400', bg: 'bg-amber-500/10' },
   ];
 
   if (loading) {
@@ -178,10 +178,11 @@ export default function DashboardHome() {
               </div>
               <div className="mt-4 space-y-1">
                 <h3 className="text-2xl font-bold text-white tracking-tight">{stat.value}</h3>
-                <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-blue-400" />
-                  {stat.change}
-                </p>
+                {stat.change && (
+                  <p className="text-xs text-muted-foreground">
+                    {stat.change}
+                  </p>
+                )}
               </div>
             </div>
           );
