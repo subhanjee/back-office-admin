@@ -68,7 +68,16 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 /* Solid white surfaces over hero background — readable text/images inside */
 .zc-nav-surface {
   background: #ffffff;
