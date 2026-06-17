@@ -19,7 +19,6 @@ import { MousePointerClick, TrendingUp, Globe, Bed, RefreshCw } from 'lucide-rea
 import adminApi from '../../../../api/admin';
 
 const COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#6366f1'];
-const REFRESH_MS = 15000;
 
 const tooltipStyle = {
   backgroundColor: '#ffffff',
@@ -81,8 +80,6 @@ export default function AffiliateAnalyticsPage() {
 
   useEffect(() => {
     fetchStats();
-    const interval = setInterval(() => fetchStats(true), REFRESH_MS);
-    return () => clearInterval(interval);
   }, [fetchStats]);
 
   const normalized = useMemo(() => normalizeAffiliateStats(stats), [stats]);
@@ -119,7 +116,7 @@ export default function AffiliateAnalyticsPage() {
             Affiliate Analytics
           </h1>
           <p className="text-sm text-white mt-1">
-            Outbound clicks and conversions — auto-refreshes every 15s.
+            Outbound clicks and conversions.
             {lastUpdated ? (
               <span className="text-muted-foreground ml-1">
                 Last updated {lastUpdated.toLocaleTimeString()}
