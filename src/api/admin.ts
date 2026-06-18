@@ -40,6 +40,7 @@ export const adminApi = {
     bookingWindow: () => api.get('/admin/pricing/best-booking-window'),
     lowest: () => api.get('/admin/pricing/lowest-prices'),
     otaComparison: (cruiseId: number) => api.get(`/admin/pricing/ota-comparison/${cruiseId}`),
+    cruiseSeries: (cruiseId: number) => api.get(`/admin/pricing/cruise/${cruiseId}/series`),
     detectAnomalies: () => api.post('/admin/pricing/anomalies/detect'),
   },
   etl: {
