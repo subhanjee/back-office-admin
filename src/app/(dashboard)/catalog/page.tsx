@@ -40,7 +40,7 @@ export default function CatalogPage() {
       </div>
 
       {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {Object.entries(stats).map(([k, v]) => (
             <div key={k} className="glass-card p-3 rounded-xl text-center">
               <p className="text-xs text-muted-foreground capitalize">{k.replace(/([A-Z])/g, ' $1')}</p>
