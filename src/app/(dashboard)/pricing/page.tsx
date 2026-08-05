@@ -36,33 +36,33 @@ export default function PricingPage() {
   if (loading) return <LoadingSpinner message="Loading pricing intelligence..." />;
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 zc-reveal">
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <TrendingUp className="w-6 h-6 text-emerald-400" />
+        <h1 className="zc-page-title flex items-center gap-2">
+          <TrendingUp className="w-6 h-6 text-success" />
           Pricing Intelligence
         </h1>
-        <p className="text-sm text-white mt-1">Price drops, anomalies, seasonal trends, booking windows</p>
+        <p className="zc-page-subtitle">Price drops, anomalies, seasonal trends, booking windows</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <ArrowDown className="w-5 h-5 text-emerald-400" /> Recent price drops
+        <div className="zc-card p-6">
+          <h2 className="zc-section-title mb-4 flex items-center gap-2">
+            <ArrowDown className="w-5 h-5 text-success" /> Recent price drops
           </h2>
           <ul className="space-y-2 text-sm max-h-64 overflow-y-auto">
             {drops.map((d: any, i: number) => (
               <li key={i} className="p-3 rounded-lg bg-muted/10 flex justify-between">
-                <span className="text-white truncate max-w-[200px]">{d.cruiseTitle}</span>
-                <span className="text-emerald-400 font-medium">-{d.dropPct}%</span>
+                <span className="text-slate-900 truncate max-w-[200px]">{d.cruiseTitle}</span>
+                <span className="text-success font-medium">-{d.dropPct}%</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h2 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-amber-400" /> Price anomalies
+        <div className="zc-card p-6">
+          <h2 className="zc-section-title mb-4 flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-warning" /> Price anomalies
           </h2>
           <table className="w-full text-sm max-h-64 overflow-y-auto">
             <thead>
@@ -81,7 +81,7 @@ export default function PricingPage() {
               ) : (
                 anomalies.map((a: any) => (
                   <tr key={a.id} className="border-b border-border/50 hover:bg-muted/10 transition">
-                    <td className="py-3 px-3 text-white">{a.anomalyType}</td>
+                    <td className="py-3 px-3 text-slate-900">{a.anomalyType}</td>
                     <td className="py-3 px-3 text-muted-foreground">#{a.cruiseId}</td>
                   </tr>
                 ))
@@ -91,29 +91,29 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <div className="glass-panel p-6 rounded-2xl border border-border">
-        <h2 className="text-white font-semibold mb-4">Seasonal average price by month</h2>
+      <div className="zc-card p-6">
+        <h2 className="zc-section-title mb-4">Seasonal average price by month</h2>
         {seasonal && seasonal.length > 0 ? (
           <AnalyticsChart
             data={seasonal}
             xKey="month"
             yKey="avgPrice"
             height={220}
-            color="#3b82f6"
-            legends={[{ label: 'Average Price', color: '#3b82f6' }]}
+            color="#2563EB"
+            legends={[{ label: 'Average Price', color: '#2563EB' }]}
           />
         ) : (
           <div className="p-4 text-muted-foreground">No seasonal data</div>
         )}
       </div>
 
-      <div className="glass-panel p-6 rounded-2xl border border-border">
-        <h2 className="text-white font-semibold mb-4">Best booking window (avg price by lead time)</h2>
+      <div className="zc-card p-6">
+        <h2 className="zc-section-title mb-4">Best booking window (avg price by lead time)</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {booking.map((b: any) => (
             <div key={b.bucket} className="p-4 rounded-xl bg-muted/10 border border-border">
               <p className="text-xs text-muted-foreground">{b.bucket}</p>
-              <p className="text-lg font-bold text-white">${b.avgPrice?.toFixed?.(0) ?? b.avgPrice}</p>
+              <p className="text-lg font-bold text-slate-900">${b.avgPrice?.toFixed?.(0) ?? b.avgPrice}</p>
               <p className="text-xs text-muted-foreground">n={b.sampleSize}</p>
             </div>
           ))}

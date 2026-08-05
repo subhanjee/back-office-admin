@@ -25,55 +25,55 @@ export default function InsightsPage() {
   }, []);
 
   if (loading) return <LoadingSpinner message="Loading AI insights..." />;
-  if (error) return <div className="p-8 text-red-400">Error: {error}</div>;
-  if (!summary) return <div className="p-8 text-white">Unable to load insights</div>;
+  if (error) return <div className="p-8 text-danger">Error: {error}</div>;
+  if (!summary) return <div className="p-8 text-slate-900">Unable to load insights</div>;
 
   const { demand, booking, ops } = summary;
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 zc-reveal">
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-amber-400" />
+        <h1 className="zc-page-title flex items-center gap-2">
+          <Sparkles className="w-6 h-6 text-warning" />
           Predictive Insights
         </h1>
-        <p className="text-sm text-white mt-1">
+        <p className="zc-page-subtitle">
           Heuristic recommendations (Phase 6) — upgradeable to LLM-backed analysis
         </p>
       </div>
 
-      <section className="glass-panel p-6 rounded-2xl border border-border space-y-4">
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-          <Lightbulb className="w-5 h-5 text-amber-400" /> Demand forecast
+      <section className="zc-card p-6 space-y-4">
+        <h2 className="zc-section-title flex items-center gap-2">
+          <Lightbulb className="w-5 h-5 text-warning" /> Demand forecast
         </h2>
-        <p className="text-sm text-blue-300/90">{demand?.recommendation}</p>
+        <p className="text-sm text-brand-blue">{demand?.recommendation}</p>
         <div className="flex flex-wrap gap-2">
           {(demand?.topQueries || []).map((q: any) => (
-            <span key={q.query} className="text-xs px-3 py-1 rounded-full bg-muted/30 text-white">
+            <span key={q.query} className="text-xs px-3 py-1 rounded-full bg-muted/30 text-slate-900">
               {q.query} ({q.count})
             </span>
           ))}
         </div>
       </section>
 
-      <section className="glass-panel p-6 rounded-2xl border border-border">
-        <h2 className="text-lg font-semibold text-white mb-2">Booking window</h2>
-        <p className="text-sm text-emerald-300/90">{booking?.recommendation}</p>
+      <section className="zc-card p-6">
+        <h2 className="zc-section-title mb-2">Booking window</h2>
+        <p className="text-sm text-success">{booking?.recommendation}</p>
         <p className="text-xs text-muted-foreground mt-2">Confidence: {booking?.confidence}</p>
       </section>
 
-      <section className="glass-panel p-6 rounded-2xl border border-border space-y-3">
-        <h2 className="text-lg font-semibold text-white">Operational recommendations</h2>
+      <section className="zc-card p-6 space-y-3">
+        <h2 className="zc-section-title">Operational recommendations</h2>
         {(ops?.recommendations || []).map((r: any, i: number) => (
           <div
             key={i}
             className={`p-4 rounded-xl border text-sm ${
-              r.priority === 'critical' ? 'border-red-500/30 bg-red-500/5' :
-              r.priority === 'high' ? 'border-amber-500/30 bg-amber-500/5' : 'border-border bg-muted/10'
+              r.priority === 'critical' ? 'border-danger/30 bg-danger/5' :
+              r.priority === 'high' ? 'border-warning/30 bg-warning/5' : 'border-border bg-muted/10'
             }`}
           >
             <span className="text-xs uppercase font-bold text-muted-foreground">{r.area}</span>
-            <p className="text-white mt-1">{r.message}</p>
+            <p className="text-slate-900 mt-1">{r.message}</p>
           </div>
         ))}
       </section>

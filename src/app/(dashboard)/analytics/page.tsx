@@ -152,22 +152,22 @@ export default function AnalyticsOverview() {
   }
 
   const kpis = [
-    { label: 'Total Users', value: overview?.totalUsers || 0, icon: Users, color: 'text-blue-400' },
-    { label: 'DAU', value: activity?.dau ?? overview?.dau ?? 0, icon: Activity, color: 'text-emerald-400' },
-    { label: 'MAU', value: activity?.mau || 0, icon: Users, color: 'text-indigo-400' },
-    { label: 'Total Searches', value: overview?.totalSearches || 0, icon: Search, color: 'text-purple-400' },
-    { label: 'Total Clicks', value: overview?.totalClicks || 0, icon: MousePointerClick, color: 'text-amber-400' },
+    { label: 'Total Users', value: overview?.totalUsers || 0, icon: Users, color: 'text-brand-blue' },
+    { label: 'DAU', value: activity?.dau ?? overview?.dau ?? 0, icon: Activity, color: 'text-success' },
+    { label: 'MAU', value: activity?.mau || 0, icon: Users, color: 'text-brand-teal' },
+    { label: 'Total Searches', value: overview?.totalSearches || 0, icon: Search, color: 'text-brand-teal' },
+    { label: 'Total Clicks', value: overview?.totalClicks || 0, icon: MousePointerClick, color: 'text-warning' },
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in pb-10">
+    <div className="space-y-6 zc-reveal pb-10">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Analytics Overview</h1>
-        <p className="text-sm text-white mt-1">Platform-wide statistics, funnel, and usage metrics.</p>
+        <h1 className="zc-page-title">Analytics Overview</h1>
+        <p className="zc-page-subtitle">Platform-wide statistics, funnel, and usage metrics.</p>
       </div>
 
       {error && (
-        <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-sm text-amber-400">
+        <div className="p-4 bg-warning-light border border-warning/30 rounded-xl text-sm text-warning">
           ⚠️ {error}
         </div>
       )}
@@ -176,26 +176,26 @@ export default function AnalyticsOverview() {
         {kpis.map((kpi, i) => {
           const Icon = kpi.icon;
           return (
-            <div key={i} className="glass-card p-5 rounded-2xl">
+            <div key={i} className="zc-card p-5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-muted-foreground uppercase">{kpi.label}</span>
                 <Icon className={`w-4 h-4 ${kpi.color}`} />
               </div>
-              <h3 className="text-2xl font-bold text-white mt-3">{Number(kpi.value).toLocaleString()}</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mt-3">{Number(kpi.value).toLocaleString()}</h3>
             </div>
           );
         })}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <GitBranch className="w-5 h-5 text-blue-400" /> Conversion funnel (30d)
+        <div className="zc-card p-6">
+          <h3 className="zc-section-title mb-4 flex items-center gap-2">
+            <GitBranch className="w-5 h-5 text-brand-blue" /> Conversion funnel (30d)
           </h3>
           <div className="space-y-2">
             {funnelSteps.map((s: any) => (
               <div key={s.eventType} className="flex justify-between text-sm p-2 rounded-lg bg-muted/10">
-                <span className="text-white">{s.eventType}</span>
+                <span className="text-slate-900">{s.eventType}</span>
                 {/* ({s.rateFromTop}%) */}
                 <span className="text-muted-foreground">{s.count} </span>
               </div>
@@ -203,24 +203,24 @@ export default function AnalyticsOverview() {
           </div>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-lg font-bold text-white mb-4">Search volume (30d)</h3>
-          <AnalyticsChart data={searchTrends} xKey="date" yKey="count" height={220} color="#8b5cf6" legends={[{ label: 'Search Volume', color: '#8b5cf6' }]} />
+        <div className="zc-card p-6">
+          <h3 className="zc-section-title mb-4">Search volume (30d)</h3>
+          <AnalyticsChart data={searchTrends} xKey="date" yKey="count" height={220} color="#2563EB" legends={[{ label: 'Search Volume', color: '#2563EB' }]} />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <MousePointerClick className="w-5 h-5 text-emerald-400" /> Affiliate Performance
+        <div className="zc-card p-6">
+          <h3 className="zc-section-title mb-4 flex items-center gap-2">
+            <MousePointerClick className="w-5 h-5 text-success" /> Affiliate Performance
           </h3>
-          <Link href="/analytics/affiliate" className="inline-flex px-4 py-2 bg-orange-500  bg-emerald-600 text-white rounded-lg text-sm font-medium">
+          <Link href="/analytics/affiliate" className="zc-btn-primary">
             View Affiliate Report
           </Link>
         </div>
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <Search className="w-5 h-5 text-purple-400" /> Top Search Queries (30d)
+        <div className="zc-card p-6">
+          <h3 className="zc-section-title mb-4 flex items-center gap-2">
+            <Search className="w-5 h-5 text-brand-teal" /> Top Search Queries (30d)
           </h3>
           {searchStats && searchStats.trending && searchStats.trending.length > 0 ? (
             <div className="space-y-2">
@@ -229,11 +229,11 @@ export default function AnalyticsOverview() {
               </p>
               {searchStats.trending.map((t: any, i: number) => (
                 <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/10">
-                  <span className="text-sm text-white flex items-center gap-2">
+                  <span className="text-sm text-slate-900 flex items-center gap-2">
                     <span className="text-xs font-mono text-muted-foreground w-5">{i + 1}.</span>
                     {t.query}
                   </span>
-                  <span className="text-xs font-mono text-purple-400">{t.count}</span>
+                  <span className="text-xs font-mono text-brand-teal">{t.count}</span>
                 </div>
               ))}
             </div>

@@ -96,7 +96,7 @@ export default function PriceHistoryChart({
   const paths = series.map((serie) => {
     const points = serie.data.map((p, i) => ({ x: xScale(i), y: yScale(p.price as number) }));
     const d = points.map((pt, i) => `${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`).join(' ');
-    return { d, color: serie.color || '#8B5CF6' };
+    return { d, color: serie.color || '#6366F1' };
   });
 
   const pointGroups = series.flatMap((serie) => serie.data.map((p, i) => ({ i, price: p.price, otaName: serie.otaName, color: serie.color })));
@@ -137,20 +137,20 @@ export default function PriceHistoryChart({
         ))}
 
         {series.map((serie, sIdx) => serie.data.map((point, i) => (
-          <circle key={`${sIdx}-${i}`} cx={xScale(i)} cy={yScale(point.price as number)} r={4} fill={serie.color || '#8B5CF6'} stroke="white" strokeWidth={1} className="zc-point-pop" />
+          <circle key={`${sIdx}-${i}`} cx={xScale(i)} cy={yScale(point.price as number)} r={4} fill={serie.color || '#6366F1'} stroke="white" strokeWidth={1} className="zc-point-pop" />
         )))}
       </svg>
 
       <div className="flex flex-wrap justify-between gap-2 mt-2 text-[10px]">
         {series.map((s, i) => (
           <div key={i} className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color || '#8B5CF6' }} />
-            <span className="text-gray-600">{s.otaName || `Series ${i + 1}`}</span>
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color || '#6366F1' }} />
+            <span className="text-slate-600">{s.otaName || `Series ${i + 1}`}</span>
           </div>
         ))}
         <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-gray-900" />
-          <span className="text-gray-600">Multiple</span>
+          <div className="w-2 h-2 rounded-full bg-slate-600" />
+          <span className="text-slate-600">Multiple</span>
         </div>
       </div>
     </div>

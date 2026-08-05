@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/authStore';
 import AdminSidebar from '../../components/layout/AdminSidebar';
 import AdminHeader from '../../components/layout/AdminHeader';
-import ZapCruisePageBackground from '../../components/layout/ZapCruisePageBackground';
 import { Loader2 } from 'lucide-react';
 
 export default function DashboardLayout({
@@ -31,10 +30,9 @@ export default function DashboardLayout({
 
   if (isChecking || isLoading) {
     return (
-      <div className="min-h-screen relative flex flex-col items-center justify-center gap-3 text-muted-foreground">
-        <ZapCruisePageBackground />
-        <Loader2 className="w-8 h-8 animate-spin text-[#0099FF]" />
-        <span className="text-sm text-white">Validating session...</span>
+      <div className="min-h-screen relative flex flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-500">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+        <span className="text-sm text-slate-600">Validating session...</span>
       </div>
     );
   }
@@ -42,8 +40,7 @@ export default function DashboardLayout({
   if (!user) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden relative">
-      <ZapCruisePageBackground />
+    <div className="flex h-screen overflow-hidden relative bg-gradient-to-b from-slate-50 via-white to-slate-100">
       {/* Sidebar navigation — fixed height, does not scroll with main content */}
       <AdminSidebar />
 
@@ -53,6 +50,9 @@ export default function DashboardLayout({
         <main className="flex-1 min-h-0 overflow-y-auto p-6">
           {children}
         </main>
+        <footer className="shrink-0 border-t border-slate-200 bg-white/60 px-6 py-3 text-center text-xs text-slate-500">
+          © {new Date().getFullYear()} ZapCruise Admin Portal
+        </footer>
       </div>
     </div>
   );

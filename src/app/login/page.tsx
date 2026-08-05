@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/authStore';
-import { Lock, Mail, Loader2, AlertCircle } from 'lucide-react';
+import { Lock, Mail, Loader2, AlertCircle, Ship, ShieldCheck, Gauge } from 'lucide-react';
 import ZapCruisePageBackground from '../../components/layout/ZapCruisePageBackground';
 import ZapCruiseLogo from '../../components/layout/ZapCruiseLogo';
 
@@ -43,47 +43,69 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center relative p-6 overflow-hidden">
-      <ZapCruisePageBackground />
-
-      <div className="w-full max-w-md z-10 space-y-8">
-        {/* Portal Branding logo */}
-        <div className="flex flex-col items-center text-center space-y-3">
-          <div className="bg-white rounded-2xl px-6 py-3 shadow-sm">
-            <ZapCruiseLogo className="h-14 w-auto" />
+    <main className="min-h-screen flex">
+      {/* Brand panel */}
+      <div className="hidden lg:flex lg:w-[46%] relative overflow-hidden">
+        <ZapCruisePageBackground />
+        <div className="relative z-10 flex flex-col justify-between w-full p-12 xl:p-16 text-white">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 border border-white/15 backdrop-blur-sm">
+              <Ship className="w-4 h-4 text-white" strokeWidth={2} />
+            </span>
+            <span className="text-base font-semibold tracking-tight">ZapCruise</span>
           </div>
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-white tracking-tight">
-              Administrator Portal
+
+          <div className="space-y-6 max-w-md">
+            <h1 className="text-4xl xl:text-[2.75rem] leading-[1.15] font-bold tracking-tight">
+              Cruise decision intelligence, for your whole team.
             </h1>
-            <p className="text-sm text-white/80">
-              Sign in to access the administrator back-office
+            <p className="text-white/70 text-base leading-relaxed">
+              Monitor pricing, users, and platform health from a single administrative back-office.
             </p>
           </div>
-        </div>
 
-        {/* Login Card */}
-        <div className="glass-panel p-8 rounded-2xl shadow-2xl relative text-gray-900">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            
+          <div className="flex items-center gap-6 pt-8 border-t border-white/10">
+            <div className="flex items-center gap-2 text-sm text-white/70">
+              <ShieldCheck className="w-4 h-4 text-brand-aqua shrink-0" />
+              Role-based access control
+            </div>
+            <div className="flex items-center gap-2 text-sm text-white/70">
+              <Gauge className="w-4 h-4 text-brand-aqua shrink-0" />
+              Real-time system health
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex w-full lg:w-[54%] items-center justify-center bg-white p-6 sm:p-10">
+        <div className="w-full max-w-sm zc-reveal">
+          <ZapCruiseLogo variant="full" className="h-8 w-auto object-contain mb-10" />
+
+          <div className="mb-8">
+            <h2 className="zc-page-title text-[1.75rem]">Welcome back</h2>
+            <p className="zc-page-subtitle">Sign in to access the administrator back-office</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Error Message Box */}
             {error && (
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-danger-light border border-danger/20 text-danger text-sm">
                 <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold">Authentication Error</span>
-                  <p className="mt-0.5 text-red-300/80 leading-relaxed">{error}</p>
+                  <span className="font-semibold">Authentication error</span>
+                  <p className="mt-0.5 leading-relaxed">{error}</p>
                 </div>
               </div>
             )}
 
             {/* Email Field */}
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Email Address
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="zc-label">
+                Email address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -93,18 +115,18 @@ export default function LoginPage() {
                   placeholder="admin@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/95 border border-black/10 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0099FF] transition-all text-sm"
+                  className="zc-input pl-10"
                 />
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="space-y-2">
-              <label htmlFor="password" className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="zc-label">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -114,7 +136,7 @@ export default function LoginPage() {
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/95 border border-black/10 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0099FF] transition-all text-sm"
+                  className="zc-input pl-10"
                 />
               </div>
             </div>
@@ -123,7 +145,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full zc-btn-primary justify-center mt-2"
             >
               {isLoading ? (
                 <>
@@ -131,7 +153,7 @@ export default function LoginPage() {
                   Authenticating...
                 </>
               ) : (
-                'Sign In'
+                'Sign in'
               )}
             </button>
           </form>

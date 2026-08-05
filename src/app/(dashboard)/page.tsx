@@ -74,17 +74,17 @@ export default function DashboardHome() {
   }, []);
 
   const stats = [
-    { name: 'Total Users', value: overview?.totalUsers || '0', change: `${overview?.dau || 0} DAU`, icon: Users, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    { name: 'Affiliate Clicks', value: overview?.totalClicks || '0', change: `${overview?.totalSearches || 0} Searches`, icon: MousePointerClick, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    { name: 'Active Cruises', value: overview?.activeCruises || '0', change: 'Live from DB', icon: Ship, color: 'text-purple-400', bg: 'bg-purple-500/10' },
-    { name: 'Active Sailings', value: overview?.activeSailings || '0', change: 'Live from DB', icon: CalendarRange, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    { name: 'Total Users', value: overview?.totalUsers || '0', change: `${overview?.dau || 0} DAU`, icon: Users, color: 'text-brand-blue', bg: 'bg-brand-blue/8' },
+    { name: 'Affiliate Clicks', value: overview?.totalClicks || '0', change: `${overview?.totalSearches || 0} Searches`, icon: MousePointerClick, color: 'text-success', bg: 'bg-success/8' },
+    { name: 'Active Cruises', value: overview?.activeCruises || '0', change: 'Live from DB', icon: Ship, color: 'text-brand-teal', bg: 'bg-brand-teal/8' },
+    { name: 'Active Sailings', value: overview?.activeSailings || '0', change: 'Live from DB', icon: CalendarRange, color: 'text-warning', bg: 'bg-warning/8' },
   ];
 
   if (loading) {
     return (
-      <div className="space-y-8 animate-fade-in">
+      <div className="space-y-8 zc-reveal">
         {/* Welcome Banner Skeleton */}
-        <div className="glass-panel flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl h-auto md:h-[104px]">
+        <div className="zc-card flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 h-auto md:h-[104px]">
           <div className="space-y-3 w-full max-w-md">
             <div className="h-6 bg-slate-200 animate-pulse rounded-md w-3/4"></div>
             <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
@@ -95,7 +95,7 @@ export default function DashboardHome() {
         {/* KPI Cards Grid Skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="glass-card p-6 rounded-2xl h-[140px] flex flex-col justify-between">
+            <div key={i} className="zc-card p-6 h-[140px] flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
                 <div className="w-10 h-10 bg-slate-200 animate-pulse rounded-xl"></div>
@@ -111,8 +111,8 @@ export default function DashboardHome() {
         {/* Bottom Grid Skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Health Panel Skeleton */}
-          <div className="lg:col-span-2 glass-panel rounded-2xl border border-border p-6 space-y-6 h-auto sm:h-[300px]">
-            <div className="flex justify-between items-center pb-4 border-b border-border/50">
+          <div className="lg:col-span-2 zc-card p-6 space-y-6 h-auto sm:h-[300px]">
+            <div className="flex justify-between items-center pb-4 border-b border-slate-100">
               <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/3"></div>
               <div className="h-4 bg-slate-200 animate-pulse rounded-md w-24"></div>
             </div>
@@ -123,8 +123,8 @@ export default function DashboardHome() {
           </div>
 
           {/* Logs Panel Skeleton */}
-          <div className="glass-panel rounded-2xl border border-border p-6 space-y-6 flex flex-col h-auto sm:h-[300px]">
-             <div className="flex justify-between items-center pb-4 border-b border-border/50">
+          <div className="zc-card p-6 space-y-6 flex flex-col h-auto sm:h-[300px]">
+             <div className="flex justify-between items-center pb-4 border-b border-slate-100">
               <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
               <div className="h-4 bg-slate-200 animate-pulse rounded-md w-20"></div>
             </div>
@@ -140,26 +140,21 @@ export default function DashboardHome() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 zc-reveal">
       {/* Welcome Banner */}
-      <div className="glass-panel flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="zc-card flex flex-col md:flex-row md:items-center justify-between gap-4 p-6">
+        <div>
+          <h1 className="zc-page-title">
             Welcome back, {user?.name}
           </h1>
-          <p className="text-sm text-gray-600">
+          <p className="zc-page-subtitle">
             Here is what is happening across the ZapCruise platform today.
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0 z-10">
-          <span className="text-xs text-muted-foreground">System Status:</span>
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${
-            health?.status === 'healthy' 
-              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-              : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-          }`}>
-            <span className={`w-2 h-2 rounded-full ${health?.status === 'healthy' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500 animate-pulse'}`} />
-            {health?.status === 'healthy' ? 'ALL SYSTEMS OPERATIONAL' : 'DEGRADED PERFORMANCE'}
+          <span className="text-xs text-slate-400">System Status</span>
+          <span className={health?.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-warning'}>
+            {health?.status === 'healthy' ? 'All systems operational' : 'Degraded performance'}
           </span>
         </div>
       </div>
@@ -169,17 +164,17 @@ export default function DashboardHome() {
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
-            <div key={idx} className="glass-card p-6 rounded-2xl relative overflow-hidden group">
+            <div key={idx} className="zc-card zc-card-hover p-6 relative overflow-hidden group">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">{stat.name}</span>
-                <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} transition-all duration-300 group-hover:scale-110`}>
-                  <Icon className="w-5 h-5" />
+                <span className="zc-stat-label uppercase tracking-wider text-xs">{stat.name}</span>
+                <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color} transition-all duration-300 ease-out group-hover:scale-105`}>
+                  <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
                 </div>
               </div>
               <div className="mt-4 space-y-1">
-                <h3 className="text-2xl font-bold text-white tracking-tight">{stat.value}</h3>
-                <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-blue-400" />
+                <h3 className="text-3xl font-bold text-slate-900 tracking-tight tabular-nums">{stat.value}</h3>
+                <p className="text-xs text-slate-400 flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-brand-blue" />
                   {stat.change}
                 </p>
               </div>
@@ -189,75 +184,67 @@ export default function DashboardHome() {
       </div>
 
       {/* System Health Strip & Active Workers */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
         {/* Services Status & Health Panel */}
-        <div className="lg:col-span-2 glass-panel rounded-2xl border border-border p-6 space-y-6">
-          <div className="flex items-center justify-between border-b border-border/50 pb-4">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <Activity className="w-5 h-5 text-blue-400" />
-              Core Infrastructure Health
+        <div className="lg:col-span-2 zc-card p-6 space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h2 className="zc-section-title flex items-center gap-2">
+              <Activity className="w-[18px] h-[18px] text-brand-blue" />
+              Core infrastructure health
             </h2>
-            <button 
+            <button
               onClick={() => router.push('/system')}
-              className="text-xs text-orange-500 hover:text-orange-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+              className="text-xs text-brand-blue hover:text-brand-navy flex items-center gap-1.5 transition-colors duration-150 font-medium cursor-pointer"
             >
-              Detailed View
+              Detailed view
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Database Card */}
-            <div className="p-4 rounded-xl border border-border bg-muted/10 space-y-3">
+            <div className="p-4 rounded-xl border border-slate-200/70 bg-slate-50/60 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">PostgreSQL DB</span>
-                <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                  health?.services.database.status === 'healthy' 
-                    ? 'bg-emerald-500/10 text-emerald-400' 
-                    : 'bg-red-500/10 text-red-400'
-                }`}>
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">PostgreSQL DB</span>
+                <span className={health?.services.database.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-danger'}>
                   {health?.services.database.status.toUpperCase() || 'UNKNOWN'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-white">
-                <Globe className="w-5 h-5 text-muted-foreground" />
-                <span className="text-lg font-bold">{health?.services.database.latencyMs || 0} ms</span>
-                <span className="text-xs text-muted-foreground">query latency</span>
+              <div className="flex items-center gap-2 text-slate-900">
+                <Globe className="w-[18px] h-[18px] text-slate-400" />
+                <span className="text-lg font-bold tabular-nums">{health?.services.database.latencyMs || 0} ms</span>
+                <span className="text-xs text-slate-400">query latency</span>
               </div>
             </div>
 
             {/* Redis Cache Card */}
-            <div className="p-4 rounded-xl border border-border bg-muted/10 space-y-3">
+            <div className="p-4 rounded-xl border border-slate-200/70 bg-slate-50/60 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Redis Cache</span>
-                <span className={`px-2 py-0.5 rounded text-xs font-semibold ${
-                  health?.services.redis.status === 'healthy' 
-                    ? 'bg-emerald-500/10 text-emerald-400' 
-                    : 'bg-red-500/10 text-red-400'
-                }`}>
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Redis Cache</span>
+                <span className={health?.services.redis.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-danger'}>
                   {health?.services.redis.status.toUpperCase() || 'UNKNOWN'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-white">
-                <Zap className="w-5 h-5 text-muted-foreground" />
-                <span className="text-lg font-bold">{health?.services.redis.totalKeys || 0}</span>
-                <span className="text-xs text-muted-foreground">cached keys</span>
+              <div className="flex items-center gap-2 text-slate-900">
+                <Zap className="w-[18px] h-[18px] text-slate-400" />
+                <span className="text-lg font-bold tabular-nums">{health?.services.redis.totalKeys || 0}</span>
+                <span className="text-xs text-slate-400">cached keys</span>
               </div>
             </div>
           </div>
 
           {/* PM2 processes miniature status */}
           <div className="space-y-3">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              PM2 Scraper Workers & Evaluators ({health?.services.pm2.workers.length || 0})
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+              PM2 scraper workers & evaluators ({health?.services.pm2.workers.length || 0})
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {health?.services.pm2.workers.slice(0, 4).map((worker, idx) => (
-                <div key={idx} className="p-3 rounded-xl border border-border bg-muted/5 flex items-center justify-between">
-                  <span className="text-xs font-medium text-white truncate max-w-[100px]">{worker.name}</span>
-                  <span className={`w-2 h-2 rounded-full ${
-                    worker.status === 'online' ? 'bg-emerald-500' : 'bg-red-500'
+                <div key={idx} className="p-3 rounded-xl border border-slate-200/70 bg-slate-50/40 flex items-center justify-between">
+                  <span className="text-xs font-medium text-slate-700 truncate max-w-[100px]">{worker.name}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    worker.status === 'online' ? 'bg-success' : 'bg-danger'
                   }`} />
                 </div>
               ))}
@@ -266,40 +253,40 @@ export default function DashboardHome() {
         </div>
 
         {/* Recent Audit Logs Panel */}
-        <div className="glass-panel rounded-2xl border border-border p-6 space-y-6 flex flex-col">
-          <div className="flex items-center justify-between border-b border-border/50 pb-4">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <Clock className="w-5 h-5 text-blue-400" />
-              Recent Operations
+        <div className="zc-card p-6 space-y-6 flex flex-col">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h2 className="zc-section-title flex items-center gap-2">
+              <Clock className="w-[18px] h-[18px] text-brand-blue" />
+              Recent operations
             </h2>
-            <button 
+            <button
               onClick={() => router.push('/security')}
-              className="text-xs text-orange-500 hover:text-orange-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+              className="text-xs text-brand-blue hover:text-brand-navy flex items-center gap-1.5 transition-colors duration-150 font-medium cursor-pointer"
             >
-              All Logs
+              All logs
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Logs Feed */}
-          <div className="flex-1 overflow-y-auto space-y-4">
+          <div className="flex-1 overflow-y-auto space-y-3">
             {auditLogs.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-center py-8">
-                <ShieldCheck className="w-10 h-10 text-muted-foreground/35 mb-2" />
+              <div className="h-full flex flex-col items-center justify-center text-slate-400 text-center py-8">
+                <ShieldCheck className="w-10 h-10 text-slate-200 mb-2" />
                 <span className="text-xs">No recent administrative logs</span>
               </div>
             ) : (
               auditLogs.map((log) => (
-                <div key={log.id} className="p-3.5 rounded-xl border border-border bg-muted/5 space-y-1.5 text-xs">
+                <div key={log.id} className="p-3.5 rounded-xl border border-slate-200/70 bg-slate-50/40 space-y-1.5 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-blue-400">{log.action}</span>
-                    <span className="text-muted-foreground font-mono">
+                    <span className="zc-badge-info">{log.action}</span>
+                    <span className="text-slate-400 font-mono">
                       {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-muted-foreground">
+                  <div className="flex items-center justify-between text-slate-400">
                     <span>{log.adminEmail}</span>
-                    <span className="px-1.5 py-0.5 rounded bg-muted text-[10px] uppercase font-bold tracking-wider">
+                    <span className="px-1.5 py-0.5 rounded bg-slate-100 text-[10px] uppercase font-bold tracking-wider text-slate-500">
                       {log.resource}
                     </span>
                   </div>

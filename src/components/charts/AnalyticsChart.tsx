@@ -22,9 +22,9 @@ export default function AnalyticsChart({
   xKey,
   yKey,
   title,
-  legends = [{ label: 'Average', color: 'rgb(59, 130, 246)' }],
+  legends = [{ label: 'Average', color: 'rgb(37, 99, 235)' }],
   height = 220,
-  color = '#3b82f6',
+  color = '#2563EB',
   gridLines = 3,
 }: AnalyticsChartProps) {
   const chartWidth = 517;
@@ -129,8 +129,8 @@ export default function AnalyticsChart({
       {!data || data.length === 0 ? (
         <div className="w-full flex items-center justify-center" style={{ height: `${height}px` }}>
           <div className="text-center">
-            <p className="text-sm text-gray-500 font-medium">No data available</p>
-            <p className="text-xs text-gray-400">Check back soon for data</p>
+            <p className="text-sm text-slate-500 font-medium">No data available</p>
+            <p className="text-xs text-slate-400">Check back soon for data</p>
           </div>
         </div>
       ) : (
@@ -239,7 +239,7 @@ export default function AnalyticsChart({
               className="w-2 h-2 rounded-full"
               style={{ backgroundColor: leg.color }}
             />
-            <span className="text-gray-600">{leg.label}</span>
+            <span className="text-slate-600">{leg.label}</span>
           </div>
         ))}
       </div>
