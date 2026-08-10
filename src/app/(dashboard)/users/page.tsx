@@ -47,7 +47,6 @@ export default function UsersListPage() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
-  const [roleFilter, setRoleFilter] = useState('');
   
   const fetchUsers = useCallback(async (page = 1) => {
     try {
@@ -59,7 +58,6 @@ export default function UsersListPage() {
       params.append('limit', '10');
       
       if (searchQuery) params.append('search', searchQuery);
-      if (roleFilter) params.append('role', roleFilter);
 
       const response = await api.get(`/admin/users?${params.toString()}`);
       setUsers(response.data.data.users);
@@ -69,7 +67,7 @@ export default function UsersListPage() {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, roleFilter]);
+  }, [searchQuery]);
 
   useEffect(() => {
     fetchUsers(1);
@@ -82,7 +80,6 @@ export default function UsersListPage() {
 
   const handleClearFilters = () => {
     setSearchQuery('');
-    setRoleFilter('');
   };
 
   return (
@@ -138,7 +135,7 @@ export default function UsersListPage() {
             >
               Search
             </button>
-            {(searchQuery || roleFilter) && (
+            {searchQuery && (
               <button
                 type="button"
                 onClick={handleClearFilters}
