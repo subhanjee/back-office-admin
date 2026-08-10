@@ -22,9 +22,9 @@ export default function AnalyticsChart({
   xKey,
   yKey,
   title,
-  legends = [{ label: 'Average', color: 'rgb(59, 130, 246)' }],
+  legends = [{ label: 'Average', color: 'rgb(37, 99, 235)' }],
   height = 220,
-  color = '#3b82f6',
+  color = '#2563EB',
   gridLines = 3,
 }: AnalyticsChartProps) {
   const chartWidth = 517;
@@ -125,12 +125,12 @@ export default function AnalyticsChart({
   }, [scaledPoints]);
 
   return (
-    <div className="w-full rounded-2xl bg-white p-3 zc-pop">
+    <div className="w-full rounded-2xl bg-card p-3 zc-pop">
       {!data || data.length === 0 ? (
         <div className="w-full flex items-center justify-center" style={{ height: `${height}px` }}>
           <div className="text-center">
-            <p className="text-sm text-gray-500 font-medium">No data available</p>
-            <p className="text-xs text-gray-400">Check back soon for data</p>
+            <p className="text-sm text-muted-foreground font-medium">No data available</p>
+            <p className="text-xs text-muted-foreground/70">Check back soon for data</p>
           </div>
         </div>
       ) : (
@@ -142,7 +142,7 @@ export default function AnalyticsChart({
           y1={margins.top + innerHeight}
           x2={chartWidth - margins.right}
           y2={margins.top + innerHeight}
-          stroke="#9ca3af"
+          stroke="var(--chart-axis)"
           strokeWidth="1"
         />
 
@@ -152,7 +152,7 @@ export default function AnalyticsChart({
           y1={margins.top}
           x2={margins.left}
           y2={margins.top + innerHeight}
-          stroke="#9ca3af"
+          stroke="var(--chart-axis)"
           strokeWidth="1"
         />
 
@@ -165,7 +165,7 @@ export default function AnalyticsChart({
                 y1={label.y}
                 x2={chartWidth - margins.right}
                 y2={label.y}
-                stroke="#e5e7eb"
+                stroke="var(--chart-grid)"
                 strokeDasharray="3 3"
                 strokeWidth="1"
               />
@@ -175,7 +175,7 @@ export default function AnalyticsChart({
               y={label.y}
               textAnchor="end"
               fontSize="10"
-              fill="#6b7280"
+              fill="var(--chart-text)"
               dy="0.3em"
             >
               {label.label}
@@ -191,7 +191,7 @@ export default function AnalyticsChart({
               y1={margins.top + innerHeight}
               x2={label.x}
               y2={margins.top + innerHeight + 4}
-              stroke="#9ca3af"
+              stroke="var(--chart-axis)"
               strokeWidth="1"
             />
             <text
@@ -199,7 +199,7 @@ export default function AnalyticsChart({
               y={margins.top + innerHeight + 14}
               textAnchor="middle"
               fontSize="10"
-              fill="#6b7280"
+              fill="var(--chart-text)"
             >
               {label.label}
             </text>
@@ -224,7 +224,7 @@ export default function AnalyticsChart({
             cy={point.y}
             r="4"
             fill={color}
-            stroke="white"
+            stroke="var(--chart-point-stroke)"
             strokeWidth="1"
             className="zc-point-pop"
           />
@@ -239,7 +239,7 @@ export default function AnalyticsChart({
               className="w-2 h-2 rounded-full"
               style={{ backgroundColor: leg.color }}
             />
-            <span className="text-gray-600">{leg.label}</span>
+            <span className="text-muted-foreground">{leg.label}</span>
           </div>
         ))}
       </div>

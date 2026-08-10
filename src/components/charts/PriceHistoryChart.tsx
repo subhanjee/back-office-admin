@@ -96,16 +96,16 @@ export default function PriceHistoryChart({
   const paths = series.map((serie) => {
     const points = serie.data.map((p, i) => ({ x: xScale(i), y: yScale(p.price as number) }));
     const d = points.map((pt, i) => `${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`).join(' ');
-    return { d, color: serie.color || '#8B5CF6' };
+    return { d, color: serie.color || '#6366F1' };
   });
 
   const pointGroups = series.flatMap((serie) => serie.data.map((p, i) => ({ i, price: p.price, otaName: serie.otaName, color: serie.color })));
 
   return (
-    <div ref={containerRef} className="w-full rounded-2xl bg-white p-3 zc-pop">
+    <div ref={containerRef} className="w-full rounded-2xl bg-card p-3 zc-pop">
       <svg width={chartWidth} height={height} className="block" key={animationKey}>
-        <line x1={PADDING.left} y1={height - PADDING.bottom} x2={chartWidth - PADDING.right} y2={height - PADDING.bottom} stroke="#9ca3af" strokeWidth={1} />
-        <line x1={PADDING.left} y1={PADDING.top} x2={PADDING.left} y2={height - PADDING.bottom} stroke="#9ca3af" strokeWidth={1} />
+        <line x1={PADDING.left} y1={height - PADDING.bottom} x2={chartWidth - PADDING.right} y2={height - PADDING.bottom} stroke="var(--chart-axis)" strokeWidth={1} />
+        <line x1={PADDING.left} y1={PADDING.top} x2={PADDING.left} y2={height - PADDING.bottom} stroke="var(--chart-axis)" strokeWidth={1} />
 
         {[0, 0.5, 1].map((t) => {
           const price = minPrice + t * (maxPrice - minPrice);
@@ -114,18 +114,18 @@ export default function PriceHistoryChart({
           return (
             <g key={String(t)}>
               {t !== 0 && t !== 1 && (
-                <line x1={PADDING.left} y1={y} x2={chartWidth - PADDING.right} y2={y} stroke="#e5e7eb" strokeDasharray="3 3" strokeWidth={1} />
+                <line x1={PADDING.left} y1={y} x2={chartWidth - PADDING.right} y2={y} stroke="var(--chart-grid)" strokeDasharray="3 3" strokeWidth={1} />
               )}
-              <text x={PADDING.left - 8} y={y} textAnchor="end" fontSize={10} fill="#6b7280">{formatPrice(converted)}</text>
+              <text x={PADDING.left - 8} y={y} textAnchor="end" fontSize={10} fill="var(--chart-text)">{formatPrice(converted)}</text>
             </g>
           );
         })}
 
         {dates.map((date, i) => (
           <g key={`${date}-${i}`}>
-            <line x1={xScale(i)} y1={height - PADDING.bottom} x2={xScale(i)} y2={height - PADDING.bottom + 4} stroke="#9ca3af" strokeWidth={1} />
+            <line x1={xScale(i)} y1={height - PADDING.bottom} x2={xScale(i)} y2={height - PADDING.bottom + 4} stroke="var(--chart-axis)" strokeWidth={1} />
             {xLabelIndexSet.has(i) ? (
-              <text x={xScale(i)} y={height - PADDING.bottom + 14} textAnchor="middle" fontSize={10} fill="#6b7280">{formatChartAxisDate(date)}</text>
+              <text x={xScale(i)} y={height - PADDING.bottom + 14} textAnchor="middle" fontSize={10} fill="var(--chart-text)">{formatChartAxisDate(date)}</text>
             ) : null}
           </g>
         ))}
@@ -137,20 +137,20 @@ export default function PriceHistoryChart({
         ))}
 
         {series.map((serie, sIdx) => serie.data.map((point, i) => (
-          <circle key={`${sIdx}-${i}`} cx={xScale(i)} cy={yScale(point.price as number)} r={4} fill={serie.color || '#8B5CF6'} stroke="white" strokeWidth={1} className="zc-point-pop" />
+          <circle key={`${sIdx}-${i}`} cx={xScale(i)} cy={yScale(point.price as number)} r={4} fill={serie.color || '#6366F1'} stroke="var(--chart-point-stroke)" strokeWidth={1} className="zc-point-pop" />
         )))}
       </svg>
 
       <div className="flex flex-wrap justify-between gap-2 mt-2 text-[10px]">
         {series.map((s, i) => (
           <div key={i} className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color || '#8B5CF6' }} />
-            <span className="text-gray-600">{s.otaName || `Series ${i + 1}`}</span>
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color || '#6366F1' }} />
+            <span className="text-muted-foreground">{s.otaName || `Series ${i + 1}`}</span>
           </div>
         ))}
         <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-gray-900" />
-          <span className="text-gray-600">Multiple</span>
+          <div className="w-2 h-2 rounded-full bg-muted-foreground" />
+          <span className="text-muted-foreground">Multiple</span>
         </div>
       </div>
     </div>

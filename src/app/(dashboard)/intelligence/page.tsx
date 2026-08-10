@@ -51,42 +51,42 @@ export default function IntelligencePage() {
   if (loading) return <LoadingSpinner message="Loading cruise intelligence..." />;
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 zc-reveal">
       {error ? (
-        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-400 text-red-100">
+        <div className="p-4 rounded-2xl bg-danger-light border border-danger/30 text-danger">
           <strong className="block font-semibold">Intelligence load error:</strong>
           <p className="text-sm mt-1">{error}</p>
         </div>
       ) : null}
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <MapPin className="w-6 h-6 text-purple-400" />
+        <h1 className="zc-page-title flex items-center gap-2">
+          <MapPin className="w-6 h-6 text-brand-teal" />
           Cruise Intelligence
         </h1>
-        <p className="text-sm text-white mt-1">Popularity and performance reports (30-day window)</p>
+        <p className="zc-page-subtitle">Popularity and performance reports (30-day window)</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+        <div className="zc-card p-6">
+          <h2 className="zc-section-title mb-4 flex items-center gap-2">
             <Ship className="w-5 h-5" /> Top cruises by clicks
           </h2>
           <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="space-y-2 text-sm scrollbar-hide">
             <ol>
               {cruises.map((row, i) => (
                 <li key={row.cruiseId} className="flex justify-between p-2 rounded-lg bg-muted/10">
-                  <span className="text-white truncate max-w-[240px]">
+                  <span className="text-foreground truncate max-w-[240px]">
                     {i + 1}. {row.cruise?.title || `Cruise #${row.cruiseId}`}
                   </span>
-                  <span className="text-blue-400">{row.clicks}</span>
+                  <span className="text-brand-blue">{row.clicks}</span>
                 </li>
               ))}
             </ol>
           </div>
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+        <div className="zc-card p-6">
+          <h2 className="zc-section-title mb-4 flex items-center gap-2">
             <Route className="w-5 h-5" /> Top routes (portList)
           </h2>
           <div className="max-h-[55vh] overflow-y-auto pr-12  scrollbar-hide">
@@ -101,7 +101,7 @@ export default function IntelligencePage() {
                 {routes.map((row, i) => (
                   <tr key={i} className="border-t border-border/50 bg-muted/10">
                     <td className="py-2 align-top">
-                      <div className="text-xs text-white pr-4 break-words whitespace-normal overflow-x-hidden">
+                      <div className="text-xs text-foreground pr-4 break-words whitespace-normal overflow-x-hidden">
                         {row.route}
                       </div>
                     </td>
@@ -114,8 +114,8 @@ export default function IntelligencePage() {
         </div>
       </div>
 
-      <div className="glass-panel p-6 rounded-2xl border border-border">
-        <h2 className="font-semibold text-white mb-4">Cruise line performance</h2>
+      <div className="zc-card p-6">
+        <h2 className="zc-section-title mb-4">Cruise line performance</h2>
         <div style={{ maxHeight: '55vh', overflowY: 'auto' }} className="pr-4 scrollbar-hide">
           <table className="w-full text-sm">
             <thead className="text-muted-foreground">
@@ -127,8 +127,8 @@ export default function IntelligencePage() {
             <tbody>
               {lines.map((l: any) => (
                 <tr key={l.cruiseLineId} className="border-t border-border/50">
-                  <td className="py-2 text-white">{l.name}</td>
-                  <td className="py-2 text-right text-blue-400 pr-6">{l.clicks}</td>
+                  <td className="py-2 text-foreground">{l.name}</td>
+                  <td className="py-2 text-right text-brand-blue pr-6">{l.clicks}</td>
                 </tr>
               ))}
             </tbody>

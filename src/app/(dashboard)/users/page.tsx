@@ -83,45 +83,55 @@ export default function UsersListPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-10">
+    <div className="space-y-6 zc-reveal pb-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <UsersIcon className="w-6 h-6 text-orange-500" />
+          <h1 className="zc-page-title flex items-center gap-2">
+            <UsersIcon className="w-6 h-6 text-brand-blue" />
             Users Management
           </h1>
-          <p className="text-sm text-white mt-1">
+          <p className="zc-page-subtitle">
             View and manage customer accounts
           </p>
         </div>
         <button
           onClick={() => fetchUsers(pagination.page)}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white cursor-pointer border border-orange-500/20 rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+          className="zc-btn-outline"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-white cursor-not-allowed' : 'text-white cursor-pointer'}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
 
       {/* Filters */}
-      <div className="glass-panel p-4 rounded-xl space-y-4">
-        <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="zc-card p-4 space-y-4">
+        <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative md:col-span-2">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search by name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full  border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+              className="zc-input pl-9"
             />
           </div>
+
+          <select
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="zc-select"
+          >
+            <option value="">All Roles</option>
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+          </select>
 
           <div className="flex gap-2">
             <button
               type="submit"
-              className="flex-1 bg-orange-500 hover:bg-orange-600 cursor-pointer text-white rounded-lg font-medium text-sm transition-colors"
+              className="zc-btn-primary flex-1"
             >
               Search
             </button>
@@ -129,7 +139,7 @@ export default function UsersListPage() {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="px-4 bg-muted hover:bg-muted/80 text-white rounded-lg font-medium text-sm transition-colors"
+                className="zc-btn-ghost px-4"
               >
                 Clear
               </button>
@@ -139,25 +149,25 @@ export default function UsersListPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-sm text-red-400">
+        <div className="p-4 bg-danger-light border border-danger/30 rounded-xl text-sm text-danger">
           {error}
         </div>
       )}
 
       {/* Users Table */}
-      <div className="glass-panel rounded-xl overflow-hidden border border-border">
+      <div className="zc-table-shell">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/5 border-b border-border/50">
+            <thead>
               <tr>
-                <th className="px-6 py-4 font-semibold">User</th>
-                <th className="px-6 py-4 font-semibold">Status / Role</th>
-                <th className="px-6 py-4 font-semibold">Activity</th>
-                <th className="px-6 py-4 font-semibold">Plan</th>
-                <th className="px-6 py-4 font-semibold text-right">Actions</th>
+                <th className="zc-table-head-cell">User</th>
+                <th className="zc-table-head-cell">Status / Role</th>
+                <th className="zc-table-head-cell">Activity</th>
+                <th className="zc-table-head-cell">Plan</th>
+                <th className="zc-table-head-cell text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/50">
+            <tbody>
               {loading ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground">
@@ -172,14 +182,14 @@ export default function UsersListPage() {
                 </tr>
               ) : (
                 users.map((user) => (
-                  <tr key={user.id} className="hover:bg-muted/5 transition-colors group cursor-pointer" onClick={() => router.push(`/users/${user.id}`)}>
-                    <td className="px-6 py-4">
+                  <tr key={user.id} className="zc-table-row group cursor-pointer" onClick={() => router.push(`/users/${user.id}`)}>
+                    <td className="zc-table-cell">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600/20 to-purple-600/20 text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 font-bold">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-blue/20 to-brand-teal/20 text-brand-blue border border-brand-blue/20 flex items-center justify-center shrink-0 font-bold">
                           {user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <div className="font-semibold text-white group-hover:text-blue-400 transition-colors">
+                          <div className="font-semibold text-foreground group-hover:text-brand-blue transition-colors">
                             {user.name}
                           </div>
                           <div className="text-xs text-muted-foreground">{user.email}</div>
@@ -187,38 +197,36 @@ export default function UsersListPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="zc-table-cell whitespace-nowrap">
                       <div className="flex flex-col gap-2 items-start">
                         {user.isSuspended ? (
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider bg-red-500/10 text-red-400 border border-red-500/20 inline-flex items-center gap-1">
+                          <span className="zc-badge-danger">
                             <ShieldAlert className="w-3 h-3" />
                             SUSPENDED
                           </span>
                         ) : (
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="zc-badge-success">
                             ACTIVE
                           </span>
                         )}
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
-                          user.role === 'ADMIN' ? 'bg-purple-500/10 text-purple-400' : 'bg-muted text-muted-foreground'
-                        }`}>
+                        <span className={user.role === 'ADMIN' ? 'zc-badge-info' : 'zc-badge-neutral'}>
                           {user.role}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="zc-table-cell whitespace-nowrap">
                       <div className="space-y-1">
-                        <div className="text-xs text-white">
-                          <span className="font-semibold text-blue-400">{user._count.trackedSailings}</span> Tracks
+                        <div className="text-xs text-foreground">
+                          <span className="font-semibold text-brand-blue">{user._count.trackedSailings}</span> Tracks
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          <span className="font-semibold text-white">{user._count.affiliateClicks}</span> Clicks
+                          <span className="font-semibold text-foreground">{user._count.affiliateClicks}</span> Clicks
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="zc-table-cell whitespace-nowrap">
                       <div className="space-y-1">
-                        <div className="text-xs text-white">
+                        <div className="text-xs text-foreground">
                           Quota: <span className="font-semibold">{user.max_tracked_cruises}</span>
                         </div>
                         {user.plan_expiry_date && (
@@ -229,13 +237,13 @@ export default function UsersListPage() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <button 
+                    <td className="zc-table-cell whitespace-nowrap text-right">
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           router.push(`/users/${user.id}`);
                         }}
-                        className="p-2 cursor-pointer bg-orange-500/20 rounded-lg text-orange-400 transition-colors inline-flex border border-transparent hover:border-orange-500/30"
+                        className="p-2 cursor-pointer bg-brand-blue/10 rounded-lg text-brand-blue transition-colors inline-flex border border-transparent hover:border-brand-blue/30"
                         title="View Details"
                       >
                         <Eye className="w-4 h-4" />
@@ -247,28 +255,28 @@ export default function UsersListPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination */}
         {!loading && users.length > 0 && (
           <div className="px-6 py-4 border-t border-border/50 flex items-center justify-between bg-muted/5">
             <span className="text-sm text-muted-foreground">
-              Showing <span className="font-medium text-white">{users.length}</span> of <span className="font-medium text-white">{pagination.total}</span> users
+              Showing <span className="font-medium text-foreground">{users.length}</span> of <span className="font-medium text-foreground">{pagination.total}</span> users
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => fetchUsers(pagination.page - 1)}
                 disabled={pagination.page === 1}
-                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="zc-btn-secondary p-2"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm font-medium text-white px-4">
+              <span className="text-sm font-medium text-foreground px-4">
                 Page {pagination.page} of {pagination.totalPages}
               </span>
               <button
                 onClick={() => fetchUsers(pagination.page + 1)}
                 disabled={pagination.page === pagination.totalPages}
-                className="p-2 rounded-lg border border-border bg-background text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="zc-btn-secondary p-2"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

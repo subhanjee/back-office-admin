@@ -1,25 +1,104 @@
 @import "tailwindcss";
 
+/* Class-based dark mode: `dark:` utilities respond to a `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #020617;
-  --foreground: #111827;
+  /* ZapCruise brand tokens: Navy #0F172A, Ocean Blue #2563EB, Teal #0EA5A4, Background #F8FAFC, Border #E2E8F0 */
+  --background: #F8FAFC;
+  --foreground: #0F172A;
   --card: #ffffff;
-  --card-foreground: #111827;
+  --card-foreground: #0F172A;
   --popover: #ffffff;
-  --popover-foreground: #111827;
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #111827;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --accent: #ff6600;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
+  --popover-foreground: #0F172A;
+  --primary: #0F172A;
+  --primary-foreground: #F8FAFC;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #F1F5F9;
+  --accent-foreground: #0F172A;
+  --destructive: #DC2626;
   --destructive-foreground: #ffffff;
-  --border: #e5e7eb;
-  --input: #f9fafb;
-  --ring: #2563eb;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2563EB;
+  --radius: 0.75rem;
+
+  --brand-navy: #0F172A;
+  --brand-blue: #2563EB;
+  --brand-aqua: #5EEAD4;
+  --brand-teal: #0EA5A4;
+  --brand-bg: #F8FAFC;
+
+  --success: #16A34A;
+  --success-hover: #15803D;
+  --success-light: #F0FDF4;
+  --warning: #F59E0B;
+  --warning-hover: #D97706;
+  --warning-light: #FFFBEB;
+  --danger: #DC2626;
+  --danger-hover: #B91C1C;
+  --danger-light: #FEF2F2;
+
+  /* Chart surface tokens (SVG axis/grid/text) — theme-aware */
+  --chart-axis: #9ca3af;
+  --chart-grid: #e5e7eb;
+  --chart-text: #6b7280;
+  --chart-point-stroke: #ffffff;
+
+  /* Decorative page-shell gradient stops */
+  --shell-from: #F8FAFC;
+  --shell-via: #ffffff;
+  --shell-to: #F1F5F9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+
+  color-scheme: light;
+}
+
+/* ---- Dark theme: an intentional navy palette, not an inversion ---- */
+.dark {
+  --background: #0B1220;
+  --foreground: #E6EBF4;
+  --card: #111B2E;
+  --card-foreground: #E6EBF4;
+  --popover: #131E33;
+  --popover-foreground: #E6EBF4;
+  --primary: #E6EBF4;
+  --primary-foreground: #0B1220;
+  --secondary: #1B2740;
+  --secondary-foreground: #E6EBF4;
+  --muted: #182236;
+  --muted-foreground: #94A3B8;
+  --accent: #1B2740;
+  --accent-foreground: #E6EBF4;
+  --destructive: #EF4444;
+  --destructive-foreground: #ffffff;
+  --border: #253248;
+  --input: #253248;
+  --ring: #3B82F6;
+
+  --brand-bg: #0B1220;
+
+  /* Softer, translucent status tints so alert/badge fills read on dark */
+  --success-light: rgba(22, 163, 74, 0.14);
+  --warning-light: rgba(245, 158, 11, 0.14);
+  --danger-light: rgba(220, 38, 38, 0.16);
+
+  --chart-axis: #475569;
+  --chart-grid: #1E293B;
+  --chart-text: #94A3B8;
+  --chart-point-stroke: #111B2E;
+
+  --shell-from: #0B1220;
+  --shell-via: #0D1526;
+  --shell-to: #0B1220;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -43,14 +122,45 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-sans: var(--font-geist-sans), Inter, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-aqua: var(--brand-aqua);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-bg: var(--brand-bg);
+
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-light: var(--success-light);
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-light: var(--warning-light);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-light: var(--danger-light);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-soft: 0 1px 2px 0 rgba(15, 23, 42, 0.02), 0 1px 1px 0 rgba(15, 23, 42, 0.03);
+  --shadow-premium: 0 8px 24px -8px rgba(15, 23, 42, 0.16);
+  --shadow-premium-lg: 0 24px 60px -14px rgba(15, 23, 42, 0.24);
+
+  --font-sans: var(--font-inter), sans-serif;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Custom scrollbar */
@@ -62,11 +172,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--scrollbar-thumb-hover);
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scrollbar-hide::-webkit-scrollbar {
@@ -78,81 +188,23 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-/* Solid white surfaces over hero background — readable text/images inside */
+
+/* Solid nav surface (sidebar/header) — theme-aware via tokens */
 .zc-nav-surface {
-  background: #ffffff;
-  backdrop-filter: blur(12px);
-  border-color: #e5e7eb;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  color: #111827;
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  color: var(--foreground);
 }
 
-.glass-panel {
-  background: #ffffff;
-  backdrop-filter: blur(12px);
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  color: #111827;
-}
-
-.glass-card {
-  background: #ffffff;
-  backdrop-filter: blur(8px);
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  color: #111827;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card:hover {
-  transform: translateY(-2px);
-  background: #ffffff;
-  border-color: #bfdbfe;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* Dark readable text inside white surfaces over hero background */
-.glass-panel .text-white:not(button):not(a),
-.glass-card .text-white:not(button):not(a),
-.zc-nav-surface .text-white:not(button):not(a) {
-  color: #111827;
-}
-
-/* Keep the Affiliate report link text white inside glass surfaces */
-.glass-panel a[href="/analytics/affiliate"].text-white,
-.glass-card a[href="/analytics/affiliate"].text-white,
-.zc-nav-surface a[href="/analytics/affiliate"].text-white {
-  color: #ffffff !important;
-}
-
-.glass-panel .text-blue-400,
-.glass-card .text-blue-400 {
-  color: #2563eb;
-}
-
-.glass-panel .text-blue-300,
-.glass-card .text-blue-300,
-.glass-panel .hover\:text-blue-300:hover,
-.glass-card .hover\:text-blue-300:hover {
-  color: #1d4ed8;
-}
-
-/* Glow ring effects */
-.glow-effect {
-  position: relative;
-}
-.glow-effect::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: 0 0 15px rgba(0, 153, 255, 0.2);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-.glow-effect:hover::after {
-  opacity: 1;
+/* Decorative page-shell background (dashboard) */
+.zc-app-shell {
+  background-image: linear-gradient(
+    to bottom,
+    var(--shell-from),
+    var(--shell-via),
+    var(--shell-to)
+  );
 }
 
 /* Logo-specific size: use `zc-logo` to enlarge the logo without affecting `.h-10` buttons */
@@ -172,3 +224,243 @@ button polygon {
   stroke: currentColor !important;
 }
 
+/* ---- ZapCruise component classes (ported from zap-cruise-client) ---- */
+@layer components {
+  .zc-card {
+    @apply bg-card rounded-2xl border border-border shadow-soft transition-shadow duration-200;
+  }
+
+  .zc-card-hover {
+    @apply hover:shadow-premium hover:-translate-y-0.5 transition-all duration-200 ease-out transform-gpu;
+  }
+
+  .zc-btn,
+  .zc-btn-primary,
+  .zc-btn-secondary,
+  .zc-btn-outline,
+  .zc-btn-ghost,
+  .zc-btn-success,
+  .zc-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 ease-out transform-gpu disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40 focus-visible:ring-offset-2;
+  }
+
+  .zc-btn-primary {
+    @apply bg-brand-navy text-white shadow-soft hover:bg-slate-800 hover:-translate-y-0.5 hover:shadow-premium active:translate-y-0 active:scale-[0.99] dark:bg-brand-blue dark:hover:bg-blue-500;
+  }
+
+  .zc-btn-secondary {
+    @apply bg-card text-foreground border border-border shadow-soft hover:bg-muted hover:-translate-y-0.5 hover:shadow-premium active:translate-y-0 active:scale-[0.99];
+  }
+
+  .zc-btn-outline {
+    @apply bg-transparent text-muted-foreground border border-border shadow-none hover:border-brand-blue/40 hover:text-brand-blue hover:bg-brand-blue/5 active:scale-[0.99];
+  }
+
+  .zc-btn-ghost {
+    @apply bg-transparent text-muted-foreground shadow-none hover:bg-muted hover:text-foreground;
+  }
+
+  .zc-btn-success {
+    @apply bg-success text-white shadow-soft hover:bg-success-hover hover:-translate-y-0.5 hover:shadow-premium active:translate-y-0 active:scale-[0.99];
+  }
+
+  .zc-btn-danger {
+    @apply bg-danger text-white shadow-soft hover:bg-danger-hover hover:-translate-y-0.5 hover:shadow-premium active:translate-y-0 active:scale-[0.99];
+  }
+
+  .zc-btn-lg {
+    @apply px-7 py-3.5 text-base;
+  }
+
+  .zc-icon-badge {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl;
+  }
+
+  .zc-stat-number {
+    @apply text-4xl sm:text-5xl font-bold tracking-tight text-foreground;
+  }
+
+  .zc-stat-label {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+
+  /* ---- Typography scale ---- */
+  .zc-page-title {
+    @apply text-2xl font-bold tracking-tight text-foreground;
+  }
+
+  .zc-page-subtitle {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+
+  .zc-section-title {
+    @apply text-base font-semibold text-foreground;
+  }
+
+  .zc-label {
+    @apply text-sm font-medium text-foreground/80;
+  }
+
+  /* ---- Form controls ---- */
+  .zc-input,
+  .zc-select {
+    @apply w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground shadow-xs transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-brand-blue/10 focus:border-brand-blue disabled:opacity-50 disabled:bg-muted;
+  }
+
+  .zc-select {
+    @apply appearance-none pr-9 cursor-pointer bg-no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+
+  .zc-checkbox {
+    @apply h-4 w-4 rounded border-border text-brand-blue accent-brand-blue cursor-pointer focus:outline-none focus:ring-4 focus:ring-brand-blue/10;
+  }
+
+  .zc-toggle-track {
+    @apply relative inline-flex h-5 w-9 shrink-0 items-center rounded-full bg-muted transition-colors duration-200 ease-out cursor-pointer;
+  }
+
+  .zc-toggle-track[data-checked="true"] {
+    @apply bg-brand-blue;
+  }
+
+  .zc-toggle-thumb {
+    @apply inline-block h-4 w-4 translate-x-0.5 transform rounded-full bg-white shadow-soft transition-transform duration-200 ease-out;
+  }
+
+  .zc-toggle-track[data-checked="true"] .zc-toggle-thumb {
+    @apply translate-x-[1.125rem];
+  }
+
+  /* ---- Badges ---- */
+  .zc-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .zc-badge-success,
+  .zc-badge-warning,
+  .zc-badge-danger,
+  .zc-badge-info,
+  .zc-badge-neutral {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .zc-badge-success::before,
+  .zc-badge-warning::before,
+  .zc-badge-danger::before,
+  .zc-badge-info::before,
+  .zc-badge-neutral::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-current;
+  }
+
+  .zc-badge-success {
+    @apply bg-success/8 text-success-hover border-success/15 dark:bg-success/15 dark:text-emerald-300 dark:border-success/30;
+  }
+
+  .zc-badge-warning {
+    @apply bg-warning/8 text-warning-hover border-warning/15 dark:bg-warning/15 dark:text-amber-300 dark:border-warning/30;
+  }
+
+  .zc-badge-danger {
+    @apply bg-danger/8 text-danger-hover border-danger/15 dark:bg-danger/15 dark:text-red-300 dark:border-danger/30;
+  }
+
+  .zc-badge-info {
+    @apply bg-brand-blue/8 text-brand-blue border-brand-blue/15 dark:bg-brand-blue/15 dark:text-blue-300 dark:border-brand-blue/30;
+  }
+
+  .zc-badge-neutral {
+    @apply bg-muted text-muted-foreground border-border;
+  }
+
+  /* ---- Tables ---- */
+  .zc-table-shell {
+    @apply overflow-hidden rounded-2xl border border-border bg-card shadow-soft;
+  }
+
+  .zc-table-head-cell {
+    @apply sticky top-0 z-10 bg-muted/60 backdrop-blur px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground border-b border-border;
+  }
+
+  .zc-table-row {
+    @apply bg-card border-b border-border/60 last:border-0 transition-colors duration-150 hover:bg-muted/50;
+  }
+
+  .zc-table-cell {
+    @apply px-4 py-3.5 text-sm text-foreground/80;
+  }
+}
+
+/* ---- ZapCruise micro-animations (lightweight, no deps) ---- */
+@media (prefers-reduced-motion: reduce) {
+  .zc-reveal,
+  .zc-pop,
+  .zc-shimmer::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.zc-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: zc-reveal 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes zc-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zc-pop {
+  animation: zc-pop 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes zc-pop {
+  from {
+    transform: scale(0.985);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.zc-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.zc-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.55) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: zc-shimmer 1100ms ease-in-out infinite;
+  pointer-events: none;
+}
+
+.dark .zc-shimmer::before {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0) 0%,
+    rgba(148, 163, 184, 0.14) 45%,
+    rgba(148, 163, 184, 0) 100%
+  );
+}
+
+@keyframes zc-shimmer {
+  to {
+    transform: translateX(120%);
+  }
+}

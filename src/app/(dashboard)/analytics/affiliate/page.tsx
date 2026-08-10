@@ -1,219 +1,122 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip as RechartsTooltip,
-  XAxis,
-  YAxis,
+  PieChart, Pie, Cell, Legend, Tooltip as RechartsTooltip, ResponsiveContainer
 } from 'recharts';
+import AnalyticsChart from '../../../../components/charts/AnalyticsChart';
 import { normalizeAffiliateStats } from '../../../../lib/affiliateAnalytics';
-import { MousePointerClick, TrendingUp, Globe, Bed, RefreshCw } from 'lucide-react';
+import { MousePointerClick, TrendingUp, MonitorSmartphone, Globe, Bed, Download } from 'lucide-react';
 import adminApi from '../../../../api/admin';
 
-const COLORS = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#6366f1'];
-
-const tooltipStyle = {
-  backgroundColor: '#ffffff',
-  border: '1px solid #e5e7eb',
-  borderRadius: '0.5rem',
-  color: '#111827',
-};
-
-function OtaTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null;
-  const row = payload[0]?.payload;
-  if (!row) return null;
-  return (
-    <div style={tooltipStyle} className="px-3 py-2 text-sm shadow-lg">
-      <p className="font-semibold text-gray-900">{row.name}</p>
-      <p className="text-emerald-600">{row.clicks} click{row.clicks === 1 ? '' : 's'}</p>
-    </div>
-  );
-}
-
-function CabinTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null;
-  const row = payload[0]?.payload;
-  if (!row) return null;
-  return (
-    <div style={tooltipStyle} className="px-3 py-2 text-sm shadow-lg">
-      <p className="font-semibold text-gray-900">{row.name}</p>
-      <p className="text-purple-600">{row.value} click{row.value === 1 ? '' : 's'}</p>
-    </div>
-  );
-}
+const COLORS = ['#2563EB', '#0EA5A4', '#16A34A', '#F59E0B', '#0F172A', '#64748B'];
 
 export default function AffiliateAnalyticsPage() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
-  const fetchStats = useCallback(async (silent = false) => {
-    try {
-      if (silent) {
-        setRefreshing(true);
-      } else {
-        setLoading(true);
-      }
-      setError(null);
-      const res = await adminApi.analytics.affiliate();
-      setStats(res.data.data);
-      setLastUpdated(new Date());
-    } catch (err: any) {
-      console.error('Affiliate analytics error:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to load affiliate analytics');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, []);
 
   useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await adminApi.analytics.affiliate();
+        console.log('Affiliate stats response:', res.data);
+        setStats(res.data.data);
+      } catch (err: any) {
+        console.error('Affiliate analytics error:', err);
+        setError(err.response?.data?.message || err.message || 'Failed to load affiliate analytics');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchStats();
-  }, [fetchStats]);
+  }, []);
 
-  const normalized = useMemo(() => normalizeAffiliateStats(stats), [stats]);
+  if (loading) {
+    return <div className="p-8 text-center text-muted-foreground animate-pulse">Loading Affiliate Analytics...</div>;
+  }
+
+  if (error) {
+    return <div className="p-8 text-danger">Error: {error}</div>;
+  }
+
+  const normalized = normalizeAffiliateStats(stats);
   const totalClicks = normalized.overview.totalClicks;
   const last7Days = normalized.overview.last7Days;
   const uniqueOtas = normalized.overview.uniqueOtas;
   const recentCount = normalized.overview.recentCount;
   const byOtaData = normalized.overview.byOta;
   const byCabinData = normalized.overview.byCabin;
+  const byDeviceData = normalized.overview.byDevice;
   const recentClicks = normalized.overview.recent;
 
-  const chartVersion = useMemo(
-    () =>
-      `${byOtaData.map((d) => `${d.name}:${d.clicks}`).join('|')}|${byCabinData
-        .map((d) => `${d.name}:${d.value}`)
-        .join('|')}`,
-    [byOtaData, byCabinData],
-  );
-
-  if (loading && !stats) {
-    return <div className="p-8 text-center text-muted-foreground animate-pulse">Loading Affiliate Analytics...</div>;
-  }
-
-  if (error && !stats) {
-    return <div className="p-8 text-red-400">Error: {error}</div>;
-  }
-
   return (
-    <div className="space-y-6 animate-fade-in pb-10">
+    <div className="space-y-6 zc-reveal pb-10">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-3">
-            <MousePointerClick className="w-6 h-6 text-emerald-400" />
+          <h1 className="zc-page-title flex items-center gap-3">
+            <MousePointerClick className="w-6 h-6 text-success" />
             Affiliate Analytics
           </h1>
-          <p className="text-sm text-white mt-1">
-            Outbound clicks and conversions.
-            {lastUpdated ? (
-              <span className="text-muted-foreground ml-1">
-                Last updated {lastUpdated.toLocaleTimeString()}
-              </span>
-            ) : null}
-          </p>
+          <p className="zc-page-subtitle">Detailed breakdown of outbound clicks and conversions.</p>
         </div>
-        <button
-          type="button"
-          onClick={() => fetchStats(true)}
-          disabled={refreshing}
-          className="flex items-center gap-2 px-4 py-2 bg-orange-500 cursor-pointer border border-border text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
-        >
-          <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-          Refresh
-        </button>
+        {/* <button className="zc-btn-primary">
+          <Download className="w-4 h-4" />
+          Export CSV
+        </button> */}
       </div>
 
-      {error && (
-        <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-sm text-amber-400">
-          {error}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-card p-6 rounded-2xl">
+        <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Clicks</span>
-          <h3 className="text-3xl font-bold text-white mt-2">{totalClicks || 0}</h3>
+          <h3 className="text-3xl font-bold text-foreground mt-2">{totalClicks || 0}</h3>
         </div>
-        <div className="glass-card p-6 rounded-2xl">
+        <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Last 7 Days</span>
-          <h3 className="text-3xl font-bold text-emerald-400 mt-2">{last7Days || 0}</h3>
+          <h3 className="text-3xl font-bold text-success mt-2">{last7Days || 0}</h3>
         </div>
-        <div className="glass-card p-6 rounded-2xl">
+        <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Unique OTAs</span>
-          <h3 className="text-3xl font-bold text-blue-400 mt-2">{uniqueOtas || 0}</h3>
+          <h3 className="text-3xl font-bold text-brand-blue mt-2">{uniqueOtas || 0}</h3>
         </div>
-        <div className="glass-card p-6 rounded-2xl">
+        <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Recent (24h)</span>
-          <h3 className="text-3xl font-bold text-purple-400 mt-2">{recentCount || 0}</h3>
+          <h3 className="text-3xl font-bold text-brand-teal mt-2">{recentCount || 0}</h3>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-sm font-semibold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-            Clicks by OTA <span className="text-xs font-normal text-muted-foreground normal-case">(last 7 days)</span>
+        {/* Clicks by OTA Chart */}
+        <div className="zc-card p-6">
+          <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-success" />
+            Clicks by OTA
           </h3>
           {byOtaData.length === 0 ? (
             <div className="h-72 flex flex-col items-center justify-center text-sm text-muted-foreground text-center px-4">
-              <p className="font-medium text-white mb-2">No OTA click data in the last 7 days.</p>
+              <p className="font-medium text-foreground mb-2">No OTA click data available for the last 7 days.</p>
+              <p className="text-xs text-muted-foreground">The summary card may still show all-time click totals, so this chart can be blank if recent click activity is absent.</p>
             </div>
           ) : (
-            <div className="h-72" key={`ota-${chartVersion}`}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={byOtaData} margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.08)" />
-                  <XAxis
-                    dataKey="name"
-                    tick={{ fill: '#111827', fontSize: 11 }}
-                    interval={0}
-                    angle={-20}
-                    textAnchor="end"
-                    height={56}
-                    stroke="#9ca3af"
-                  />
-                  <YAxis
-                    allowDecimals={false}
-                    tick={{ fill: '#111827', fontSize: 11 }}
-                    stroke="#9ca3af"
-                  />
-                  <RechartsTooltip
-                    content={<OtaTooltip />}
-                    cursor={{ fill: 'rgba(16,185,129,0.12)' }}
-                    wrapperStyle={{ outline: 'none' }}
-                    contentStyle={{ backgroundColor: '#ffffff', border: 'none', padding: 0, boxShadow: 'none' }}
-                  />
-                  <Bar dataKey="clicks" fill="#10b981" radius={[6, 6, 0, 0]} maxBarSize={56} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <AnalyticsChart data={byOtaData} xKey="name" yKey="clicks" height={280} color="#16A34A" legends={[{ label: 'Total Clicks', color: '#16A34A' }]} />
           )}
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl border border-border">
-          <h3 className="text-sm font-semibold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-            <Bed className="w-4 h-4 text-purple-400" />
-            Clicks by Cabin Type <span className="text-xs font-normal text-muted-foreground normal-case">(last 7 days)</span>
+        {/* Cabin Types Pie */}
+        <div className="zc-card p-6">
+          <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
+            <Bed className="w-4 h-4 text-brand-teal" />
+            Clicks by Cabin Type
           </h3>
           <div className="h-72 flex justify-center">
             {byCabinData.length === 0 ? (
               <div className="h-full w-full flex items-center justify-center text-sm text-muted-foreground text-center px-4">
-                No cabin-type clicks yet. Clicks are recorded when users open an OTA from a specific cabin row.
+                No cabin chart data available. Check the affiliate API response in the browser console.
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%" key={`cabin-${chartVersion}`}>
+              <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={byCabinData}
@@ -227,78 +130,72 @@ export default function AffiliateAnalyticsPage() {
                     stroke="none"
                   >
                     {byCabinData.map((entry: any, index: number) => (
-                      <Cell key={`cell-${entry.name}-${entry.value}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
                   <RechartsTooltip
-                    content={<CabinTooltip />}
-                    wrapperStyle={{ outline: 'none' }}
-                    contentStyle={{ backgroundColor: '#ffffff', border: 'none', padding: 0, boxShadow: 'none' }}
+                    contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #E2E8F0', borderRadius: '0.5rem', color: '#0F172A', boxShadow: '0 8px 24px -8px rgba(15, 23, 42, 0.16)' }}
                   />
-                  <Legend
-                    verticalAlign="bottom"
-                    height={36}
-                    iconType="circle"
-                    wrapperStyle={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}
-                  />
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#64748B' }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
           </div>
         </div>
       </div>
-
-      <div className="glass-panel p-6 rounded-2xl border border-border">
-        <h3 className="text-sm font-semibold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-          <Globe className="w-4 h-4 text-blue-400" />
+      
+      {/* Recent Clicks Table */}
+      <div className="zc-card p-6">
+        <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
+          <Globe className="w-4 h-4 text-brand-blue" />
           Recent Affiliate Clicks (Latest 20)
         </h3>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
-              <tr>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">OTA</th>
-                <th className="px-4 py-3 font-medium">Sailing ID</th>
-                <th className="px-4 py-3 font-medium">Cabin</th>
-                <th className="px-4 py-3 font-medium">Device</th>
-                <th className="px-4 py-3 font-medium text-right">Price</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/50">
-              {recentClicks.length > 0 ? (
-                recentClicks.map((click: any) => (
-                  <tr key={click.id} className="hover:bg-muted/5 transition-colors">
-                    <td className="px-4 py-3 text-muted-foreground font-mono text-xs whitespace-nowrap">
-                      {new Date(click.createdAt).toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 font-medium text-white">{click.otaName || ''}</td>
-                    <td className="px-4 py-3 text-muted-foreground font-mono text-xs">{click.sailingId}</td>
-                    <td className="px-4 py-3">
-                      {click.cabinType ? (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                          {click.cabinType}
-                        </span>
-                      ) : (
-                        <span className="text-muted-foreground text-xs">—</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground text-xs uppercase">{click.deviceType || ''}</td>
-                    <td className="px-4 py-3 text-emerald-400 font-mono text-right font-medium">
-                      {click.priceAtClick != null ? `$${Number(click.priceAtClick).toFixed(2)}` : '---'}
+          <div className="zc-table-shell">
+            <table className="w-full text-sm text-left">
+              <thead>
+                <tr>
+                  <th className="zc-table-head-cell">Date</th>
+                  <th className="zc-table-head-cell">OTA</th>
+                  <th className="zc-table-head-cell">Sailing ID</th>
+                  <th className="zc-table-head-cell">Cabin</th>
+                  <th className="zc-table-head-cell">Device</th>
+                  <th className="zc-table-head-cell text-right">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentClicks.length > 0 ? (
+                  recentClicks.map((click: any) => (
+                    <tr key={click.id} className="zc-table-row">
+                      <td className="zc-table-cell text-muted-foreground font-mono text-xs whitespace-nowrap">
+                        {new Date(click.createdAt).toLocaleString()}
+                      </td>
+                      <td className="zc-table-cell font-medium text-foreground">{click.otaName || ''}</td>
+                      <td className="zc-table-cell text-muted-foreground font-mono text-xs">{click.sailingId}</td>
+                      <td className="zc-table-cell">
+                        {click.cabinType ? (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-brand-teal/10 text-brand-teal border border-brand-teal/20">
+                            {click.cabinType}
+                          </span>
+                        ) : null}
+                      </td>
+                      <td className="zc-table-cell text-muted-foreground text-xs uppercase">{click.deviceType || ''}</td>
+                      <td className="zc-table-cell text-success font-mono text-right font-medium">
+                        ${click.priceAtClick?.toFixed(2) || '---'}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
+                      No recent affiliate clicks found
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
-                    No recent affiliate clicks found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

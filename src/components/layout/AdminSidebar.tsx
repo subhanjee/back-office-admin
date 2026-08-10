@@ -81,46 +81,61 @@ export default function AdminSidebar() {
   };
 
   return (
-    <aside 
-      className={`zc-nav-surface border-r border-gray-200 h-screen shrink-0 transition-all duration-300 ease-in-out flex flex-col z-20 ${
-        isOpen ? 'w-64' : 'w-20'
+    <aside
+      className={`zc-nav-surface border-r border-border h-screen shrink-0 transition-[width] duration-300 ease-out flex flex-col z-20 ${
+        isOpen ? 'w-64' : 'w-[76px]'
       }`}
     >
-      {/* Header Logo — same as client Navbar */}
+      {/* Header Logo */}
       <div
-        className={`border-b border-gray-200 shrink-0 ${
-          isOpen ? 'h-16 flex items-center justify-between px-4' : 'py-3 flex flex-col items-center gap-2 px-2'
+        className={`border-b border-border shrink-0 flex items-center ${
+          isOpen ? 'h-[72px] justify-between px-5' : 'h-[72px] justify-center px-3'
         }`}
       >
-        <Link href="/" className="flex items-center justify-center hover:opacity-80 transition-opacity bg-white rounded-lg px-2 py-1">
-          <ZapCruiseLogo className={isOpen ? 'zc-logo w-auto max-w-[180px]' : 'h-8 w-auto max-w-[56px]'} />
+        <Link href="/" className="flex items-center hover:opacity-70 transition-opacity duration-150 min-w-0">
+          {isOpen ? (
+            <ZapCruiseLogo variant="full" className="h-12 w-auto object-contain" />
+          ) : (
+            <ZapCruiseLogo variant="mark" className="relative block h-9 w-9 overflow-hidden shrink-0 rounded-lg" />
+          )}
         </Link>
+        {isOpen && (
+          <button
+            onClick={toggle}
+            className="text-muted-foreground hover:text-brand-blue p-1.5 rounded-lg hover:bg-muted transition-colors duration-150 shrink-0"
+            aria-label="Collapse sidebar"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+      {!isOpen && (
         <button
           onClick={toggle}
-          className="text-gray-700 hover:text-blue-600 p-1 rounded-md hover:bg-gray-100 transition-colors shrink-0"
-          aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+          className="mx-auto mt-3 text-muted-foreground hover:text-brand-blue p-1.5 rounded-lg hover:bg-muted transition-colors duration-150 shrink-0"
+          aria-label="Expand sidebar"
         >
-          {isOpen ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+          <ChevronRight className="w-4 h-4" />
         </button>
-      </div>
+      )}
 
       {/* Navigation Links */}
-      <div className="flex-1 py-6 overflow-y-auto scrollbar-hide px-3 space-y-6">
+      <div className="flex-1 py-5 overflow-y-auto overflow-x-hidden px-3 space-y-6">
         {menuGroups.map((group, groupIdx) => {
           const visibleItems = group.items.filter(checkItemVisibility);
           if (visibleItems.length === 0) return null;
 
           return (
-            <div key={groupIdx} className="space-y-2">
+            <div key={groupIdx} className="space-y-1">
               {isOpen ? (
-                <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <h3 className="px-3 mb-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
                   {group.title}
                 </h3>
               ) : (
-                <div className="h-px bg-gray-200/80 my-4 mx-2" />
+                <div className="h-px bg-border my-3 mx-2" />
               )}
 
-              <ul className="space-y-1">
+              <ul className="space-y-0.5">
                 {visibleItems.map((item, itemIdx) => {
                   const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
                   const Icon = item.icon;
@@ -130,15 +145,18 @@ export default function AdminSidebar() {
                       <Link
                         href={item.href}
                         title={!isOpen ? item.name : undefined}
-                        className={`flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors group relative ${
-                          isActive 
-                            ? 'bg-gray-50 text-blue-600 font-medium' 
-                            : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors duration-150 ease-out group relative ${
+                          isActive
+                            ? 'bg-brand-blue/8 text-brand-blue font-semibold'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                         }`}
                       >
-                        <Icon className={`w-5 h-5 shrink-0 ${
-                          isActive ? 'text-blue-600' : 'text-gray-600 group-hover:text-blue-600'
-                        }`} />
+                        {isActive && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-brand-blue" />
+                        )}
+                        <Icon className={`w-[18px] h-[18px] shrink-0 transition-colors duration-150 ${
+                          isActive ? 'text-brand-blue' : 'text-muted-foreground group-hover:text-foreground'
+                        }`} strokeWidth={2} />
                         {isOpen && (
                           <span className="text-sm">{item.name}</span>
                         )}
@@ -154,11 +172,11 @@ export default function AdminSidebar() {
 
       {/* Sidebar Footer */}
       {isOpen && adminProfile && (
-        <div className="p-4 border-t border-gray-200 flex flex-col gap-1 bg-gray-50">
-          <div className="text-xs text-gray-500 uppercase font-bold tracking-wider">
+        <div className="p-4 border-t border-border flex flex-col gap-2">
+          <div className="text-[11px] text-muted-foreground uppercase font-semibold tracking-wider">
             RBAC Role
           </div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-50 text-blue-600 border border-gray-200 self-start">
+          <div className="zc-badge-info self-start">
             {adminProfile.adminRole.replace('_', ' ')}
           </div>
         </div>

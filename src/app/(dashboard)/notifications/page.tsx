@@ -37,17 +37,17 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 zc-reveal">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Bell className="w-6 h-6 text-blue-400" />
+          <h1 className="zc-page-title flex items-center gap-2">
+            <Bell className="w-6 h-6 text-brand-blue" />
             Admin Notifications
           </h1>
-          <p className="text-sm text-white mt-1">{unread} unread</p>
+          <p className="zc-page-subtitle">{unread} unread</p>
         </div>
         {unread > 0 && (
-          <button onClick={markAll} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/20 text-blue-400 text-sm border border-blue-500/30">
+          <button onClick={markAll} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-blue/20 text-brand-blue text-sm border border-brand-blue/30">
             <CheckCheck className="w-4 h-4" /> Mark all read
           </button>
         )}
@@ -57,29 +57,29 @@ export default function NotificationsPage() {
         {loading ? (
           <LoadingSpinner message="Loading notifications..." containerHeight="min-h-[40vh]" />
         ) : items.length === 0 ? (
-          <p className="text-white glass-panel p-8 rounded-xl text-center">No notifications yet</p>
+          <p className="text-muted-foreground zc-card p-8 text-center">No notifications yet</p>
         ) : (
           items.map((n) => (
             <div
               key={n.id}
-              className={`glass-panel p-4 rounded-xl border flex justify-between gap-4 ${
-                n.isRead ? 'border-border opacity-70' : 'border-blue-500/30'
+              className={`zc-card p-4 border flex justify-between gap-4 ${
+                n.isRead ? 'border-border opacity-70' : 'border-brand-blue/30'
               }`}
             >
               <div>
                 <div className="flex items-center gap-2">
-                  <span className={`text-xs px-2 py-0.5 rounded ${
-                    n.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400' :
-                    n.severity === 'WARNING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
-                  }`}>{n.severity}</span>
+                  <span className={
+                    n.severity === 'CRITICAL' ? 'zc-badge-danger' :
+                    n.severity === 'WARNING' ? 'zc-badge-warning' : 'zc-badge-info'
+                  }>{n.severity}</span>
                   <span className="text-xs text-muted-foreground">{n.type}</span>
                 </div>
-                <h3 className="text-white font-medium mt-1">{n.title}</h3>
+                <h3 className="text-foreground font-medium mt-1">{n.title}</h3>
                 <p className="text-sm text-muted-foreground mt-1">{n.message}</p>
                 <p className="text-xs text-muted-foreground mt-2">{new Date(n.createdAt).toLocaleString()}</p>
               </div>
               {!n.isRead && (
-                <button onClick={() => markOne(n.id)} className="text-xs text-blue-400 shrink-0 h-fit">
+                <button onClick={() => markOne(n.id)} className="text-xs text-brand-blue hover:text-brand-navy shrink-0 h-fit">
                   Mark read
                 </button>
               )}
