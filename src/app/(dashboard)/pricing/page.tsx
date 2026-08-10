@@ -53,7 +53,7 @@ export default function PricingPage() {
           <ul className="space-y-2 text-sm max-h-64 overflow-y-auto">
             {drops.map((d: any, i: number) => (
               <li key={i} className="p-3 rounded-lg bg-muted/10 flex justify-between">
-                <span className="text-slate-900 truncate max-w-[200px]">{d.cruiseTitle}</span>
+                <span className="text-foreground truncate max-w-[200px]">{d.cruiseTitle}</span>
                 <span className="text-success font-medium">-{d.dropPct}%</span>
               </li>
             ))}
@@ -81,7 +81,7 @@ export default function PricingPage() {
               ) : (
                 anomalies.map((a: any) => (
                   <tr key={a.id} className="border-b border-border/50 hover:bg-muted/10 transition">
-                    <td className="py-3 px-3 text-slate-900">{a.anomalyType}</td>
+                    <td className="py-3 px-3 text-foreground">{a.anomalyType}</td>
                     <td className="py-3 px-3 text-muted-foreground">#{a.cruiseId}</td>
                   </tr>
                 ))
@@ -113,7 +113,7 @@ export default function PricingPage() {
           {booking.map((b: any) => (
             <div key={b.bucket} className="p-4 rounded-xl bg-muted/10 border border-border">
               <p className="text-xs text-muted-foreground">{b.bucket}</p>
-              <p className="text-lg font-bold text-slate-900">${b.avgPrice?.toFixed?.(0) ?? b.avgPrice}</p>
+              <p className="text-lg font-bold text-foreground">${b.avgPrice?.toFixed?.(0) ?? b.avgPrice}</p>
               <p className="text-xs text-muted-foreground">n={b.sampleSize}</p>
             </div>
           ))}

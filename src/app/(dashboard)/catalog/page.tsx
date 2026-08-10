@@ -44,7 +44,7 @@ export default function CatalogPage() {
           {Object.entries(stats).map(([k, v]) => (
             <div key={k} className="zc-card p-3 text-center">
               <p className="text-xs text-muted-foreground capitalize">{k.replace(/([A-Z])/g, ' $1')}</p>
-              <p className="text-xl font-bold text-slate-900">{String(v)}</p>
+              <p className="text-xl font-bold text-foreground">{String(v)}</p>
             </div>
           ))}
         </div>
@@ -86,7 +86,7 @@ export default function CatalogPage() {
               {cruises.map((c) => (
                 <tr key={c.id} className="zc-table-row">
                   <td className="zc-table-cell font-mono text-muted-foreground">{c.id}</td>
-                  <td className="zc-table-cell text-slate-900 max-w-xs truncate">{c.title}</td>
+                  <td className="zc-table-cell text-foreground max-w-xs truncate">{c.title}</td>
                   <td className="zc-table-cell">
                     <span className="flex items-center gap-1 text-muted-foreground">
                       <Ship className="w-3 h-3" />

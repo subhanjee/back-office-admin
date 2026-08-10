@@ -86,10 +86,10 @@ export default function DashboardHome() {
         {/* Welcome Banner Skeleton */}
         <div className="zc-card flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 h-auto md:h-[104px]">
           <div className="space-y-3 w-full max-w-md">
-            <div className="h-6 bg-slate-200 animate-pulse rounded-md w-3/4"></div>
-            <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
+            <div className="h-6 bg-muted animate-pulse rounded-md w-3/4"></div>
+            <div className="h-4 bg-muted animate-pulse rounded-md w-1/2"></div>
           </div>
-          <div className="h-6 bg-slate-200 animate-pulse rounded-full w-48 shrink-0"></div>
+          <div className="h-6 bg-muted animate-pulse rounded-full w-48 shrink-0"></div>
         </div>
 
         {/* KPI Cards Grid Skeleton */}
@@ -97,12 +97,12 @@ export default function DashboardHome() {
           {[...Array(4)].map((_, i) => (
             <div key={i} className="zc-card p-6 h-[140px] flex flex-col justify-between">
               <div className="flex justify-between items-start">
-                <div className="h-4 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
-                <div className="w-10 h-10 bg-slate-200 animate-pulse rounded-xl"></div>
+                <div className="h-4 bg-muted animate-pulse rounded-md w-1/2"></div>
+                <div className="w-10 h-10 bg-muted animate-pulse rounded-xl"></div>
               </div>
               <div className="space-y-2">
-                <div className="h-8 bg-slate-200 animate-pulse rounded-md w-1/3"></div>
-                <div className="h-3 bg-slate-200 animate-pulse rounded-md w-1/4"></div>
+                <div className="h-8 bg-muted animate-pulse rounded-md w-1/3"></div>
+                <div className="h-3 bg-muted animate-pulse rounded-md w-1/4"></div>
               </div>
             </div>
           ))}
@@ -112,25 +112,25 @@ export default function DashboardHome() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Health Panel Skeleton */}
           <div className="lg:col-span-2 zc-card p-6 space-y-6 h-auto sm:h-[300px]">
-            <div className="flex justify-between items-center pb-4 border-b border-slate-100">
-              <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/3"></div>
-              <div className="h-4 bg-slate-200 animate-pulse rounded-md w-24"></div>
+            <div className="flex justify-between items-center pb-4 border-b border-border">
+              <div className="h-5 bg-muted animate-pulse rounded-md w-1/3"></div>
+              <div className="h-4 bg-muted animate-pulse rounded-md w-24"></div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="h-24 bg-slate-200 animate-pulse rounded-xl"></div>
-              <div className="h-24 bg-slate-200 animate-pulse rounded-xl"></div>
+              <div className="h-24 bg-muted animate-pulse rounded-xl"></div>
+              <div className="h-24 bg-muted animate-pulse rounded-xl"></div>
             </div>
           </div>
 
           {/* Logs Panel Skeleton */}
           <div className="zc-card p-6 space-y-6 flex flex-col h-auto sm:h-[300px]">
-             <div className="flex justify-between items-center pb-4 border-b border-slate-100">
-              <div className="h-5 bg-slate-200 animate-pulse rounded-md w-1/2"></div>
-              <div className="h-4 bg-slate-200 animate-pulse rounded-md w-20"></div>
+             <div className="flex justify-between items-center pb-4 border-b border-border">
+              <div className="h-5 bg-muted animate-pulse rounded-md w-1/2"></div>
+              <div className="h-4 bg-muted animate-pulse rounded-md w-20"></div>
             </div>
             <div className="space-y-4 flex-1">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-14 bg-slate-200 animate-pulse rounded-xl"></div>
+                <div key={i} className="h-14 bg-muted animate-pulse rounded-xl"></div>
               ))}
             </div>
           </div>
@@ -152,7 +152,7 @@ export default function DashboardHome() {
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0 z-10">
-          <span className="text-xs text-slate-400">System Status</span>
+          <span className="text-xs text-muted-foreground">System Status</span>
           <span className={health?.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-warning'}>
             {health?.status === 'healthy' ? 'All systems operational' : 'Degraded performance'}
           </span>
@@ -172,8 +172,8 @@ export default function DashboardHome() {
                 </div>
               </div>
               <div className="mt-4 space-y-1">
-                <h3 className="text-3xl font-bold text-slate-900 tracking-tight tabular-nums">{stat.value}</h3>
-                <p className="text-xs text-slate-400 flex items-center gap-1.5">
+                <h3 className="text-3xl font-bold text-foreground tracking-tight tabular-nums">{stat.value}</h3>
+                <p className="text-xs text-muted-foreground flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-brand-blue" />
                   {stat.change}
                 </p>
@@ -188,7 +188,7 @@ export default function DashboardHome() {
 
         {/* Services Status & Health Panel */}
         <div className="lg:col-span-2 zc-card p-6 space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="flex items-center justify-between border-b border-border pb-4">
             <h2 className="zc-section-title flex items-center gap-2">
               <Activity className="w-[18px] h-[18px] text-brand-blue" />
               Core infrastructure health
@@ -204,45 +204,45 @@ export default function DashboardHome() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Database Card */}
-            <div className="p-4 rounded-xl border border-slate-200/70 bg-slate-50/60 space-y-3">
+            <div className="p-4 rounded-xl border border-border/70 bg-muted/60 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">PostgreSQL DB</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">PostgreSQL DB</span>
                 <span className={health?.services.database.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-danger'}>
                   {health?.services.database.status.toUpperCase() || 'UNKNOWN'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-slate-900">
-                <Globe className="w-[18px] h-[18px] text-slate-400" />
+              <div className="flex items-center gap-2 text-foreground">
+                <Globe className="w-[18px] h-[18px] text-muted-foreground" />
                 <span className="text-lg font-bold tabular-nums">{health?.services.database.latencyMs || 0} ms</span>
-                <span className="text-xs text-slate-400">query latency</span>
+                <span className="text-xs text-muted-foreground">query latency</span>
               </div>
             </div>
 
             {/* Redis Cache Card */}
-            <div className="p-4 rounded-xl border border-slate-200/70 bg-slate-50/60 space-y-3">
+            <div className="p-4 rounded-xl border border-border/70 bg-muted/60 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Redis Cache</span>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Redis Cache</span>
                 <span className={health?.services.redis.status === 'healthy' ? 'zc-badge-success' : 'zc-badge-danger'}>
                   {health?.services.redis.status.toUpperCase() || 'UNKNOWN'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-slate-900">
-                <Zap className="w-[18px] h-[18px] text-slate-400" />
+              <div className="flex items-center gap-2 text-foreground">
+                <Zap className="w-[18px] h-[18px] text-muted-foreground" />
                 <span className="text-lg font-bold tabular-nums">{health?.services.redis.totalKeys || 0}</span>
-                <span className="text-xs text-slate-400">cached keys</span>
+                <span className="text-xs text-muted-foreground">cached keys</span>
               </div>
             </div>
           </div>
 
           {/* PM2 processes miniature status */}
           <div className="space-y-3">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               PM2 scraper workers & evaluators ({health?.services.pm2.workers.length || 0})
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {health?.services.pm2.workers.slice(0, 4).map((worker, idx) => (
-                <div key={idx} className="p-3 rounded-xl border border-slate-200/70 bg-slate-50/40 flex items-center justify-between">
-                  <span className="text-xs font-medium text-slate-700 truncate max-w-[100px]">{worker.name}</span>
+                <div key={idx} className="p-3 rounded-xl border border-border/70 bg-muted/40 flex items-center justify-between">
+                  <span className="text-xs font-medium text-foreground truncate max-w-[100px]">{worker.name}</span>
                   <span className={`w-1.5 h-1.5 rounded-full ${
                     worker.status === 'online' ? 'bg-success' : 'bg-danger'
                   }`} />
@@ -254,7 +254,7 @@ export default function DashboardHome() {
 
         {/* Recent Audit Logs Panel */}
         <div className="zc-card p-6 space-y-6 flex flex-col">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="flex items-center justify-between border-b border-border pb-4">
             <h2 className="zc-section-title flex items-center gap-2">
               <Clock className="w-[18px] h-[18px] text-brand-blue" />
               Recent operations
@@ -271,22 +271,22 @@ export default function DashboardHome() {
           {/* Logs Feed */}
           <div className="flex-1 overflow-y-auto space-y-3">
             {auditLogs.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-slate-400 text-center py-8">
-                <ShieldCheck className="w-10 h-10 text-slate-200 mb-2" />
+              <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-center py-8">
+                <ShieldCheck className="w-10 h-10 text-muted-foreground mb-2" />
                 <span className="text-xs">No recent administrative logs</span>
               </div>
             ) : (
               auditLogs.map((log) => (
-                <div key={log.id} className="p-3.5 rounded-xl border border-slate-200/70 bg-slate-50/40 space-y-1.5 text-xs">
+                <div key={log.id} className="p-3.5 rounded-xl border border-border/70 bg-muted/40 space-y-1.5 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="zc-badge-info">{log.action}</span>
-                    <span className="text-slate-400 font-mono">
+                    <span className="text-muted-foreground font-mono">
                       {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-slate-400">
+                  <div className="flex items-center justify-between text-muted-foreground">
                     <span>{log.adminEmail}</span>
-                    <span className="px-1.5 py-0.5 rounded bg-slate-100 text-[10px] uppercase font-bold tracking-wider text-slate-500">
+                    <span className="px-1.5 py-0.5 rounded bg-muted text-[10px] uppercase font-bold tracking-wider text-muted-foreground">
                       {log.resource}
                     </span>
                   </div>

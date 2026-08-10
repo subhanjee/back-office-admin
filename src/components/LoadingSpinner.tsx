@@ -14,7 +14,7 @@ export default function LoadingSpinner({
 }: LoadingSpinnerProps) {
   return (
     <div className={`flex items-center justify-center ${containerHeight}`}>
-      <div className="flex flex-col items-center gap-4 text-slate-600">
+      <div className="flex flex-col items-center gap-4 text-muted-foreground">
         <RefreshCw className={`w-8 h-8 animate-spin ${spinnerColor}`} />
         <p>{message}</p>
       </div>

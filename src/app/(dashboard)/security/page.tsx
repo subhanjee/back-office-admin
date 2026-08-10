@@ -208,7 +208,7 @@ export default function AuditLogViewerPage() {
                       {new Date(log.createdAt).toLocaleString()}
                     </td>
                     <td className="zc-table-cell">
-                      <div className="font-medium text-slate-900">{log.adminEmail}</div>
+                      <div className="font-medium text-foreground">{log.adminEmail}</div>
                       <div className="text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">{log.adminRole}</div>
                     </td>
                     <td className="zc-table-cell whitespace-nowrap">
@@ -217,7 +217,7 @@ export default function AuditLogViewerPage() {
                       </span>
                     </td>
                     <td className="zc-table-cell whitespace-nowrap">
-                      <span className="text-slate-900 font-medium">{log.resource}</span>
+                      <span className="text-foreground font-medium">{log.resource}</span>
                       {log.resourceId && (
                         <span className="ml-2 text-xs text-muted-foreground font-mono">#{log.resourceId.slice(0, 8)}...</span>
                       )}
@@ -242,7 +242,7 @@ export default function AuditLogViewerPage() {
         {!loading && logs.length > 0 && (
           <div className="px-6 py-4 border-t border-border/50 flex items-center justify-between bg-muted/5">
             <span className="text-sm text-muted-foreground">
-              Showing <span className="font-medium text-slate-900">{logs.length}</span> of <span className="font-medium text-slate-900">{pagination.total}</span> logs
+              Showing <span className="font-medium text-foreground">{logs.length}</span> of <span className="font-medium text-foreground">{pagination.total}</span> logs
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -252,7 +252,7 @@ export default function AuditLogViewerPage() {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm font-medium text-slate-900 px-4">
+              <span className="text-sm font-medium text-foreground px-4">
                 Page {pagination.page} of {pagination.totalPages}
               </span>
               <button
@@ -278,7 +278,7 @@ export default function AuditLogViewerPage() {
               </h3>
               <button
                 onClick={() => setSelectedLog(null)}
-                className="text-muted-foreground hover:text-slate-900 transition-colors p-1"
+                className="text-muted-foreground hover:text-foreground transition-colors p-1"
               >
                 &times;
               </button>
@@ -293,28 +293,28 @@ export default function AuditLogViewerPage() {
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">Timestamp</span>
-                  <span className="text-sm font-mono text-slate-900">{new Date(selectedLog.createdAt).toLocaleString()}</span>
+                  <span className="text-sm font-mono text-foreground">{new Date(selectedLog.createdAt).toLocaleString()}</span>
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">Admin Email</span>
-                  <span className="text-sm text-slate-900">{selectedLog.adminEmail}</span>
+                  <span className="text-sm text-foreground">{selectedLog.adminEmail}</span>
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">Admin Role</span>
-                  <span className="text-sm text-slate-900">{selectedLog.adminRole}</span>
+                  <span className="text-sm text-foreground">{selectedLog.adminRole}</span>
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">Resource</span>
-                  <span className="text-sm text-slate-900">{selectedLog.resource}</span>
+                  <span className="text-sm text-foreground">{selectedLog.resource}</span>
                 </div>
                 <div>
                   <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">Resource ID</span>
-                  <span className="text-sm font-mono text-slate-900">{selectedLog.resourceId || 'N/A'}</span>
+                  <span className="text-sm font-mono text-foreground">{selectedLog.resourceId || 'N/A'}</span>
                 </div>
                 {selectedLog.ipAddress && (
                   <div>
                     <span className="block text-xs text-muted-foreground mb-1 uppercase tracking-wider">IP Address</span>
-                    <span className="text-sm font-mono text-slate-900">{selectedLog.ipAddress}</span>
+                    <span className="text-sm font-mono text-foreground">{selectedLog.ipAddress}</span>
                   </div>
                 )}
               </div>

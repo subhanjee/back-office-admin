@@ -181,7 +181,7 @@ export default function AnalyticsOverview() {
                 <span className="text-xs font-semibold text-muted-foreground uppercase">{kpi.label}</span>
                 <Icon className={`w-4 h-4 ${kpi.color}`} />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mt-3">{Number(kpi.value).toLocaleString()}</h3>
+              <h3 className="text-2xl font-bold text-foreground mt-3">{Number(kpi.value).toLocaleString()}</h3>
             </div>
           );
         })}
@@ -195,7 +195,7 @@ export default function AnalyticsOverview() {
           <div className="space-y-2">
             {funnelSteps.map((s: any) => (
               <div key={s.eventType} className="flex justify-between text-sm p-2 rounded-lg bg-muted/10">
-                <span className="text-slate-900">{s.eventType}</span>
+                <span className="text-foreground">{s.eventType}</span>
                 {/* ({s.rateFromTop}%) */}
                 <span className="text-muted-foreground">{s.count} </span>
               </div>
@@ -229,7 +229,7 @@ export default function AnalyticsOverview() {
               </p>
               {searchStats.trending.map((t: any, i: number) => (
                 <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/10">
-                  <span className="text-sm text-slate-900 flex items-center gap-2">
+                  <span className="text-sm text-foreground flex items-center gap-2">
                     <span className="text-xs font-mono text-muted-foreground w-5">{i + 1}.</span>
                     {t.query}
                   </span>

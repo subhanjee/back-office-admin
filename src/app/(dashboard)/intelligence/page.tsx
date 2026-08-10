@@ -75,7 +75,7 @@ export default function IntelligencePage() {
             <ol>
               {cruises.map((row, i) => (
                 <li key={row.cruiseId} className="flex justify-between p-2 rounded-lg bg-muted/10">
-                  <span className="text-slate-900 truncate max-w-[240px]">
+                  <span className="text-foreground truncate max-w-[240px]">
                     {i + 1}. {row.cruise?.title || `Cruise #${row.cruiseId}`}
                   </span>
                   <span className="text-brand-blue">{row.clicks}</span>
@@ -101,7 +101,7 @@ export default function IntelligencePage() {
                 {routes.map((row, i) => (
                   <tr key={i} className="border-t border-border/50 bg-muted/10">
                     <td className="py-2 align-top">
-                      <div className="text-xs text-slate-900 pr-4 break-words whitespace-normal overflow-x-hidden">
+                      <div className="text-xs text-foreground pr-4 break-words whitespace-normal overflow-x-hidden">
                         {row.route}
                       </div>
                     </td>
@@ -127,7 +127,7 @@ export default function IntelligencePage() {
             <tbody>
               {lines.map((l: any) => (
                 <tr key={l.cruiseLineId} className="border-t border-border/50">
-                  <td className="py-2 text-slate-900">{l.name}</td>
+                  <td className="py-2 text-foreground">{l.name}</td>
                   <td className="py-2 text-right text-brand-blue pr-6">{l.clicks}</td>
                 </tr>
               ))}

@@ -111,7 +111,7 @@ export default function UsersListPage() {
       <div className="zc-card p-4 space-y-4">
         <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative md:col-span-2">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search by name or email..."
@@ -192,7 +192,7 @@ export default function UsersListPage() {
                           {user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <div className="font-semibold text-slate-900 group-hover:text-brand-blue transition-colors">
+                          <div className="font-semibold text-foreground group-hover:text-brand-blue transition-colors">
                             {user.name}
                           </div>
                           <div className="text-xs text-muted-foreground">{user.email}</div>
@@ -219,17 +219,17 @@ export default function UsersListPage() {
                     </td>
                     <td className="zc-table-cell whitespace-nowrap">
                       <div className="space-y-1">
-                        <div className="text-xs text-slate-900">
+                        <div className="text-xs text-foreground">
                           <span className="font-semibold text-brand-blue">{user._count.trackedSailings}</span> Tracks
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          <span className="font-semibold text-slate-900">{user._count.affiliateClicks}</span> Clicks
+                          <span className="font-semibold text-foreground">{user._count.affiliateClicks}</span> Clicks
                         </div>
                       </div>
                     </td>
                     <td className="zc-table-cell whitespace-nowrap">
                       <div className="space-y-1">
-                        <div className="text-xs text-slate-900">
+                        <div className="text-xs text-foreground">
                           Quota: <span className="font-semibold">{user.max_tracked_cruises}</span>
                         </div>
                         {user.plan_expiry_date && (
@@ -263,7 +263,7 @@ export default function UsersListPage() {
         {!loading && users.length > 0 && (
           <div className="px-6 py-4 border-t border-border/50 flex items-center justify-between bg-muted/5">
             <span className="text-sm text-muted-foreground">
-              Showing <span className="font-medium text-slate-900">{users.length}</span> of <span className="font-medium text-slate-900">{pagination.total}</span> users
+              Showing <span className="font-medium text-foreground">{users.length}</span> of <span className="font-medium text-foreground">{pagination.total}</span> users
             </span>
             <div className="flex items-center gap-2">
               <button
@@ -273,7 +273,7 @@ export default function UsersListPage() {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm font-medium text-slate-900 px-4">
+              <span className="text-sm font-medium text-foreground px-4">
                 Page {pagination.page} of {pagination.totalPages}
               </span>
               <button

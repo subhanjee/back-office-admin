@@ -26,7 +26,7 @@ export default function InsightsPage() {
 
   if (loading) return <LoadingSpinner message="Loading AI insights..." />;
   if (error) return <div className="p-8 text-danger">Error: {error}</div>;
-  if (!summary) return <div className="p-8 text-slate-900">Unable to load insights</div>;
+  if (!summary) return <div className="p-8 text-foreground">Unable to load insights</div>;
 
   const { demand, booking, ops } = summary;
 
@@ -49,7 +49,7 @@ export default function InsightsPage() {
         <p className="text-sm text-brand-blue">{demand?.recommendation}</p>
         <div className="flex flex-wrap gap-2">
           {(demand?.topQueries || []).map((q: any) => (
-            <span key={q.query} className="text-xs px-3 py-1 rounded-full bg-muted/30 text-slate-900">
+            <span key={q.query} className="text-xs px-3 py-1 rounded-full bg-muted/30 text-foreground">
               {q.query} ({q.count})
             </span>
           ))}
@@ -73,7 +73,7 @@ export default function InsightsPage() {
             }`}
           >
             <span className="text-xs uppercase font-bold text-muted-foreground">{r.area}</span>
-            <p className="text-slate-900 mt-1">{r.message}</p>
+            <p className="text-foreground mt-1">{r.message}</p>
           </div>
         ))}
       </section>

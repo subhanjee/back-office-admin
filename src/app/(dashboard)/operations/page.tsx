@@ -76,7 +76,7 @@ export default function OperationsPage() {
           ].map((s) => (
             <div key={s.label} className="zc-card p-4">
               <p className="text-xs text-muted-foreground uppercase">{s.label}</p>
-              <p className="text-2xl font-bold text-slate-900 mt-1">{s.value}</p>
+              <p className="text-2xl font-bold text-foreground mt-1">{s.value}</p>
             </div>
           ))}
         </div>
@@ -90,7 +90,7 @@ export default function OperationsPage() {
           {Object.entries(queues).map(([key, q]: [string, any]) => (
             <div key={key} className="p-4 rounded-xl border border-border bg-muted/5">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-medium text-slate-900 text-sm">{q.name || key}</span>
+                <span className="font-medium text-foreground text-sm">{q.name || key}</span>
                 <span className={q.failed > 0 ? 'zc-badge-danger' : 'zc-badge-success'}>
                   {q.status}
                 </span>
@@ -147,7 +147,7 @@ export default function OperationsPage() {
               <tbody>
                 {(Array.isArray(runs) ? runs : []).map((r: any) => (
                   <tr key={r.id} className="zc-table-row">
-                    <td className="zc-table-cell text-slate-900">{r.otaName}</td>
+                    <td className="zc-table-cell text-foreground">{r.otaName}</td>
                     <td className="zc-table-cell">{r.cruiseLineKey}</td>
                     <td className="zc-table-cell">{r.status}</td>
                     <td className="zc-table-cell text-muted-foreground">{new Date(r.startedAt).toLocaleString()}</td>

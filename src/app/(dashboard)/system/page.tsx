@@ -105,7 +105,7 @@ export default function SystemHealthPage() {
                 <h2 className="zc-section-title uppercase tracking-wider">
                   {health.status === 'healthy' ? 'All Systems Operational' : 'Degraded Performance'}
                 </h2>
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Last updated: {new Date(health.timestamp).toLocaleString()}
                 </p>
               </div>
@@ -127,7 +127,7 @@ export default function SystemHealthPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 bg-muted/5 rounded-xl border border-border">
                   <span className="block text-xs text-muted-foreground mb-1">Latency</span>
-                  <span className="text-xl font-bold text-slate-900">{health.services.database.latencyMs} ms</span>
+                  <span className="text-xl font-bold text-foreground">{health.services.database.latencyMs} ms</span>
                 </div>
               </div>
             </div>
@@ -146,11 +146,11 @@ export default function SystemHealthPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 bg-muted/5 rounded-xl border border-border">
                   <span className="block text-xs text-muted-foreground mb-1">Latency</span>
-                  <span className="text-xl font-bold text-slate-900">{health.services.redis.latencyMs} ms</span>
+                  <span className="text-xl font-bold text-foreground">{health.services.redis.latencyMs} ms</span>
                 </div>
                 <div className="p-3 bg-muted/5 rounded-xl border border-border">
                   <span className="block text-xs text-muted-foreground mb-1">Total Keys</span>
-                  <span className="text-xl font-bold text-slate-900">{health.services.redis.totalKeys.toLocaleString()}</span>
+                  <span className="text-xl font-bold text-foreground">{health.services.redis.totalKeys.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -188,7 +188,7 @@ export default function SystemHealthPage() {
                   <tbody>
                     {health.services.pm2.workers.map((worker, idx) => (
                       <tr key={idx} className="zc-table-row">
-                        <td className="zc-table-cell font-medium text-slate-900">{worker.name}</td>
+                        <td className="zc-table-cell font-medium text-foreground">{worker.name}</td>
                         <td className="zc-table-cell">
                           <span className={worker.status === 'online' ? 'zc-badge-success' : 'zc-badge-danger'}>
                             {worker.status}

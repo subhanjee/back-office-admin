@@ -189,7 +189,7 @@ export default function RbacManagementPage() {
                           {profile.user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <div className="font-medium text-slate-900">{profile.user.name}</div>
+                          <div className="font-medium text-foreground">{profile.user.name}</div>
                           <div className="text-xs text-muted-foreground">{profile.user.email}</div>
                         </div>
                       </div>
@@ -257,7 +257,7 @@ export default function RbacManagementPage() {
               </h3>
               <button
                 onClick={() => setShowInviteModal(false)}
-                className="text-muted-foreground hover:text-slate-900 transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 &times;
               </button>

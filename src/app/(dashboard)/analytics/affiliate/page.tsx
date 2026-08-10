@@ -71,7 +71,7 @@ export default function AffiliateAnalyticsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Total Clicks</span>
-          <h3 className="text-3xl font-bold text-slate-900 mt-2">{totalClicks || 0}</h3>
+          <h3 className="text-3xl font-bold text-foreground mt-2">{totalClicks || 0}</h3>
         </div>
         <div className="zc-card p-6">
           <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Last 7 Days</span>
@@ -90,13 +90,13 @@ export default function AffiliateAnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Clicks by OTA Chart */}
         <div className="zc-card p-6">
-          <h3 className="text-sm font-semibold text-slate-900 mb-6 uppercase tracking-wider flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-success" />
             Clicks by OTA
           </h3>
           {byOtaData.length === 0 ? (
             <div className="h-72 flex flex-col items-center justify-center text-sm text-muted-foreground text-center px-4">
-              <p className="font-medium text-slate-900 mb-2">No OTA click data available for the last 7 days.</p>
+              <p className="font-medium text-foreground mb-2">No OTA click data available for the last 7 days.</p>
               <p className="text-xs text-muted-foreground">The summary card may still show all-time click totals, so this chart can be blank if recent click activity is absent.</p>
             </div>
           ) : (
@@ -106,7 +106,7 @@ export default function AffiliateAnalyticsPage() {
 
         {/* Cabin Types Pie */}
         <div className="zc-card p-6">
-          <h3 className="text-sm font-semibold text-slate-900 mb-6 uppercase tracking-wider flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
             <Bed className="w-4 h-4 text-brand-teal" />
             Clicks by Cabin Type
           </h3>
@@ -146,7 +146,7 @@ export default function AffiliateAnalyticsPage() {
       
       {/* Recent Clicks Table */}
       <div className="zc-card p-6">
-        <h3 className="text-sm font-semibold text-slate-900 mb-6 uppercase tracking-wider flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-foreground mb-6 uppercase tracking-wider flex items-center gap-2">
           <Globe className="w-4 h-4 text-brand-blue" />
           Recent Affiliate Clicks (Latest 20)
         </h3>
@@ -171,7 +171,7 @@ export default function AffiliateAnalyticsPage() {
                       <td className="zc-table-cell text-muted-foreground font-mono text-xs whitespace-nowrap">
                         {new Date(click.createdAt).toLocaleString()}
                       </td>
-                      <td className="zc-table-cell font-medium text-slate-900">{click.otaName || ''}</td>
+                      <td className="zc-table-cell font-medium text-foreground">{click.otaName || ''}</td>
                       <td className="zc-table-cell text-muted-foreground font-mono text-xs">{click.sailingId}</td>
                       <td className="zc-table-cell">
                         {click.cabinType ? (

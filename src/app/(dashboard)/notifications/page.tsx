@@ -57,7 +57,7 @@ export default function NotificationsPage() {
         {loading ? (
           <LoadingSpinner message="Loading notifications..." containerHeight="min-h-[40vh]" />
         ) : items.length === 0 ? (
-          <p className="text-slate-500 zc-card p-8 text-center">No notifications yet</p>
+          <p className="text-muted-foreground zc-card p-8 text-center">No notifications yet</p>
         ) : (
           items.map((n) => (
             <div
@@ -74,7 +74,7 @@ export default function NotificationsPage() {
                   }>{n.severity}</span>
                   <span className="text-xs text-muted-foreground">{n.type}</span>
                 </div>
-                <h3 className="text-slate-900 font-medium mt-1">{n.title}</h3>
+                <h3 className="text-foreground font-medium mt-1">{n.title}</h3>
                 <p className="text-sm text-muted-foreground mt-1">{n.message}</p>
                 <p className="text-xs text-muted-foreground mt-2">{new Date(n.createdAt).toLocaleString()}</p>
               </div>

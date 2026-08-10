@@ -128,7 +128,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push('/users')}
-            className="p-2 rounded-xl bg-muted/50 hover:bg-muted text-slate-700 transition-colors"
+            className="p-2 rounded-xl bg-muted/50 hover:bg-muted text-foreground transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -190,15 +190,15 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
             <div className="space-y-4">
               <div className="flex justify-between items-center p-3 rounded-xl bg-muted/5 border border-border">
                 <span className="text-sm text-muted-foreground">Tracked Sailings</span>
-                <span className="text-lg font-bold text-slate-900">{user?._count?.trackedSailings || 0}</span>
+                <span className="text-lg font-bold text-foreground">{user?._count?.trackedSailings || 0}</span>
               </div>
               <div className="flex justify-between items-center p-3 rounded-xl bg-muted/5 border border-border">
                 <span className="text-sm text-muted-foreground">Affiliate Clicks</span>
-                <span className="text-lg font-bold text-slate-900">{user?._count?.affiliateClicks || 0}</span>
+                <span className="text-lg font-bold text-foreground">{user?._count?.affiliateClicks || 0}</span>
               </div>
               <div className="flex justify-between items-center p-3 rounded-xl bg-muted/5 border border-border">
                 <span className="text-sm text-muted-foreground">Posts / Reviews</span>
-                <span className="text-lg font-bold text-slate-900">{user?._count?.posts || 0}</span>
+                <span className="text-lg font-bold text-foreground">{user?._count?.posts || 0}</span>
               </div>
             </div>
           </div>
@@ -210,15 +210,15 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between items-center border-b border-border/50 pb-2">
                 <span className="text-muted-foreground">User ID</span>
-                <span className="font-mono text-xs text-slate-900">{user?.id}</span>
+                <span className="font-mono text-xs text-foreground">{user?.id}</span>
               </div>
               <div className="flex justify-between items-center border-b border-border/50 pb-2">
                 <span className="text-muted-foreground">Country</span>
-                <span className="text-slate-900 uppercase">{user?.country || 'N/A'}</span>
+                <span className="text-foreground uppercase">{user?.country || 'N/A'}</span>
               </div>
               <div className="flex justify-between items-center border-b border-border/50 pb-2">
                 <span className="text-muted-foreground">Joined At</span>
-                <span className="text-slate-900">{new Date(user?.createdAt).toLocaleDateString()}</span>
+                <span className="text-foreground">{new Date(user?.createdAt).toLocaleDateString()}</span>
               </div>
               <div className="flex justify-between items-center pt-1">
                 <span className="text-muted-foreground">Admin Profile</span>
@@ -286,7 +286,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
               {/* Suspend / Activate Toggle */}
               <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/5">
                 <div>
-                  <h4 className="text-sm font-medium text-slate-900">Account Status</h4>
+                  <h4 className="text-sm font-medium text-foreground">Account Status</h4>
                   <p className="text-xs text-muted-foreground mt-1">
                     {user?.isSuspended
                       ? 'Re-activate this user to allow them to log in and use the platform.'
@@ -305,7 +305,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
               {/* Password Reset Trigger */}
               <div className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/5">
                 <div>
-                  <h4 className="text-sm font-medium text-slate-900">Password Reset</h4>
+                  <h4 className="text-sm font-medium text-foreground">Password Reset</h4>
                   <p className="text-xs text-muted-foreground mt-1">
                     Send an email to the user with a secure link to reset their password.
                   </p>
@@ -348,14 +348,14 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                             {new Date(status.createdAt).toLocaleString()}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-900">{status.reason || 'No reason provided'}</p>
+                        <p className="text-sm text-foreground">{status.reason || 'No reason provided'}</p>
                         {status.metadata && (
                           <pre className="text-xs text-muted-foreground bg-background border border-border p-2 rounded-lg overflow-x-auto mt-2">
                             {JSON.stringify(status.metadata, null, 2)}
                           </pre>
                         )}
                         <p className="text-[10px] text-muted-foreground uppercase pt-2 border-t border-border/50">
-                          Performed By: <span className="font-mono text-slate-900">{status.performedBy}</span>
+                          Performed By: <span className="font-mono text-foreground">{status.performedBy}</span>
                         </p>
                       </div>
                     </div>

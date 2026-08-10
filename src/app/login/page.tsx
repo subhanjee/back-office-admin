@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../../store/authStore';
-import { Lock, Mail, Loader2, AlertCircle, Ship, ShieldCheck, Gauge } from 'lucide-react';
+import { Lock, Mail, Loader2, AlertCircle, ShieldCheck, Gauge } from 'lucide-react';
 import ZapCruisePageBackground from '../../components/layout/ZapCruisePageBackground';
 import ZapCruiseLogo from '../../components/layout/ZapCruiseLogo';
 
@@ -48,12 +48,11 @@ export default function LoginPage() {
       <div className="hidden lg:flex lg:w-[46%] relative overflow-hidden">
         <ZapCruisePageBackground />
         <div className="relative z-10 flex flex-col justify-between w-full p-12 xl:p-16 text-white">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 border border-white/15 backdrop-blur-sm">
-              <Ship className="w-4 h-4 text-white" strokeWidth={2} />
-            </span>
-            <span className="text-base font-semibold tracking-tight">ZapCruise</span>
-          </div>
+          {/* Brand logo — rendered white for the dark ocean panel (both themes) */}
+          <ZapCruiseLogo
+            variant="full"
+            className="h-16 w-auto object-contain"
+          />
 
           <div className="space-y-6 max-w-md">
             <h1 className="text-4xl xl:text-[2.75rem] leading-[1.15] font-bold tracking-tight">
@@ -78,9 +77,9 @@ export default function LoginPage() {
       </div>
 
       {/* Form panel */}
-      <div className="flex w-full lg:w-[54%] items-center justify-center bg-white p-6 sm:p-10">
+      <div className="flex w-full lg:w-[54%] items-center justify-center bg-card p-6 sm:p-10">
         <div className="w-full max-w-sm zc-reveal">
-          <ZapCruiseLogo variant="full" className="h-8 w-auto object-contain mb-10" />
+          <ZapCruiseLogo variant="full" className="h-16 w-auto object-contain mb-10" />
 
           <div className="mb-8">
             <h2 className="zc-page-title text-[1.75rem]">Welcome back</h2>
@@ -105,7 +104,7 @@ export default function LoginPage() {
                 Email address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -126,7 +125,7 @@ export default function LoginPage() {
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted-foreground">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
