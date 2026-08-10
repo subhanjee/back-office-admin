@@ -1,4 +1,4 @@
-'use client';
+ 'use client';
 
 import React, { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
@@ -196,7 +196,7 @@ export default function UserDetailsPage({ params }: { params: Promise<{ userId: 
                 <span className="text-sm text-muted-foreground">Affiliate Clicks</span>
                 <span className="text-lg font-bold text-foreground">{user?._count?.affiliateClicks || 0}</span>
               </div>
-              {/* <div className="flex justify-between items-center p-3 rounded-xl bg-muted/5 border border-border">
+              <div className="flex justify-between items-center p-3 rounded-xl bg-muted/5 border border-border">
                 <span className="text-sm text-muted-foreground">Posts / Reviews</span>
                 <span className="text-lg font-bold text-foreground">{user?._count?.posts || 0}</span>
               </div>
