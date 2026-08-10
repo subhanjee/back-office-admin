@@ -47,7 +47,8 @@ export default function UsersListPage() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState('');
-  
+  const [roleFilter, setRoleFilter] = useState('');
+
   const fetchUsers = useCallback(async (page = 1) => {
     try {
       setLoading(true);
@@ -80,6 +81,7 @@ export default function UsersListPage() {
 
   const handleClearFilters = () => {
     setSearchQuery('');
+     setRoleFilter('');
   };
 
   return (
