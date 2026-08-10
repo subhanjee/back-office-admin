@@ -116,14 +116,20 @@ export const normalizeAffiliateStats = (payload: any) => {
     }))
     .filter((item: any) => item.name && item.name.trim() !== '');
 
-  const recent = safeArray(recentRaw)
-    .map((item: any) => ({
-      ...item,
-      otaName: item.otaName || item.ota || item.name || '',
-      cabinType: item.cabinType || item.cabin || item.type || '',
-      deviceType: item.deviceType || item.device || item.type || '',
-    }))
-    .filter((item: any) => item.cabinType && item.cabinType.trim() !== '');
+  const recent = safeArray(recentRaw).map((item: any) => ({
+    ...item,
+    otaName: item.otaName || item.ota?.name || item.ota || item.name || '',
+    cabinType: item.cabinType || item.cabin || item.type || '',
+    deviceType: item.deviceType || item.device || '',
+    priceAtClick:
+      item.priceAtClick != null
+        ? Number(item.priceAtClick)
+        : item.priceShown != null
+          ? Number(item.priceShown)
+          : item.price != null
+            ? Number(item.price)
+            : null,
+  }));
 
   return {
     overview: {
