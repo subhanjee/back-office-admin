@@ -35,6 +35,7 @@ export const adminApi = {
   pricing: {
     cruises: (params?: Record<string, string | number>) => api.get('/admin/pricing/cruises', { params }),
     drops: (params?: Record<string, string | number>) => api.get('/admin/pricing/drops', { params }),
+    cdiDistribution: (params?: Record<string, string | number>) => api.get('/admin/pricing/cdi-distribution', { params }),
     anomalies: (params?: Record<string, string | number>) => api.get('/admin/pricing/anomalies', { params }),
     seasonal: () => api.get('/admin/pricing/seasonal-trends'),
     bookingWindow: () => api.get('/admin/pricing/best-booking-window'),

@@ -1,10 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { TrendingUp, AlertTriangle, ArrowDown } from 'lucide-react';
+import { TrendingUp, AlertTriangle, ArrowDown, Gauge } from 'lucide-react';
 import AnalyticsChart from '../../../components/charts/AnalyticsChart';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import adminApi from '../../../api/admin';
+
+interface CdiDistribution {
+  sampleSize: number;
+  distribution: { buyNow: number; goodTimeToBuy: number; neutral: number; wait: number };
+  counts: { buyNow: number; goodTimeToBuy: number; neutral: number; wait: number };
+  generatedAt: string;
+}
 
 export default function PricingPage() {
   const [drops, setDrops] = useState<any[]>([]);
@@ -12,6 +19,10 @@ export default function PricingPage() {
   const [seasonal, setSeasonal] = useState<any[]>([]);
   const [booking, setBooking] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // CDI distribution loads on its own (a sampled scan) so it never blocks the page.
+  const [cdi, setCdi] = useState<CdiDistribution | null>(null);
+  const [cdiLoading, setCdiLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
@@ -33,6 +44,22 @@ export default function PricingPage() {
     load();
   }, []);
 
+  useEffect(() => {
+    let active = true;
+    adminApi.pricing
+      .cdiDistribution()
+      .then((res) => {
+        if (active) setCdi(res.data.data ?? null);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (active) setCdiLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   if (loading) return <LoadingSpinner message="Loading pricing intelligence..." />;
 
   return (
@@ -43,6 +70,69 @@ export default function PricingPage() {
           Pricing Intelligence
         </h1>
         <p className="zc-page-subtitle">Price drops, anomalies, seasonal trends, booking windows</p>
+      </div>
+
+      {/* Cruise Decision Intelligence — recommendation distribution across the catalogue */}
+      <div className="zc-card p-6">
+        <div className="flex items-start justify-between gap-3 mb-5">
+          <div>
+            <h2 className="zc-section-title flex items-center gap-2">
+              <Gauge className="w-5 h-5 text-brand-blue" /> Recommendation distribution
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1 max-w-xl">
+              Cruise Decision Intelligence mix across a random sample of the catalogue. Buy Now is
+              intentionally the rarest state; Neutral is the default when evidence is weak or mixed.
+            </p>
+          </div>
+          {cdi && cdi.sampleSize > 0 ? (
+            <span className="text-[11px] text-muted-foreground whitespace-nowrap shrink-0">
+              sample {cdi.sampleSize} ·{' '}
+              {new Date(cdi.generatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          ) : null}
+        </div>
+
+        {cdiLoading ? (
+          <div className="space-y-4">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="h-3 w-32 bg-muted rounded mb-2" />
+                <div className="h-2 w-full bg-muted rounded-full" />
+              </div>
+            ))}
+          </div>
+        ) : !cdi || cdi.sampleSize === 0 ? (
+          <div className="text-sm text-muted-foreground py-4">
+            No recommendation data available yet.
+          </div>
+        ) : (
+          <div className="space-y-3.5">
+            {[
+              { label: 'Buy Now', pct: cdi.distribution.buyNow, count: cdi.counts.buyNow, color: '#10b981' },
+              { label: 'Good Time to Buy', pct: cdi.distribution.goodTimeToBuy, count: cdi.counts.goodTimeToBuy, color: '#14b8a6' },
+              { label: 'Neutral', pct: cdi.distribution.neutral, count: cdi.counts.neutral, color: '#94a3b8' },
+              { label: 'Wait', pct: cdi.distribution.wait, count: cdi.counts.wait, color: '#f59e0b' },
+            ].map((r) => (
+              <div key={r.label}>
+                <div className="flex items-center justify-between text-sm mb-1.5">
+                  <span className="flex items-center gap-2 font-medium text-foreground">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: r.color }} />
+                    {r.label}
+                  </span>
+                  <span className="tabular-nums text-foreground font-semibold">
+                    {r.pct}% <span className="text-muted-foreground font-normal">({r.count})</span>
+                  </span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ width: `${r.pct}%`, backgroundColor: r.color }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
