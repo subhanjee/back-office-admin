@@ -142,12 +142,12 @@ export default function PricingPage() {
         <div className="overflow-x-auto max-h-80 overflow-y-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-2 px-3 font-semibold text-muted-foreground">Cruise</th>
-                <th className="text-left py-2 px-3 font-semibold text-muted-foreground">OTA</th>
-                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Previous</th>
-                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Current</th>
-                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Drop %</th>
+              <tr>
+                <th className="sticky top-0 z-10 bg-card text-left py-2 px-3 font-semibold text-muted-foreground border-b border-border">Cruise</th>
+                <th className="sticky top-0 z-10 bg-card text-left py-2 px-3 font-semibold text-muted-foreground border-b border-border">OTA</th>
+                <th className="sticky top-0 z-10 bg-card text-right py-2 px-3 font-semibold text-muted-foreground border-b border-border">Previous</th>
+                <th className="sticky top-0 z-10 bg-card text-right py-2 px-3 font-semibold text-muted-foreground border-b border-border">Current</th>
+                <th className="sticky top-0 z-10 bg-card text-right py-2 px-3 font-semibold text-muted-foreground border-b border-border">Drop %</th>
               </tr>
             </thead>
             <tbody>
