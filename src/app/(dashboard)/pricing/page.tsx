@@ -135,50 +135,80 @@ export default function PricingPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="zc-card p-6">
-          <h2 className="zc-section-title mb-4 flex items-center gap-2">
-            <ArrowDown className="w-5 h-5 text-success" /> Recent price drops
-          </h2>
-          <ul className="space-y-2 text-sm max-h-64 overflow-y-auto">
-            {drops.map((d: any, i: number) => (
-              <li key={i} className="p-3 rounded-lg bg-muted/10 flex justify-between">
-                <span className="text-foreground truncate max-w-[200px]">{d.cruiseTitle}</span>
-                <span className="text-success font-medium">-{d.dropPct}%</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="zc-card p-6">
-          <h2 className="zc-section-title mb-4 flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-warning" /> Price anomalies
-          </h2>
-          <table className="w-full text-sm max-h-64 overflow-y-auto">
+      <div className="zc-card p-6">
+        <h2 className="zc-section-title mb-4 flex items-center gap-2">
+          <ArrowDown className="w-5 h-5 text-success" /> Recent price drops
+        </h2>
+        <div className="overflow-x-auto max-h-80 overflow-y-auto">
+          <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="text-left py-2 px-3 text-muted-foreground">Anomaly Type</th>
-                <th className="text-left py-2 px-3 text-muted-foreground">Cruise ID</th>
+                <th className="text-left py-2 px-3 font-semibold text-muted-foreground">Cruise</th>
+                <th className="text-left py-2 px-3 font-semibold text-muted-foreground">OTA</th>
+                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Previous</th>
+                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Current</th>
+                <th className="text-right py-2 px-3 font-semibold text-muted-foreground">Drop %</th>
               </tr>
             </thead>
             <tbody>
-              {anomalies.length === 0 ? (
+              {drops.length === 0 ? (
                 <tr>
-                  <td colSpan={2} className="text-center py-4 text-muted-foreground">
-                    No stored anomalies
+                  <td colSpan={5} className="text-center py-4 text-muted-foreground">
+                    No recent price drops
                   </td>
                 </tr>
               ) : (
-                anomalies.map((a: any) => (
-                  <tr key={a.id} className="border-b border-border/50 hover:bg-muted/10 transition">
-                    <td className="py-3 px-3 text-foreground">{a.anomalyType}</td>
-                    <td className="py-3 px-3 text-muted-foreground">#{a.cruiseId}</td>
+                drops.map((d: any, i: number) => (
+                  <tr key={i} className="border-b border-border/50 hover:bg-muted/10 transition">
+                    <td className="py-3 px-3 text-foreground max-w-[280px] truncate" title={d.cruiseTitle}>
+                      {d.cruiseTitle}
+                    </td>
+                    <td className="py-3 px-3 text-muted-foreground whitespace-nowrap">{d.otaName ?? '—'}</td>
+                    <td className="py-3 px-3 text-right text-muted-foreground tabular-nums whitespace-nowrap">
+                      {d.previousPrice != null ? `$${Number(d.previousPrice).toLocaleString('en-US', { maximumFractionDigits: 0 })}` : '—'}
+                    </td>
+                    <td className="py-3 px-3 text-right text-foreground font-medium tabular-nums whitespace-nowrap">
+                      {d.currentPrice != null ? `$${Number(d.currentPrice).toLocaleString('en-US', { maximumFractionDigits: 0 })}` : '—'}
+                    </td>
+                    <td className="py-3 px-3 text-right text-success font-semibold tabular-nums whitespace-nowrap">
+                      -{d.dropPct}%
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="zc-card p-6">
+        <h2 className="zc-section-title mb-4 flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-warning" /> Price anomalies
+        </h2>
+        <table className="w-full text-sm max-h-64 overflow-y-auto">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="text-left py-2 px-3 text-muted-foreground">Anomaly Type</th>
+              <th className="text-left py-2 px-3 text-muted-foreground">Cruise ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {anomalies.length === 0 ? (
+              <tr>
+                <td colSpan={2} className="text-center py-4 text-muted-foreground">
+                  No stored anomalies
+                </td>
+              </tr>
+            ) : (
+              anomalies.map((a: any) => (
+                <tr key={a.id} className="border-b border-border/50 hover:bg-muted/10 transition">
+                  <td className="py-3 px-3 text-foreground">{a.anomalyType}</td>
+                  <td className="py-3 px-3 text-muted-foreground">#{a.cruiseId}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
 
       <div className="zc-card p-6">
