@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import AnalyticsChart from '../../../components/charts/AnalyticsChart';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import ClarityBehaviorCard from '../../../components/ClarityBehaviorCard';
 import { MousePointerClick, Search, Users, Activity, GitBranch } from 'lucide-react';
 import adminApi from '../../../api/admin';
 
@@ -186,6 +187,8 @@ export default function AnalyticsOverview() {
           );
         })}
       </div>
+
+      <ClarityBehaviorCard />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="zc-card p-6">
