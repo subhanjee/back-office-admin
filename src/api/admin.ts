@@ -11,6 +11,7 @@ export const adminApi = {
     conversion: (days = 30) => api.get('/admin/analytics/conversion', { params: { days } }),
     otaPerformance: (days = 30) => api.get('/admin/analytics/ota-performance', { params: { days } }),
     popularDestinations: () => api.get('/admin/analytics/destinations/popular'),
+    clarity: (numOfDays = 3) => api.get('/admin/analytics/clarity', { params: { numOfDays } }),
   },
   users: {
     list: (params: Record<string, string | number>) => api.get('/admin/users', { params }),
