@@ -12,6 +12,16 @@ export const adminApi = {
     otaPerformance: (days = 30) => api.get('/admin/analytics/ota-performance', { params: { days } }),
     popularDestinations: () => api.get('/admin/analytics/destinations/popular'),
     clarity: (numOfDays = 3) => api.get('/admin/analytics/clarity', { params: { numOfDays } }),
+    // Range-aware historical analytics. All accept { startDate, endDate, ... }.
+    report: {
+      overview: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/overview', { params }),
+      trends: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/trends', { params }),
+      topCruises: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/top-cruises', { params }),
+      topSearches: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/top-searches', { params }),
+      devices: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/devices', { params }),
+      funnel: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/funnel', { params }),
+      events: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/events', { params }),
+    },
   },
   users: {
     list: (params: Record<string, string | number>) => api.get('/admin/users', { params }),
