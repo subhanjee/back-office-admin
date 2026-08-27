@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Users, Search, Eye, MousePointerClick, Bell, BellRing, ArrowLeft,
-  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp, Activity,
+  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp, Activity, ChevronDown,
 } from 'lucide-react';
 import AnalyticsChart from '../../../../components/charts/AnalyticsChart';
 import DateRangePicker, { DateRange, defaultRange } from '../../../../components/DateRangePicker';
@@ -45,6 +45,7 @@ export default function HistoricalAnalyticsPage() {
   const [devices, setDevices] = useState<DeviceRow[]>([]);
   const [funnel, setFunnel] = useState<FunnelStep[]>([]);
   const [events, setEvents] = useState<EventRow[]>([]);
+  const [showRawEvents, setShowRawEvents] = useState(false);
   const [clarityUrl, setClarityUrl] = useState('https://clarity.microsoft.com/');
   const [loading, setLoading] = useState(true);
   const [trendLoading, setTrendLoading] = useState(true);
@@ -251,7 +252,10 @@ export default function HistoricalAnalyticsPage() {
 
       {/* Funnel */}
       <div className="zc-card p-6">
-        <h2 className="zc-section-title mb-4">Product funnel</h2>
+        <h2 className="zc-section-title">Product funnel</h2>
+        <p className="text-xs text-muted-foreground mt-1 mb-4">
+          The user journey from search to booking, with step-to-step conversion.
+        </p>
         <div className="space-y-2">
           {funnel.map((s, i) => {
             const width = s.rateFromTop != null ? Math.max(4, s.rateFromTop) : 4;
@@ -272,33 +276,52 @@ export default function HistoricalAnalyticsPage() {
         </div>
       </div>
 
-      {/* All events by type — surfaces custom / auto-tracked events */}
-      <div className="zc-card p-6">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-          <h2 className="zc-section-title flex items-center gap-2">
-            <Activity className="w-5 h-5 text-brand-blue" /> All events by type
-          </h2>
-          <span className="text-xs text-muted-foreground">every tracked event, including custom ones</span>
-        </div>
-        {events.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-6 text-center">No events in this range.</p>
-        ) : (
-          <div className="space-y-2.5">
-            {events.map((e) => {
-              const max = events[0]?.count || 1;
-              const pct = Math.max(2, Math.round((e.count / max) * 100));
-              return (
-                <div key={e.eventType}>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="font-mono text-xs text-foreground truncate" title={e.eventType}>{e.eventType}</span>
-                    <span className="tabular-nums text-foreground font-semibold">{nf(e.count)}</span>
-                  </div>
-                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                    <div className="h-full rounded-full bg-brand-blue transition-all duration-500" style={{ width: `${pct}%` }} />
-                  </div>
-                </div>
-              );
-            })}
+      {/* Raw event log — collapsible technical view, deliberately distinct from the funnel */}
+      <div className="zc-card p-5 border-dashed">
+        <button
+          type="button"
+          onClick={() => setShowRawEvents((v) => !v)}
+          className="w-full flex items-start justify-between gap-3 text-left"
+        >
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+              <Activity className="w-4 h-4" /> Raw event log
+              <span className="text-[10px] font-normal uppercase tracking-wide rounded bg-muted px-1.5 py-0.5">technical</span>
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1 max-w-2xl">
+              Every raw tracked event (including custom ones), straight from the event stream. Counts here
+              can differ from the funnel above — the funnel measures the user journey and draws from
+              different sources (searches, affiliate clicks, price tracks).
+            </p>
+          </div>
+          <ChevronDown
+            className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform ${showRawEvents ? 'rotate-180' : ''}`}
+          />
+        </button>
+
+        {showRawEvents && (
+          <div className="mt-4">
+            {events.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-4 text-center">No events in this range.</p>
+            ) : (
+              <div className="space-y-2">
+                {events.map((e) => {
+                  const max = events[0]?.count || 1;
+                  const pct = Math.max(2, Math.round((e.count / max) * 100));
+                  return (
+                    <div key={e.eventType} className="flex items-center gap-3">
+                      <span className="font-mono text-xs text-muted-foreground w-44 shrink-0 truncate" title={e.eventType}>
+                        {e.eventType}
+                      </span>
+                      <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
+                        <div className="h-full rounded-full bg-muted-foreground/40" style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="tabular-nums text-xs text-foreground font-semibold w-12 text-right">{nf(e.count)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </div>
