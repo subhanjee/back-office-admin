@@ -20,6 +20,7 @@ export const adminApi = {
       topSearches: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/top-searches', { params }),
       devices: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/devices', { params }),
       funnel: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/funnel', { params }),
+      eventsBreakdown: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/events-breakdown', { params }),
       events: (params?: Record<string, string | number>) => api.get('/admin/analytics/report/events', { params }),
     },
   },

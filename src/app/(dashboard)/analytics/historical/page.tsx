@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Users, Search, Eye, MousePointerClick, Bell, BellRing, ArrowLeft,
-  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp,
+  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp, Activity,
 } from 'lucide-react';
 import AnalyticsChart from '../../../../components/charts/AnalyticsChart';
 import DateRangePicker, { DateRange, defaultRange } from '../../../../components/DateRangePicker';
@@ -19,6 +19,7 @@ interface TopCruise { cruiseId: number; title: string; shipName: string | null; 
 interface TopSearch { query: string; count: number; previousCount: number; change: number }
 interface DeviceRow { device: string; count: number; pct: number }
 interface FunnelStep { step: string; count: number; stepRate: number | null; rateFromTop: number | null }
+interface EventRow { eventType: string; count: number }
 
 const nf = (n: number) => Number(n || 0).toLocaleString('en-US');
 
@@ -43,6 +44,7 @@ export default function HistoricalAnalyticsPage() {
   const [topSearches, setTopSearches] = useState<TopSearch[]>([]);
   const [devices, setDevices] = useState<DeviceRow[]>([]);
   const [funnel, setFunnel] = useState<FunnelStep[]>([]);
+  const [events, setEvents] = useState<EventRow[]>([]);
   const [clarityUrl, setClarityUrl] = useState('https://clarity.microsoft.com/');
   const [loading, setLoading] = useState(true);
   const [trendLoading, setTrendLoading] = useState(true);
@@ -59,13 +61,15 @@ export default function HistoricalAnalyticsPage() {
       adminApi.analytics.report.topSearches({ ...params, limit: 8 }),
       adminApi.analytics.report.devices(params),
       adminApi.analytics.report.funnel(params),
-    ]).then(([o, tc, ts, d, f]) => {
+      adminApi.analytics.report.eventsBreakdown(params),
+    ]).then(([o, tc, ts, d, f, ev]) => {
       if (!active) return;
       if (o.status === 'fulfilled') setOverview(o.value.data.data);
       if (tc.status === 'fulfilled') setTopCruises(tc.value.data.data || []);
       if (ts.status === 'fulfilled') setTopSearches(ts.value.data.data || []);
       if (d.status === 'fulfilled') setDevices(d.value.data.data?.devices || []);
       if (f.status === 'fulfilled') setFunnel(f.value.data.data || []);
+      if (ev.status === 'fulfilled') setEvents(ev.value.data.data?.events || []);
       setLoading(false);
     });
     return () => { active = false; };
@@ -266,6 +270,37 @@ export default function HistoricalAnalyticsPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* All events by type — surfaces custom / auto-tracked events */}
+      <div className="zc-card p-6">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <h2 className="zc-section-title flex items-center gap-2">
+            <Activity className="w-5 h-5 text-brand-blue" /> All events by type
+          </h2>
+          <span className="text-xs text-muted-foreground">every tracked event, including custom ones</span>
+        </div>
+        {events.length === 0 ? (
+          <p className="text-sm text-muted-foreground py-6 text-center">No events in this range.</p>
+        ) : (
+          <div className="space-y-2.5">
+            {events.map((e) => {
+              const max = events[0]?.count || 1;
+              const pct = Math.max(2, Math.round((e.count / max) * 100));
+              return (
+                <div key={e.eventType}>
+                  <div className="flex items-center justify-between text-sm mb-1">
+                    <span className="font-mono text-xs text-foreground truncate" title={e.eventType}>{e.eventType}</span>
+                    <span className="tabular-nums text-foreground font-semibold">{nf(e.count)}</span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                    <div className="h-full rounded-full bg-brand-blue transition-all duration-500" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Top cruises */}
