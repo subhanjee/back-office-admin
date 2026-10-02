@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Users, Search, Eye, MousePointerClick, Bell, BellRing, ArrowLeft,
-  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp, Activity, ChevronDown,
+  ExternalLink, Ship, Smartphone, Monitor, Tablet, TrendingUp,
 } from 'lucide-react';
 import AnalyticsChart from '../../../../components/charts/AnalyticsChart';
 import DateRangePicker, { DateRange, defaultRange } from '../../../../components/DateRangePicker';
@@ -19,7 +19,6 @@ interface TopCruise { cruiseId: number; title: string; shipName: string | null; 
 interface TopSearch { query: string; count: number; previousCount: number; change: number }
 interface DeviceRow { device: string; count: number; pct: number }
 interface FunnelStep { step: string; count: number; stepRate: number | null; rateFromTop: number | null }
-interface EventRow { eventType: string; count: number }
 
 const nf = (n: number) => Number(n || 0).toLocaleString('en-US');
 
@@ -44,8 +43,6 @@ export default function HistoricalAnalyticsPage() {
   const [topSearches, setTopSearches] = useState<TopSearch[]>([]);
   const [devices, setDevices] = useState<DeviceRow[]>([]);
   const [funnel, setFunnel] = useState<FunnelStep[]>([]);
-  const [events, setEvents] = useState<EventRow[]>([]);
-  const [showRawEvents, setShowRawEvents] = useState(false);
   const [clarityUrl, setClarityUrl] = useState('https://clarity.microsoft.com/');
   const [loading, setLoading] = useState(true);
   const [trendLoading, setTrendLoading] = useState(true);
@@ -62,15 +59,13 @@ export default function HistoricalAnalyticsPage() {
       adminApi.analytics.report.topSearches({ ...params, limit: 8 }),
       adminApi.analytics.report.devices(params),
       adminApi.analytics.report.funnel(params),
-      adminApi.analytics.report.eventsBreakdown(params),
-    ]).then(([o, tc, ts, d, f, ev]) => {
+    ]).then(([o, tc, ts, d, f]) => {
       if (!active) return;
       if (o.status === 'fulfilled') setOverview(o.value.data.data);
       if (tc.status === 'fulfilled') setTopCruises(tc.value.data.data || []);
       if (ts.status === 'fulfilled') setTopSearches(ts.value.data.data || []);
       if (d.status === 'fulfilled') setDevices(d.value.data.data?.devices || []);
       if (f.status === 'fulfilled') setFunnel(f.value.data.data || []);
-      if (ev.status === 'fulfilled') setEvents(ev.value.data.data?.events || []);
       setLoading(false);
     });
     return () => { active = false; };
@@ -274,56 +269,6 @@ export default function HistoricalAnalyticsPage() {
             );
           })}
         </div>
-      </div>
-
-      {/* Raw event log — collapsible technical view, deliberately distinct from the funnel */}
-      <div className="zc-card p-5 border-dashed">
-        <button
-          type="button"
-          onClick={() => setShowRawEvents((v) => !v)}
-          className="w-full flex items-start justify-between gap-3 text-left"
-        >
-          <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-              <Activity className="w-4 h-4" /> Raw event log
-              <span className="text-[10px] font-normal uppercase tracking-wide rounded bg-muted px-1.5 py-0.5">technical</span>
-            </h2>
-            <p className="text-xs text-muted-foreground mt-1 max-w-2xl">
-              Every raw tracked event (including custom ones), straight from the event stream. Counts here
-              can differ from the funnel above — the funnel measures the user journey and draws from
-              different sources (searches, affiliate clicks, price tracks).
-            </p>
-          </div>
-          <ChevronDown
-            className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform ${showRawEvents ? 'rotate-180' : ''}`}
-          />
-        </button>
-
-        {showRawEvents && (
-          <div className="mt-4">
-            {events.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-4 text-center">No events in this range.</p>
-            ) : (
-              <div className="space-y-2">
-                {events.map((e) => {
-                  const max = events[0]?.count || 1;
-                  const pct = Math.max(2, Math.round((e.count / max) * 100));
-                  return (
-                    <div key={e.eventType} className="flex items-center gap-3">
-                      <span className="font-mono text-xs text-muted-foreground w-44 shrink-0 truncate" title={e.eventType}>
-                        {e.eventType}
-                      </span>
-                      <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full rounded-full bg-muted-foreground/40" style={{ width: `${pct}%` }} />
-                      </div>
-                      <span className="tabular-nums text-xs text-foreground font-semibold w-12 text-right">{nf(e.count)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
       {/* Top cruises */}
